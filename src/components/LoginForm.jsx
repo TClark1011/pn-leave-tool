@@ -10,21 +10,23 @@ class LoginForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      employee_id: '',
-      password: ''
+      employee_id: "",
+      password: "",
     };
   }
 
   //#Form change handlers
-  employeeIdHandler(e) { //#Handle change to password
-      const newValue = e.target.value;
-      if (Number(newValue) || newValue === '') { //*Only accept change if the new value is all numbers or it is empty
-        this.setState({employee_id:newValue});
-      }
+  employeeIdHandler(e) {
+    //#Handle change to password
+    const newValue = e.target.value;
+    if (Number(newValue) || newValue === "") {
+      //*Only accept change if the new value is all numbers or it is empty
+      this.setState({ employee_id: newValue });
+    }
   }
   passwordHandler(e) {
-      const newValue = e.target.value;
-      this.setState({password:newValue});
+    const newValue = e.target.value;
+    this.setState({ password: newValue });
   }
 
   render() {
@@ -36,7 +38,7 @@ class LoginForm extends React.Component {
             className="field employee_id"
             label="Employee Number"
             type="tel"
-            onChange={e => this.employeeIdHandler(e)}
+            onChange={(e) => this.employeeIdHandler(e)}
             value={this.state.employee_id}
           />
           <TextField
@@ -44,14 +46,18 @@ class LoginForm extends React.Component {
             className="field password"
             label="Password"
             type="password"
-            onChange={e => this.passwordHandler(e)}
+            onChange={(e) => this.passwordHandler(e)}
             value={this.state.password}
           />
-          <Button fullWidth variant="contained" disableElevation>Login</Button>
-          <Button fullWidth variant="outlined" disableElevation>Register</Button>
+          <Button fullWidth variant="contained" disableElevation>
+            Login
+          </Button>
+          <Button fullWidth variant="outlined" disableElevation>
+            Register
+          </Button>
         </form>
-            {/* TODO: Don't allow empty fields */}
-            {/* TODO: Add extra fields for registration */}
+        {/* TODO: Don't allow empty fields */}
+        {/* TODO: Add extra fields for registration */}
       </div>
     );
   }
