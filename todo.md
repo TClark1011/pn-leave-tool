@@ -1,12 +1,27 @@
 
 # TODO
 
-## GENERAL
+## BACKEND - GENERAL
 
-* Implement backend
+* Implement Express Server
 
 ## LOGIN
 
 * Interface
+    - Error Messages
+        + Enter details (have specific versions for hitting login or register)
+        + Credentials incorrect
+    - Design
 * Storage model
 * Password encryption
+
+## DESIGN
+
+* Look into Material-UI theming
+
+## FRONTEND - MISC
+
+* Favicon
+* Apple touch icon
+* Theme colour
+* Page Titles (Also look into bug where IE page title is just 'Waiting for localhost', although this may go away when you run the static built app)
