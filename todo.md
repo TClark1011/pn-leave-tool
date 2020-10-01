@@ -3,7 +3,7 @@
 
 ## BACKEND - GENERAL
 
-* Implement Express Server
+* Implement Express Server !
 
 ## LOGIN
 
@@ -17,11 +17,13 @@
 
 ## DESIGN
 
-* Look into Material-UI theming
+* Look into colours other than main for theme palette
+* Legacy support issues:
+    - NONE
 
 ## FRONTEND - MISC
 
 * Favicon
 * Apple touch icon
-* Theme colour
 * Page Titles (Also look into bug where IE page title is just 'Waiting for localhost', although this may go away when you run the static built app)
+* Error Message Component

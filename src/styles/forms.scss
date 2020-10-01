@@ -3,3 +3,6 @@
 form .form-input {
     margin-bottom:$item-spacing-std;
 }
+form .form-input.field {
+    margin-bottom:$item-spacing-std * 2;
+}

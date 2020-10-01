@@ -4,7 +4,7 @@
 
 import React from "react";
 
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Typography } from "@material-ui/core";
 
 class LoginForm extends React.Component {
 	constructor() {
@@ -13,7 +13,8 @@ class LoginForm extends React.Component {
             employee_id: "",
             employee_id_error:null,
             password: "",
-            password_error:null
+            password_error:null,
+            form_error:null
 		};
 	}
 
@@ -38,55 +39,65 @@ class LoginForm extends React.Component {
 	}
 
 	submit() {
-        const allFieldItems = [
+        const allFields = [ //# Store all data required to validate fields
             {
                 value:this.state.employee_id,
-                setError:(value) => this.setState({employee_id_error:value})
+                setError:(value) => {
+                    this.setState({employee_id_error:value});
+                    // this.setState({employee_id_label:"Employee Number"})
+                },
+                required:true,
             },
             {
                 value:this.state.password,
-                setError:(value) => this.setState({password_error:value})
+                setError: (value) => {
+                    this.setState({password_error:value});
+                },
+                required:true,
             }
         ]
+
         var formIsValid = true;
-		for (const item of allFieldItems) { 
-			if (!item.value) { //# If field is empty
-                item.setError("Required");
+
+        for (const field of allFields) { //# Iterate through field values
+            if(field.required && !field.value) { //#If a required field is empty
+                field.setError("Required")
                 formIsValid = false;
-			}
+            }
         }
+
         if (formIsValid) {
+            console.log("dummy form submission");
             //TODO: Form post request
         }
-	}
+    }
 
 	render() {
 		return (
 			<div className="login-form container">
+                <Typography component="h2" variant="h2" className="section-title">Login</Typography>
 				<form>
 					<TextField
 						fullWidth
                         color="primary"
 						variant="outlined"
-						className="form-input employee_id"
-						label="Employee Number"
+						className="form-input field employee_id"
+						label={"Employee Number" + (this.state.employee_id_error ? ` (${this.state.employee_id_error})` : "")}
 						type="tel"
 						onChange={(e) => this.employeeIdHandler(e)}
 						value={this.state.employee_id}
                         error={this.state.employee_id_error ? true : false}
-                        helperText={this.state.employee_id_error}
 					/>
 					<TextField
 						fullWidth
                         color="primary"
 						variant="outlined"
-						className="form-input password"
-						label="Password"
+						className="form-input field password"
+						label={"Password" + (this.state.password_error ? ` (${this.state.password_error})` : "")}
 						type="password"
 						onChange={(e) => this.passwordHandler(e)}
 						value={this.state.password}
 						error={this.state.password_error ? true : false}
-                        helperText={this.state.password_error}
 					/>
 					<Button
 						fullWidth
