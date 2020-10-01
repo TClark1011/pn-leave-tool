@@ -4,7 +4,7 @@ const express = require('express');
 const browserRouter = express.Router();
 
 browserRouter.get("/*", (request,response) => { //#Catch all
-    response.redirect("/");
+    response.status(404).redirect("/");
 })
 
 module.exports = browserRouter;
