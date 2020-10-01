@@ -1,14 +1,13 @@
 require('dotenv').config()
 
-const { response } = require('express')
 const express = require('express') 
+const apiRouter = require('./routes/api');
+const browserRouter = require('./routes/browser');
 
 const app = express() 
 app.use(express.static('build'))
-
-app.get("/test", (request,response) => {
-    response.status(200).json({data:"some data"})
-})
+app.use(apiRouter);
+app.use(browserRouter);
 
 const PORT = process.env.BACKEND_PORT || process.env.PORT || 3001;
 app.listen(PORT, () => {
