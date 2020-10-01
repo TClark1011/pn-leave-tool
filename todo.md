@@ -12,8 +12,7 @@
         + Empty details (have specific versions for hitting login or register)
         + Credentials incorrect
     - Design
-* Storage model
-* Password encryption
+* Front end requests
 
 ## DESIGN
 
