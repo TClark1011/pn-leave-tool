@@ -9,7 +9,7 @@
 
 * Interface
     - Error Messages
-        + Enter details (have specific versions for hitting login or register)
+        + Empty details (have specific versions for hitting login or register)
         + Credentials incorrect
     - Design
 * Storage model
