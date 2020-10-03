@@ -4,7 +4,8 @@
 
 import React from "react";
 
-import { TextField, Button, Typography } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
+import SectionTitle from "./SectionTitle"
 
 class LoginForm extends React.Component {
 	constructor() {
@@ -75,7 +76,7 @@ class LoginForm extends React.Component {
 	render() {
 		return (
 			<div className="login-form container">
-                <Typography component="h2" variant="h2" className="section-title">Login</Typography>
+                <SectionTitle>Login</SectionTitle>
 				<form>
 					<TextField
 						fullWidth

@@ -26,3 +26,8 @@
 * Apple touch icon
 * Page Titles (Also look into bug where IE page title is just 'Waiting for localhost', although this may go away when you run the static built app)
 * Error Message Component
+
+## BOTH END - MISC
+
+* Field length Limits
+    - Login/Register
