@@ -2,6 +2,6 @@ POST http://localhost:3001/api/registerUser
 Content-Type: application/json
 
 {
-    "employee_number":3,
+    "employee_number":5,
     "password":"p"
 }

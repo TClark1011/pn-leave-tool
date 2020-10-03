@@ -15,6 +15,10 @@ function getFrontEndUser(user) {
 	return user;
 }
 
+async function encryptPassword(password) {
+    return await bcrypt.hash(password, 10);
+}
+
 //TODO: Webtoken authentication
 
 //# LEAVE
@@ -52,7 +56,7 @@ apiRouter.post("/api/registerUser", async (request, response) => {
 	if (!userExists) { //# There is no pre-existing account with the passed 'employee_number'
 		const userObj = {
 			employee_number: employee_number,
-			password: await bcrypt.hash(password, 10),
+			password: await encryptPassword(password),
 			date: Date.now(),
 		};
 
@@ -61,7 +65,7 @@ apiRouter.post("/api/registerUser", async (request, response) => {
 			console.log("new user data saved");
 			response.status(200).json(getFrontEndUser(userObj));
 		});
-	} else { //# A user account with the passed 'employee_number'
+	} else { //# A user account with the passed 'employee_number' already exists
         const error = `An account with the Employee Number '${employee_number}' already exists.`;
         response.status(401).json({error:error + " If you are creator of that account you can enter your password and press 'login'. If you did not create that account, please contact ..."})
         //TODO: Fill in who to contact
