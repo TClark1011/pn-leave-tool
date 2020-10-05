@@ -26,7 +26,7 @@
 * Favicon
 * Apple touch icon
 * Page Titles (Also look into bug where IE page title is just 'Waiting for localhost', although this may go away when you run the static built app)
-* Error Message Component
+* Write Error Messages
 
 ## BOTH END - MISC
 

@@ -7,7 +7,6 @@ class ErrorMessage extends React.Component {
 		borderRadius: 4,
         backgroundColor: "#ffcdd2",
         margin:"auto",
-		marginBottom: 12,
 		padding: 8,
 		color: "#c62828",
         fontWeight: 600,
