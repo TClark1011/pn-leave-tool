@@ -35,6 +35,8 @@ async function findUser(employee_number) {
     return foundUser;
 }
 
+//TODO: Function for checking required fields are present in a request (takes an array of strings of fields and a request object)
+
 //TODO: Webtoken authentication
 
 //# LEAVE DATA
@@ -51,7 +53,11 @@ apiRouter.post("/api/login", async (request, response) => {
     //@param    {string} password        => The unencrypted password sent by the user
     //@response {object} user            => The object with user data
     console.log("Received a request to log in");
+
     //TODO: Validate passed data (contains required fields)
+    if(!("employee_number" in request.body)) {
+        return console.log("field 'employee_number' missing from login request");
+    }
     
     const foundUser = await findUser(request.body.employee_number); //* Search database for user object with matching 'employee_number'
     const passwordCheck = await authenticateUser(foundUser, request.body.password); //* If the given password matches the user's stored password
@@ -59,7 +65,7 @@ apiRouter.post("/api/login", async (request, response) => {
         response.status(200).json(getFrontendUser(foundUser));
         console.log("user successfully logged in");
     } else { //# if a user was not found or the given password was incorrect
-        response.status(401).json({error:"Incorrect employee number or password"});
+        response.status(401).json({error:"Incorrect Employee Number or Password. Please re-enter your details, register your account if you haven't already or reset your password if you have forgotten it."});
         console.log("Login attempt failed");
     }
 });
