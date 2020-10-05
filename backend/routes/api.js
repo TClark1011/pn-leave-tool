@@ -2,16 +2,22 @@
 //# Such requests are made by the user's browser to fetch data
 
 const express = require("express");
-// const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const User = require("../models/user");
 
 const apiRouter = express.Router();
+/**
+ * @param  { string } action => The action that was trying to be performed
+ */
+function genericError(action) {
+    //# Generate a generic error message
+    return `An error occurred while attempting to ${action}. Please restart the application or try again later.`
+}
 
 function getFrontendUser(user) {
     //# Remove data that is unsafe for frontend
-    const frontendUser = JSON.parse(JSON.stringify(user));
+    const frontendUser = JSON.parse(JSON.stringify(user)); //# Create a shallow copy to allow field deletion
     delete frontendUser.password;
     delete frontendUser.__v
     delete frontendUser._id
@@ -34,6 +40,20 @@ async function findUser(employee_number) {
     await User.findOne({employee_number}).then(result => foundUser = result || null)
     return foundUser;
 }
+/**
+ * @param  { string[] } expectedFields => List of names of fields expected to be found in the request's body
+ * @param  { object }   request        => HTTP request object
+ * @return { false||string }           => The name of the first field found missing. False if no fields are missing.
+ */
+function checkMissingFields(expectedFields, request) {
+    //# Check if any key in 'expectedFields' is missing from body of 'request'
+    for (const field of expectedFields) {
+        if (!(field in request.body)) {
+            return field;
+        }
+    }
+    return false;
+}
 
 //TODO: Function for checking required fields are present in a request (takes an array of strings of fields and a request object)
 
@@ -55,8 +75,13 @@ apiRouter.post("/api/login", async (request, response) => {
     console.log("Received a request to log in");
 
     //TODO: Validate passed data (contains required fields)
-    if(!("employee_number" in request.body)) {
-        return console.log("field 'employee_number' missing from login request");
+    // if(!("employee_number" in request.body)) {
+    //     return console.log("field 'employee_number' missing from login request");
+    // }
+    const missingField = checkMissingFields(["employee_number","password"], request)
+    if(missingField) {
+        response.status(500).json({error:genericError("login")});
+        return console.log(`Error: field ${missingField} is missing from login request`);
     }
     
     const foundUser = await findUser(request.body.employee_number); //* Search database for user object with matching 'employee_number'
@@ -65,7 +90,8 @@ apiRouter.post("/api/login", async (request, response) => {
         response.status(200).json(getFrontendUser(foundUser));
         console.log("user successfully logged in");
     } else { //# if a user was not found or the given password was incorrect
-        response.status(401).json({error:"Incorrect Employee Number or Password. Please re-enter your details, register your account if you haven't already or reset your password if you have forgotten it."});
+        response.status(401).json({error:"Incorrect Employee Number or Password"});
+            //TODO: Write error messages
         console.log("Login attempt failed");
     }
 });
@@ -77,11 +103,18 @@ apiRouter.post("/api/registerUser", async (request, response) => {
     //@param    {string} employee_number => The PN employee number of the user registering their account
     //@param    {string} password        => The desired password of the new account
     //@response {object} newUser         => The object representing the new user account with 'unsafe' information (eg; password) removed
-	console.log("Received request to register a new user");
-	//TODO: Validate passed data (contains required fields)
+    console.log("Received request to register a new user");
+    
+	const missingField = checkMissingFields(["employee_number","password"], request)
+    if(missingField) {
+        response.status(500).json({error:genericError("register a new user")});
+        return console.log(`Error: field ${missingField} is missing from user registration request`);
+    }
+
     const employee_number = request.body.employee_number;
     const password = request.body.password;
 
+    //TODO: Registration with extra fields
 
 	const userExists = await findUser(employee_number)
 		? true

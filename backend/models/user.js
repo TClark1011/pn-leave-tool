@@ -8,8 +8,9 @@ mongoose
 	})
 	.catch((error) => {
 		console.log("error connecting too MongoDB: ", error.message);
-	});
-
+    });
+    
+//TODO: Extra fields
 const userSchema = {
     employee_number: {type:Number,required:true},
     password: {type:String,required:true},

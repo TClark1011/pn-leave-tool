@@ -5,7 +5,7 @@
 }
 
 #content {
-    height:100%; //* This has to be supplied for IE compatibility. When rendered it will be overruled by the 'min-height'.
+    height:1px; //* This has to be supplied for IE compatibility. When rendered it will be overruled by the 'min-height'.
     min-height:100vh;
     display:flex;
     align-items: center;
@@ -23,6 +23,11 @@
 
 #content .card {
     padding:$padding-std;
+}
+
+#content > .card {
+    width:700px;
+    max-width:90vw;
 }
 
 #content .container > :first-child {
