@@ -9,6 +9,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "./Theme"; //* Pulls theme data from 'Theme.jsx'
 
 import LoginForm from "./components/LoginForm";
+import LeaveForm from "./components/LeaveForm";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -20,7 +21,8 @@ function App() {
 			<div id="App">
 				<div id="content">
 					<Card className="centerV centerH card">
-						<LoginForm setUserFn={setUser}/>
+						<LeaveForm user={user} />
+						{/* <LoginForm setUserFn={setUser}/> */}
 					</Card>
 				</div>
 			</div>

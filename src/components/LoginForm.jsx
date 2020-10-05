@@ -6,7 +6,7 @@ import React from "react";
 
 import axios from "axios";
 
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Typography, Collapse } from "@material-ui/core";
 import SectionTitle from "./utility/SectionTitle";
 import ErrorMessage from "./utility/ErrorMessage";
 
@@ -18,6 +18,7 @@ class LoginForm extends React.Component {
 			employee_id_error: null,
 			password: "",
 			password_error: null,
+			show_reg_fields: false,
 			form_error: null,
 		};
 	}
@@ -50,6 +51,7 @@ class LoginForm extends React.Component {
 		//# Fields with invalid values are marked with corresponding errors
 		const allFields = [
 			//# Store all data required to validate fields
+			//TODO: Update with extra field inf
 			{
 				value: this.state.employee_id,
 				setError: (value) => {
@@ -73,6 +75,9 @@ class LoginForm extends React.Component {
 			if (field.required && !field.value) {
 				//#If a required field is empty
 				field.setError("Required");
+				this.setState({
+					form_error: "Please make sure all highlighted fields are not empty",
+				});
 				formIsValid = false;
 			}
 		}
@@ -103,6 +108,11 @@ class LoginForm extends React.Component {
 		return (
 			<div className="login-form container">
 				<SectionTitle>Login</SectionTitle>
+				<Typography>
+					To sign in, enter your account details and click 'LOGIN'. To register
+					a new account, enter your Pacific National Employee Number and your
+					desired Password and click 'REGISTER'
+				</Typography>
 				<ErrorMessage>{this.state.form_error}</ErrorMessage>
 				<form>
 					<TextField
@@ -116,10 +126,12 @@ class LoginForm extends React.Component {
 								? ` (${this.state.employee_id_error})`
 								: "")
 						}
+						// TODO: Refactor labels with function
 						type="tel"
 						onChange={(e) => this.employeeIdHandler(e)}
 						value={this.state.employee_id}
 						error={this.state.employee_id_error ? true : false}
+						style={{ marginTop: 8 }}
 					/>
 					<TextField
 						fullWidth
@@ -137,6 +149,49 @@ class LoginForm extends React.Component {
 						value={this.state.password}
 						error={this.state.password_error ? true : false}
 					/>
+					<Collapse in={this.state.show_reg_fields}>
+						{/* TODO: Extra field handling */}
+						{/* TODO: Extra field validation */}
+						<TextField
+							fullWidth
+							color="primary"
+							variant="outlined"
+							className="form-input field"
+							label="Confirm Password"
+							type="password"
+						/>
+						<TextField
+							fullWidth
+							color="primary"
+							variant="outlined"
+							className="form-input field"
+							label="Name"
+						/>
+						<TextField
+							fullWidth
+							color="primary"
+							variant="outlined"
+							className="form-input field"
+							label="Email Address"
+							type="email"
+						/>
+						<TextField
+							fullWidth
+							color="primary"
+							variant="outlined"
+							className="form-input field"
+							label="Phone No."
+							type="tel"
+						/>
+						<TextField
+							fullWidth
+							color="primary"
+							variant="outlined"
+							className="form-input field"
+							label="Phone No."
+							type="tel"
+						/>
+					</Collapse>
 					<Button
 						fullWidth
 						className="form-input"
@@ -152,11 +207,12 @@ class LoginForm extends React.Component {
 						color="primary"
 						className="form-input"
 						variant="outlined"
+						onClick={() => this.setState({ show_reg_fields: true })}
 						disableElevation
 					>
 						Register
 					</Button>
-					{/* TODO: Add extra fields for registration */}
+					{/* TODO: Registration frontend requests */}
 				</form>
 			</div>
 		);
