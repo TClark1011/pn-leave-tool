@@ -13,6 +13,7 @@
         + Credentials incorrect
     - Design
 * Front end requests
+* Password Resets
 
 ## DESIGN
 
