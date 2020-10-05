@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 
 class SectionTitle extends React.Component {
   constructor(props) {
-    super(props);
+    super();
   }
 
   style = {

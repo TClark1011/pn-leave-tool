@@ -4,12 +4,14 @@
 
 import React from "react";
 
+import axios from "axios";
+
 import { TextField, Button } from "@material-ui/core";
 import SectionTitle from "./SectionTitle"
 
 class LoginForm extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
             employee_id: "",
             employee_id_error:null,
@@ -37,9 +39,9 @@ class LoginForm extends React.Component {
         if (this.state.password_error === "Required") { //# If present, remove 'required' error 
             this.setState({password_error:null})
         }
-	}
-
-	submit() {
+    }
+    
+    validateFields() {
         const allFields = [ //# Store all data required to validate fields
             {
                 value:this.state.employee_id,
@@ -67,9 +69,14 @@ class LoginForm extends React.Component {
             }
         }
 
-        if (formIsValid) {
+        return formIsValid;
+    }
+
+	submit() {
+        if (this.validateFields()) {
             console.log("dummy form submission");
             //TODO: Form post request
+            // axios.post("/api/login",{employee_number:this.state.employee_number, password:this.state.password})
         }
     }
 
