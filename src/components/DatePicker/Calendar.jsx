@@ -32,6 +32,7 @@ class Calendar extends React.Component {
 		 * Neither are selected: Put new selection into first
 		 * First is selected, and new selection comes after first: Put new selection in second
 		 * First is selected but new selection comes before first: Move first to second and new selection into first
+         * First is selected but second is not, new selection is before first:See above
 		 * //TODO: Select an already selected number: Deselect it
 		 */
 
@@ -43,7 +44,10 @@ class Calendar extends React.Component {
             //# First is selected and new comes after
             console.log("New selection is after first");
 			this.setState({userSelect:{ ...this.state.userSelect, second: number }});
-		} else if (number <= this.state.userSelect.first) {
+		} else if (number < this.state.userSelect.first && !this.state.userSelect.second) {
+            console.log("new selection is before first while second has not been selected");
+            this.setState({userSelect:{second:this.state.userSelect.first,first:number}})
+        } else if (number < this.state.userSelect.first) {
             //# First is selected and new comes before
             console.log("new selection is before first");
 			this.setState({userSelect:{...this.state.userSelect, first: number }});

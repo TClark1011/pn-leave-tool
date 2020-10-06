@@ -30,17 +30,16 @@ class Day extends React.Component {
         };
     }
 
-    componentDidUpdate() {
+    componentDidUpdate() { //# Check if 'selected' status needs to be changed when component updates
         const isFirstSelection = (this.props.selectedDays.first === this.date);
         const isSecondSelection = (this.props.selectedDays.second === this.date);
-        if (!this.state.selected) {
-            // this.setState({selected:(this.props.selectedDays.first === this.date || this.props.selectedDays.second === this.date )})
-            if (isFirstSelection || isSecondSelection) {
-                this.setState({selected:true})
-                return 0
-            }
+        if (!this.state.selected && (isFirstSelection || isSecondSelection)) {
+            //# If item was not previously selected but now should be
+            this.setState({selected:true})
+            return 0
         }
         if(this.state.selected && !(isFirstSelection || isSecondSelection)) {
+            //# If item was previously selected but now no longer should be
             this.setState({selected:false})
         }
         
@@ -54,7 +53,7 @@ class Day extends React.Component {
         this.setState({ hoverStyle: this.hoverStyle });
         this.props.setUserHovering(this.date);
 	}
-	turnHoverOff() { //# //# Toggles the hover state off and updates what date the user is currently hovering
+	turnHoverOff() { //# Toggles the hover state off and updates what date the user is currently hovering
         this.setState({ hoverStyle: {} });
         this.props.setUserHovering(null);
     }
@@ -67,13 +66,18 @@ class Day extends React.Component {
 	}
 
 	number() {
+        //# Get the number of the date, return blank if it is outside of bounds
 		return (this.date) > 0  && (this.date <= this.maxDate) ? this.date : "";
     }
     //TODO: Refactor with a function that checks if the date is valid (above 0 and less than negative) rather than repeating the conditional
 
     select() {
+        //# Push current instance into user selection
         this.props.selectFn(this.date);
     }
+
+    //TODO: Style user selection (both selected dates and the dates inbetween)
+    //TODO: Add transitions to user selection (should probably just bite the bullet and style in an external css file)
 
 	render() {
 		return (
