@@ -13,6 +13,7 @@
     "bcrypt": "^5.0.0",
     "encrypt": "0.0.1",
     "express": "^4.17.1",
+    "moment": "^2.29.0",
     "mongoose": "^5.10.7",
     "node-sass": "^4.14.1",
     "nodemon": "^2.0.4",
