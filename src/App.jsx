@@ -8,7 +8,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 
 import theme from "./Theme"; //* Pulls theme data from 'Theme.jsx'
 
-import LoginForm from "./components/LoginForm";
+// import LoginForm from "./components/LoginForm";
 import LeaveForm from "./components/LeaveForm";
 
 function App() {
