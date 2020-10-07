@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from 'react-dom';
 
 class Day extends React.Component {
 	constructor(props) {
@@ -79,13 +78,14 @@ class Day extends React.Component {
 	}
 	select() {
 		//# Push current instance into user selection
-		this.props.selectFn(this.date);
+        this.props.selectFn(this.date);
+        //FIXME: If none are selected and then you select a day, then select a day behind that, the selection indicator on the first day is facing backwards. This is because the first selected day is set to "first" selected but is not updated to second once the one behind it is selected
 	}
 
 	//TODO: Style user selection (both selected dates and the dates inbetween)
 	//TODO: Refactor class names (label the hover element with hover, the inner square, etc.)
 	//TODO: Add transitions to user selection (should probably just bite the bullet and style in an external css file)
-
+    //TODO: Don't have selections be shaped while there is only a single selection
 	render() {
 		return (
 			<td
