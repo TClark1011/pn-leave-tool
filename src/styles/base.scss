@@ -1,14 +1,12 @@
-@import 'variables.scss';
+@import 'variables';
+@import 'mixins';
 
 * {
     box-sizing:border-box;
 }
 
 #content {
-    height:1px; //* This has to be supplied for IE compatibility. When rendered it will be overruled by the 'min-height'.
-    min-height:100vh;
-    display:flex;
-    align-items: center;
+    @include flex-wrapper-height(100vh);
 }
 
 #content .centerH {
@@ -35,4 +33,10 @@
 }
 #content .container > :last-child {
     margin-bottom:0;
+}
+
+.bottom-navigation-bar {
+    position:fixed;
+    width:100%;
+    bottom:0;
 }

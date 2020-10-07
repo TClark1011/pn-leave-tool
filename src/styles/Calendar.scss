@@ -1,0 +1,76 @@
+@import "variables";
+@import "mixins";
+@import "functions";
+
+.calendar-container {
+	// @include border-radius($border-radius-std);
+    //? Because the background colour i on the cells not the table, you need too apply the border radius to the corner cells
+    
+    overflow:hidden;
+
+	.calendar-day:not(.calendar-emptyDay) {
+		padding: 0;
+		text-align: center;
+		font-weight: 600;
+        cursor: pointer;
+        
+        $selected-day-colour: $color-primary-light;
+
+		.calendar-day-inner-wrapper {
+			margin: auto;
+			// overflow:hidden;
+			$size: 95%;
+			@include square($size);
+			@include flex-wrapper-height($size);
+			@include border-radius(50px);
+
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+
+			.calendar-day-number-wrapper {
+				margin: auto;
+
+				@include border-radius(4px);
+				@include square(60%);
+				@include flex-wrapper-height(60%);
+
+				.calendar-day-number {
+					margin: auto;
+				}
+			}
+		}
+
+		&.calendar-day-selected {
+
+			.calendar-day-inner-wrapper {
+                background-color: $selected-day-colour;
+                width:100%;
+
+				&:hover {
+					background-color: shade($selected-day-colour, 20);
+				}
+			}
+
+			&.calendar-day-first-selection {
+				.calendar-day-inner-wrapper {
+					@include border-radius(50px 0 0 50px);
+				}
+			}
+			&.calendar-day-second-selection {
+				.calendar-day-inner-wrapper {
+					@include border-radius(0 50px 50px 0);
+				}
+			}
+        }
+        
+        &.calendar-day-inside-selection {
+            .calendar-day-inner-wrapper {
+                background-color: $selected-day-colour;
+                @include border-radius(0);
+                width:100%;
+            }
+        }
+	}
+
+}
