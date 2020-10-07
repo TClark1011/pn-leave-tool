@@ -33,7 +33,7 @@
 
 				@include border-radius(4px);
 				@include square(60%);
-				@include flex-wrapper-height(60%);
+                @include flex-wrapper-height(60%);
 
 				.calendar-day-number {
 					margin: auto;

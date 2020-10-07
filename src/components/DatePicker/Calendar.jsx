@@ -126,7 +126,8 @@ class Calendar extends React.Component {
 				<TextField value={printDate("first")} />
 				<TextField value={printDate("second")} />
 			</div>
-		);
+        );
+        //TODO: Refactor so text fields are supplied by external parent component rather than being a part of the calendar component
 	}
 }
 
