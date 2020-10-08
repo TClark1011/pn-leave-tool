@@ -9,6 +9,11 @@
 	overflow: hidden;
 
 	.calendar-day-cell:not(.calendar-emptyDay) {
+		//Calendar Day Element Class Structure:
+		// '.calendar-day-cell' is the table cell
+		//'inner-wrapper' is the hover target and also the element that becomes coloured when the date is selected
+		//'number-wrapper' is the heat map coloured element
+
 		padding: 0;
 		text-align: center;
 		font-weight: 600;
@@ -19,7 +24,7 @@
 		.calendar-day-inner-wrapper {
 			margin: auto;
 			// overflow:hidden;
-			$size: 95%;
+			$size: 80%;
 			@include square($size);
 			@include flex-wrapper-height($size);
 			@include border-radius(50px);
@@ -29,11 +34,13 @@
 			}
 
 			.calendar-day-number-wrapper {
+				//Heat map coloured element
 				margin: auto;
 
+				$size: 30px;
 				@include border-radius(4px);
-				@include square(60%);
-				@include flex-wrapper-height(60%);
+				@include square($size);
+				@include flex-wrapper-height($size);
 
 				.calendar-day-number {
 					margin: auto;
@@ -41,9 +48,12 @@
 			}
 		}
 
+		$selected-border: 4px solid $selected-day-colour;
+
 		&.calendar-day-selected {
 			.calendar-day-inner-wrapper {
-				background-color: $selected-day-colour;
+				// background-color: $selected-day-colour;
+				border: $selected-border;
 				width: 100%;
 
 				&:hover {
@@ -54,20 +64,25 @@
 			&.calendar-day-first-selection {
 				.calendar-day-inner-wrapper {
 					@include border-radius(50px 0 0 50px);
+					border-left: $selected-border;
 				}
 			}
 			&.calendar-day-second-selection {
 				.calendar-day-inner-wrapper {
 					@include border-radius(0 50px 50px 0);
+					border-right: $selected-border;
 				}
 			}
 		}
 
 		&.calendar-day-inside-selection {
+			//# If a day is inside the selection but is nether the first or last day
 			.calendar-day-inner-wrapper {
-				background-color: $selected-day-colour;
+				// background-color: $selected-day-colour;
 				@include border-radius(0);
 				width: 100%;
+				border-top: $selected-border;
+				border-bottom: $selected-border;
 			}
 		}
 	}
