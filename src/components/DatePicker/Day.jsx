@@ -98,10 +98,12 @@ class Day extends React.Component {
 				ref={this.cellRef}
 			>
 				<div className="calendar-day-inner-wrapper">
+					{/* 'inner-wrapper' is the hover target */}
 					<span
 						className="calendar-day-number-wrapper"
 						style={this.probColourStyle}
 					>
+						{/* 'number-wrapper' is the heatmap coloured element */}
 						<span className="calendar-day-number">{this.number()}</span>
 					</span>
 				</div>

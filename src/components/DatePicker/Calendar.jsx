@@ -110,14 +110,15 @@ class Calendar extends React.Component {
 		const t = this;
 		function printDate(option) {
 			if (t.state.userSelect[option]) {
-				return moment(moment(t.date).date(t.state.userSelect[option])).format(
-					"DD-MM-YYYY"
-				);
+				const day = moment(t.state.userSelect[option]).format("DD");
+				const month = moment(t.state.userSelect[option]).format("MM");
+				const year = moment(t.state.userSelect[option]).format("YYYY");
+				return `${day}/${month}/${year}`;
 			}
 			return "";
 		}
 		return (
-			<div className="datepicker">
+			<div className="datepicker-calendar">
 				<table className="calendar-container" style={this.style}>
 					<tbody>{this.content()}</tbody>
 				</table>
