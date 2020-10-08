@@ -77,7 +77,6 @@ class Day extends React.Component {
 
 	number() {
 		//# Get the number of the date, return blank if it is outside of bounds
-		console.log(this.empty);
 		return !this.empty ? moment(this.date).date() : "";
 	}
 	select() {

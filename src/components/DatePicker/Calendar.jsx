@@ -41,7 +41,6 @@ class Calendar extends React.Component {
 
 		if (!this.state.userSelect.first) {
 			//# if first has not been selected (which would also mean the second has not been selected)
-			console.log("There were no prior selections");
 			this.setState({
 				userSelect: { ...this.state.userSelect, first: number },
 			});
