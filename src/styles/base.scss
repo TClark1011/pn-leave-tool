@@ -11,35 +11,38 @@
 }
 
 #content {
-    $height: calc(100vh - 56px + 70px);
-    @include flex-wrapper-height($height);
-}
+    // $height: calc(100vh - 56px + 70px);
+    // @include flex-wrapper-height($height);
+    @include flex-wrapper();
+    height:100%;
 
-#content .centerH {
-    margin-left:auto;
-    margin-right:auto;
-}
+    .centerH {
+        margin-left:auto;
+        margin-right:auto;
+    }
 
-#content .centerV {
-    margin-top:auto;
-    margin-bottom:auto;
-}
+    .centerV {
+        margin-top:auto;
+        margin-bottom:auto;
+    }
 
-#content .card {
-    padding:$padding-std;
-}
+    .card {
+        padding:$padding-std;
+    }
 
-#content > .card {
-    width:700px;
-    max-width:90vw;
-}
+    & > .card {
+        width:700px;
+        max-width:90vw;
+    }
 
-#content .container > :first-child {
-    margin-top:0;
-}
-#content .container > :last-child {
-    margin-bottom:0;
-}
+    .container > :first-child {
+        margin-top:0;
+    }
+
+    .container > :last-child {
+        margin-bottom:0;
+    }
+} 
 
 .bottom-navigation-bar {
     position:fixed;
