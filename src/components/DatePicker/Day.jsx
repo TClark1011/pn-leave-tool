@@ -18,11 +18,10 @@ class Day extends React.Component {
 			width: this.size,
 			height: this.size,
 		};
-
 		this.probColourStyle = {
 			backgroundColor: this.empty
 				? ""
-				: `rgba(0,255,0,${this.probability / 20})`,
+				: `rgba(242,169,0,${this.probability / 10})`,
 		};
 		//* 'probabilityColourStyle' => sets the background colour according too the probability property
 
