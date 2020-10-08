@@ -11,14 +11,13 @@ import Day from "./Day";
 class Calendar extends React.Component {
 	constructor(props) {
 		super();
-		const date = moment(props.date) || moment();
 		this.state = {
-			date: date,
+			date: props.date || moment(),
 			userHovering: null,
 			userSelect: { first: null, second: null },
 		};
-		this.lastDay = moment(date).endOf("month").date();
-		this.firstDayOffset = moment(date).startOf("month").day() - 1;
+		this.lastDay = moment(this.state.date).endOf("month").date();
+		this.firstDayOffset = moment(this.state.date).startOf("month").day() - 1;
 	}
 
 	style = {
@@ -78,10 +77,14 @@ class Calendar extends React.Component {
 			const days = [];
 			for (let x = 0; x < 7; x++) {
 				//# Iterate through each week of day
+				const adjustedDate =
+					currDay <= 0 || currDay > this.lastDay
+						? 0
+						: moment(this.date).date(currDay);
 				days.push(
 					<Day
 						key={currDay}
-						date={currDay}
+						date={adjustedDate}
 						userHovering={this.state.userHovering}
 						setUserHovering={this.setUserHovering}
 						maxDate={this.lastDay}
@@ -100,18 +103,20 @@ class Calendar extends React.Component {
 		return rows;
 	}
 
-    //TODO: Ability to switch months
-    //TODO: Weekday headers
-    
-    //TODO: Fully refactor html code for better clarity and design
+	//TODO: Ability to switch months
+	//TODO: Weekday headers
+
+	//TODO: Fully refactor html code for better clarity and design
 	render() {
-        const t = this;
-        function printDate(option) {
-            if (t.state.userSelect[option]) {
-                return moment(moment(t.date).date(t.state.userSelect[option])).format("DD-MM-YYYY");
-            }
-            return ""
-        }
+		const t = this;
+		function printDate(option) {
+			if (t.state.userSelect[option]) {
+				return moment(moment(t.date).date(t.state.userSelect[option])).format(
+					"DD-MM-YYYY"
+				);
+			}
+			return "";
+		}
 		return (
 			<div className="datepicker">
 				<table className="calendar-container" style={this.style}>
@@ -120,8 +125,8 @@ class Calendar extends React.Component {
 				<TextField value={printDate("first")} />
 				<TextField value={printDate("second")} />
 			</div>
-        );
-        //TODO: Refactor so text fields are supplied by external parent component rather than being a part of the calendar component
+		);
+		//TODO: Refactor so text fields are supplied by external parent component rather than being a part of the calendar component
 	}
 }
 
