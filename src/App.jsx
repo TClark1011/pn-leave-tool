@@ -28,10 +28,14 @@ import LeaveForm from "./components/LeaveForm";
 function App() {
 	const [user, setUser] = useState(null);
 	const [bottomNav, setBottomNav] = useState("request");
+	//* The initial value of 'bottomNav' needs to correspond to the BottomNavigationAction value of the homepage
+
+	const accountLabel = user ? "Profile" : "Login";
+	const accountIcon = user ? "account_box" : "login";
 	return (
 		<ThemeProvider theme={theme}>
 			{/** Theme provider component passes 'theme' down to all child components*/}
-			<CssBaseline />{" "}
+			<CssBaseline />
 			{/** Initialises a standard 'default' css sheet to avoid visual discrepancies causes by different browser default stylesheets*/}
 			<div id="App">
 				<Router>
@@ -39,7 +43,7 @@ function App() {
 						<Switch>
 							<Route path="/login">
 								<Card className="centerV centerH card">
-									<LoginForm setUserFn={setUser} />
+									<LoginForm setUserFn={setUser} user={user} />
 								</Card>
 							</Route>
 							<Route path="/request">
@@ -56,19 +60,19 @@ function App() {
 						value={bottomNav}
 						onChange={(e, newValue) => setBottomNav(newValue)}
 						className="bottom-navigation-bar"
-						showLabels
+						// showLabels
 					>
 						<BottomNavigationAction
-							label="Login"
-							value="login"
-							icon={<Icon>account_box</Icon>}
+							label={accountLabel}
+							value="account"
+							icon={<Icon>{accountIcon}</Icon>}
 							component={Link}
 							to="/login"
 						/>
 						<BottomNavigationAction
 							label="Submit Request"
 							value="request"
-							icon={<Icon>schedule</Icon>}
+							icon={<Icon>event</Icon>}
 							component={Link}
 							to="/request"
 						/>
@@ -77,8 +81,6 @@ function App() {
 			</div>
 		</ThemeProvider>
 	);
-
-	//TODO: Add dom routing
 }
 
 export default App;
