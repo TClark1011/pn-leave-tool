@@ -14,28 +14,19 @@ class LoginForm extends React.Component {
 	constructor(props) {
 		super();
 		this.state = {
-			employee_id: "",
-			employee_id_error: null,
+			employee_number: "",
+			employee_number_error: null,
 			password: "",
 			password_error: null,
-			show_reg_fields: false,
+			confirmation_password: "",
+			confirmation_password_error: null,
+			show_reg_fields: false, //* Should registration-specific fields be visible
 			form_error: null,
 		};
 	}
 
 	//#Form change handlers
-	employeeIdHandler(e) {
-		//# Update Employee Number state value when user types into corresponding field
-		const newValue = e.target.value;
-		if (Number(newValue) || newValue === "") {
-			//*Only accept change if the new value is all numbers or it is empty
-			this.setState({ employee_id: newValue });
-			if (this.state.employee_id_error === "Required") {
-				//# If present, remove 'required' error
-				this.setState({ employee_id_error: null });
-			}
-		}
-	}
+
 	passwordHandler(e) {
 		//# Update password state value when user types into password field
 		const newValue = e.target.value;
@@ -46,51 +37,120 @@ class LoginForm extends React.Component {
 		}
 	}
 
+	handlers = {
+		//# Object containing change handlers for all form fields
+		employee_number: (value) => {
+			if (Number(value) || value === "") {
+				//# Do not accept value that contains non-numeral characters
+				this.setState({ employee_number: value });
+				if (this.state.employee_number_error === "Required" || "Numbers Only") {
+					//# If present, remove 'required' error
+					this.setState({ employee_number_error: null });
+				}
+			} else {
+				this.setState({ employee_number_error: "Numbers Only" });
+			}
+		},
+		password: (value) => {
+			this.setState({ password: value });
+			if (this.state.password_error === "Required") {
+				//# If present, remove 'required' error
+				this.setState({ password_error: null });
+			}
+		},
+		confirmation_password: (value) => {
+			this.setState({ confirmation_password: value });
+		},
+	};
+
 	validateFields() {
 		//# Iterate through field data and make sure they all meet validation conditions
 		//# Fields with invalid values are marked with corresponding errors
 		const allFields = [
-			//# Store all data required to validate fields
-			//TODO: Update with extra field inf
+			//# Store all field data required for validation in objects
+			/**
+			 * Field validation object structure
+			 * @property value    { any }              => The variable where the fields value is stored
+			 * @property setError { function(string) } => Sets the field's error to the passed string
+			 * @property checkError { functiion() }      => Checks validation requirements and return an object representing any validation errors or null if none found
+			 * @property required { boolean }          => If the field is required for form submission
+			 */
 			{
-				value: this.state.employee_id,
+				//* Employee number
+				value: this.state.employee_number,
 				setError: (value) => {
-					this.setState({ employee_id_error: value });
+					this.setState({ employee_number_error: value });
 				},
+				checkError: () => null,
 				required: true,
+				reg_only: false,
 			},
 			{
+				//* Employee number
 				value: this.state.password,
 				setError: (value) => {
 					this.setState({ password_error: value });
 				},
+				checkError: () => null,
 				required: true,
+				reg_only: false,
 			},
+			{
+				value: this.state.confirmation_password,
+				setError: (value) => {
+					this.setState({ confirmation_password_error: value });
+				},
+				checkError: () => {
+					if (this.state.confirmation_password !== this.state.password) {
+						return {
+							form_error: "Password fields must match",
+							field_error: "Does not match",
+						};
+					}
+				},
+				required: this.state.show_reg_fields,
+				reg_only: true,
+			},
+			//TODO: Update to handle extra registration fields
 		];
 
 		var formIsValid = true;
 
 		for (const field of allFields) {
 			//# Iterate through field values
-			if (field.required && !field.value) {
-				//#If a required field is empty
-				field.setError("Required");
-				this.setState({
-					form_error: "Please make sure all highlighted fields are not empty",
-				});
-				formIsValid = false;
+			if ((field.reg_only && this.state.show_reg_fields) || !field.reg_only) {
+				const fieldError = field.checkError();
+				if (fieldError) {
+					//# If field validation function found an error...
+					field.setError(fieldError.field_error);
+					if (fieldError.form_error) {
+						this.setState({ form_error: fieldError.form_error });
+					}
+				}
+				if (field.required && !field.value) {
+					//#If a required field is empty
+					field.setError("Required");
+					this.setState({
+						form_error: "Please make sure all highlighted fields are not empty",
+					});
+					formIsValid = false;
+				}
 			}
 		}
 
 		return formIsValid;
 	}
 
-	submit() {
+	// clearErrors(errors) {
+	//     //# Will clear the current form error if it is contained in the passed list of errors
+	// }
+
+	login() {
 		//# Submit field data
 		if (this.validateFields()) {
 			axios
 				.post("/api/login", {
-					employee_number: this.state.employee_id,
+					employee_number: this.state.employee_number,
 					password: this.state.password,
 				})
 				.then((response) => {
@@ -104,7 +164,59 @@ class LoginForm extends React.Component {
 		}
 	}
 
+	register() {
+		if (this.validateFields()) {
+			if (!this.state.show_reg_fields) {
+				//# If registration fields are not showing (therefore it is the initial registration submission)
+				axios
+					.get("/api/user/" + this.state.employee_number)
+					.then((response) => {
+						this.setState({ form_error: "A user with that id already exists" });
+					})
+					.catch((error) => {
+						//? The catch/then logic is somewhat reversed here
+						//? We actually want a 404 'error', as this indicates no user with 'employee_number' exists yet
+						//? So if we get a 404, then we continue with registration, otherwise we do not
+						if (error.response.status === 404) {
+							this.setState({ show_reg_fields: true });
+							//TODO: Clear 'employee_number already exists' error if present
+						}
+					});
+			} else {
+				//# Secondary 'confirmation' registration request (user has filled out all registration fields)
+				axios
+					.post("/api/registerUser", {
+						employee_number: this.state.employee_number,
+						password: this.state.password,
+					})
+					.then((response) => {
+						console.log(response.data);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			}
+		}
+	}
+
+	//TODO: Password reset
+
 	render() {
+		if (this.props.user) {
+			return (
+				<div className="login-form container">
+					<SectionTitle>
+						You are signed in as Employee #{this.props.user.employee_number}
+					</SectionTitle>
+				</div>
+			);
+		}
+
+		function getLabel(label, error) {
+			const displayError = error ? `(${error})` : "";
+			return `${label} ${displayError}`;
+		}
+
 		return (
 			<div className="login-form container">
 				<SectionTitle>Login</SectionTitle>
@@ -119,18 +231,16 @@ class LoginForm extends React.Component {
 						fullWidth
 						color="primary"
 						variant="outlined"
-						className="form-input field employee_id"
-						label={
-							"Employee Number" +
-							(this.state.employee_id_error
-								? ` (${this.state.employee_id_error})`
-								: "")
-						}
-						// TODO: Refactor labels with function
+						className="form-input field employee_number"
+						label={getLabel(
+							"Employee Number",
+							this.state.employee_number_error
+						)}
 						type="tel"
-						onChange={(e) => this.employeeIdHandler(e)}
-						value={this.state.employee_id}
-						error={this.state.employee_id_error ? true : false}
+						// onChange={(e) => this.employeeIdHandler(e)}
+						onChange={(e) => this.handlers.employee_number(e.target.value)}
+						value={this.state.employee_number}
+						error={this.state.employee_number_error ? true : false}
 						style={{ marginTop: 8 }}
 					/>
 					<TextField
@@ -138,18 +248,14 @@ class LoginForm extends React.Component {
 						color="primary"
 						variant="outlined"
 						className="form-input field password"
-						label={
-							"Password" +
-							(this.state.password_error
-								? ` (${this.state.password_error})`
-								: "")
-						}
+						label={getLabel("Password", this.state.password_error)}
 						type="password"
-						onChange={(e) => this.passwordHandler(e)}
+						onChange={(e) => this.handlers.password(e.target.value)}
 						value={this.state.password}
 						error={this.state.password_error ? true : false}
 					/>
 					<Collapse in={this.state.show_reg_fields}>
+						{/* ? Extra fields for registration are initially hidden */}
 						{/* TODO: Extra field handling */}
 						{/* TODO: Extra field validation */}
 						<TextField
@@ -157,8 +263,16 @@ class LoginForm extends React.Component {
 							color="primary"
 							variant="outlined"
 							className="form-input field"
-							label="Confirm Password"
+							label={getLabel(
+								"Confirm Password",
+								this.state.confirmation_password_error
+							)}
 							type="password"
+							value={this.state.confirmation_password}
+							error={this.state.confirmation_password_error}
+							onChange={(e) =>
+								this.handlers.confirmation_password(e.target.value)
+							}
 						/>
 						<TextField
 							fullWidth
@@ -192,25 +306,27 @@ class LoginForm extends React.Component {
 							type="tel"
 						/>
 					</Collapse>
-					<Button
-						fullWidth
-						className="form-input"
-						color="primary"
-						variant="contained"
-						disableElevation
-						onClick={() => this.submit()}
-					>
-						Login
-					</Button>
+					<Collapse in={!this.state.show_reg_fields}>
+						<Button
+							fullWidth
+							className="form-input"
+							color="primary"
+							variant="contained"
+							disableElevation
+							onClick={() => this.login()}
+						>
+							Login
+						</Button>
+					</Collapse>
 					<Button
 						fullWidth
 						color="primary"
 						className="form-input"
 						variant="outlined"
-						onClick={() => this.setState({ show_reg_fields: true })}
+						onClick={() => this.register()}
 						disableElevation
 					>
-						Register
+						{this.state.show_reg_fields ? "Confirm" : "Register"}
 					</Button>
 					{/* TODO: Registration frontend requests */}
 				</form>

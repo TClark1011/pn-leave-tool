@@ -86,7 +86,7 @@ apiRouter.post("/api/login", async (request, response) => {
     }
     
     const foundUser = await findUser(request.body.employee_number); //* Search database for user object with matching 'employee_number'
-    const passwordCheck = await authenticateUser(foundUser, request.body.password); //* If the given password matches the user's stored password
+    const passwordCheck = foundUser ? await authenticateUser(foundUser, request.body.password) : false; //* If the given password matches the user's stored password
     if(foundUser && passwordCheck) { //# If a user was found and the passwords match
         response.status(200).json(getFrontendUser(foundUser));
         console.log("user successfully logged in");
