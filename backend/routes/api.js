@@ -40,6 +40,7 @@ async function findUser(employee_number) {
     await User.findOne({employee_number}).then(result => foundUser = result || null)
     return foundUser;
 }
+
 /**
  * @param  { string[] } expectedFields => List of names of fields expected to be found in the request's body
  * @param  { object }   request        => HTTP request object
@@ -71,7 +72,7 @@ apiRouter.post("/api/login", async (request, response) => {
     //# User tries to log in
     //@param    {string} employee_number => The PN employee number of the user trying to log in
     //@param    {string} password        => The unencrypted password sent by the user
-    //@response {object} user            => The object with user data
+    //@response {object} user            => Object containing user data
     console.log("Received a request to log in");
 
     //TODO: Validate passed data (contains required fields)
@@ -139,6 +140,30 @@ apiRouter.post("/api/registerUser", async (request, response) => {
         console.log(error);
     }
 });
+
+apiRouter.get("/api/user/:employee_number", async (request, response) => {
+    //# User information is requested
+    //# Is also used during registration to check if a user with a given employee number already exists
+    
+    console.log("Received request to fetch user information");
+
+    const employee_number = request.params.employee_number;
+    
+    if (!employee_number) {
+        response.status(500).json({error:genericError("user information retrieval")});
+        return console.log(`Error: employee_number not provided, user data could not be retrieved`);
+    }
+    
+    const user = await findUser(employee_number);
+    if (user) {
+        response.status(200).json({user: getFrontendUser(user)})
+        return console.log("User data successfully fetched")
+    } else {
+        const error = `No user with the Employee Number ${employee_number} was found`;
+        response.status(404).json({error});
+        return console.log("Error: " + error);
+    }
+})
 
 apiRouter.get("/api/*", (request, response) => {
     //# Catch all if a request is not handled by any other route
