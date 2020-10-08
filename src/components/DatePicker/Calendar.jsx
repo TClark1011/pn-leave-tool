@@ -48,7 +48,6 @@ class Calendar extends React.Component {
 			});
 		} else if (number > this.state.userSelect.first) {
 			//# First is selected and new comes after
-			console.log("New selection is after first");
 			this.setState({
 				userSelect: { ...this.state.userSelect, second: number },
 			});
@@ -56,20 +55,15 @@ class Calendar extends React.Component {
 			number < this.state.userSelect.first &&
 			!this.state.userSelect.second
 		) {
-			console.log(
-				"new selection is before first while second has not been selected"
-			);
 			this.setState({
 				userSelect: { second: this.state.userSelect.first, first: number },
 			});
 		} else if (number < this.state.userSelect.first) {
 			//# First is selected and new comes before
-			console.log("new selection is before first");
 			this.setState({
 				userSelect: { ...this.state.userSelect, first: number },
 			});
 		} else {
-			console.log("unexpected selection scenario");
 		}
 		//TODO: When clicking in the middle, have the date that is closer to the cursor move
 		//TODO: Clear button
@@ -109,7 +103,7 @@ class Calendar extends React.Component {
     //TODO: Ability to switch months
     //TODO: Weekday headers
     
-
+    //TODO: Fully refactor html code for better clarity and design
 	render() {
         const t = this;
         function printDate(option) {
