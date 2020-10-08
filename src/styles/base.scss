@@ -5,8 +5,14 @@
     box-sizing:border-box;
 }
 
+#App {
+    height:calc(100vh - 56px);
+    overflow:scroll;
+}
+
 #content {
-    @include flex-wrapper-height(100vh);
+    $height: calc(100vh - 56px + 70px);
+    @include flex-wrapper-height($height);
 }
 
 #content .centerH {
