@@ -20,6 +20,10 @@ class LoginForm extends React.Component {
 			password_error: null,
 			confirmation_password: "",
 			confirmation_password_error: null,
+			email: "",
+			email_error: null,
+			phone: "",
+			phone_error: null,
 			show_reg_fields: false, //* Should registration-specific fields be visible
 			form_error: null,
 		};
@@ -60,6 +64,9 @@ class LoginForm extends React.Component {
 		},
 		confirmation_password: (value) => {
 			this.setState({ confirmation_password: value });
+		},
+		email: (value) => {
+			this.setState({ email: value });
 		},
 	};
 
@@ -179,6 +186,7 @@ class LoginForm extends React.Component {
 						//? So if we get a 404, then we continue with registration, otherwise we do not
 						if (error.response.status === 404) {
 							this.setState({ show_reg_fields: true });
+							this.setState({ form_error: null });
 							//TODO: Clear 'employee_number already exists' error if present
 						}
 					});
@@ -237,7 +245,6 @@ class LoginForm extends React.Component {
 							this.state.employee_number_error
 						)}
 						type="tel"
-						// onChange={(e) => this.employeeIdHandler(e)}
 						onChange={(e) => this.handlers.employee_number(e.target.value)}
 						value={this.state.employee_number}
 						error={this.state.employee_number_error ? true : false}
@@ -287,6 +294,8 @@ class LoginForm extends React.Component {
 							variant="outlined"
 							className="form-input field"
 							label="Email Address"
+							onChange={(e) => this.handlers.email(e.target.value)}
+							value={this.state.email}
 							type="email"
 						/>
 						<TextField
@@ -296,14 +305,7 @@ class LoginForm extends React.Component {
 							className="form-input field"
 							label="Phone No."
 							type="tel"
-						/>
-						<TextField
-							fullWidth
-							color="primary"
-							variant="outlined"
-							className="form-input field"
-							label="Phone No."
-							type="tel"
+							onChange={(e) => this.handlers.phone(e.target.value)}
 						/>
 					</Collapse>
 					<Collapse in={!this.state.show_reg_fields}>
