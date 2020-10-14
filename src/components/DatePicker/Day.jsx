@@ -45,6 +45,12 @@ class Day extends React.Component {
 				this.setState({ selected: "second" });
 			}
 		}
+		if (this.state.selected === "first") {
+			console.log("is first selected");
+			if (isSecondSelection) {
+				this.setState({ selected: "second" });
+			}
+		}
 		if (this.state.selected && !(isFirstSelection || isSecondSelection)) {
 			//# If item was previously selected but now no longer should be
 			this.setState({ selected: false });
@@ -88,29 +94,23 @@ class Day extends React.Component {
 	//TODO: Refactor class names (label the hover element with hover, the inner square, etc.)
 	//TODO: Add transitions to user selection (should probably just bite the bullet and style in an external css file)
 	//TODO: Don't have selections be shaped while there is only a single selection
-	// render() {
-	// 	return (
-	// 		<td
-	// 			className={this.class()}
-	// 			style={this.cellSizeStyle}
-	// 			onClick={() => this.select()}
-	// 			ref={this.cellRef}
-	// 		>
-	// 			<div className="calendar-day-inner-wrapper">
-	// 				{/* 'inner-wrapper' is the hover target */}
-	// 				<span
-	// 					className="calendar-day-number-wrapper"
-	// 					style={this.probColourStyle}
-	// 				>
-	// 					{/* 'number-wrapper' is the heatmap coloured element */}
-	// 					<span className="calendar-day-number">{this.number()}</span>
-	// 				</span>
-	// 			</div>
-	// 		</td>
-	// 	);
-	// }
 
 	render() {
+		function OverlayTargets() {
+			return (
+				<div className="overlay-target-outer-wrapper flex">
+					<div className="overlay-target selection-range">
+						<div className="half left"></div>
+						<div className="half right"></div>
+					</div>
+					<div className="overlay-target-inner-wrapper">
+						<div className="overlay-target selection"></div>
+						<div className="overlay-target hover"></div>
+					</div>
+				</div>
+			);
+		}
+
 		return (
 			<td
 				className={this.class()}
@@ -121,12 +121,7 @@ class Day extends React.Component {
 				{/* this cell remains square and will contain no hover or selection logic */}
 				<div className="flex-wrapper">
 					<span className="day-number">{this.number()}</span>
-					<div className="overlay-target-outer-wrapper flex">
-						<div className="overlay-target-inner-wrapper">
-							<div className="overlay-target selection"></div>
-							<div className="overlay-target hover"></div>
-						</div>
-					</div>
+					<OverlayTargets />
 				</div>
 			</td>
 		);

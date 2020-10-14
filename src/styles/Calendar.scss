@@ -16,10 +16,6 @@
 	}
 
 	.calendar-day-cell:not(.calendar-emptyDay) {
-		//Calendar Day Element Class Structure:
-		// '.calendar-day-cell' is the table cell
-		//'inner-wrapper' is the hover target and also the element that becomes coloured when the date is selected
-		//'number-wrapper' is the heat map coloured element
 		padding: 0;
 		text-align: center;
 		font-weight: 600;
@@ -49,16 +45,40 @@
 						position: absolute;
 						margin: auto;
 						@include square($cell-height);
+						@include border-radius(50px);
+
+						&.selection {
+							z-index: 9;
+						}
 
 						&.hover {
-							@include border-radius(50px);
+							z-index: 11;
 						}
+					}
+				}
+
+				.overlay-target.selection-range {
+					position: absolute;
+
+					display: flex;
+
+					@include border-radius(0px);
+
+					@include square(100%);
+
+					.left,
+					.right {
+						display: block;
+						height: 50%;
+						width: 50%;
+						margin: auto;
 					}
 				}
 			}
 
 			.day-number {
 				margin: auto;
+				z-index: 10;
 			}
 
 			&:hover {
@@ -66,6 +86,30 @@
 					background-color: rgba(0, 0, 0, 0.2);
 				}
 			}
+		}
+
+		&.calendar-day-selected {
+			.overlay-target {
+				&.selection {
+					background-color: $selected-colour;
+				}
+			}
+		}
+
+		&.calendar-day-inside-selection {
+			.overlay-target.selection-range {
+				.left,
+				.right {
+					background-color: pink;
+				}
+			}
+		}
+
+		&.calendar-day-first-selection .overlay-target.selection-range .right {
+			background-color: pink;
+		}
+		&.calendar-day-second-selection .overlay-target.selection-range .left {
+			background-color: pink;
 		}
 	}
 }
