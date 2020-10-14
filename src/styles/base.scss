@@ -1,51 +1,50 @@
-@import 'variables';
-@import 'mixins';
+@import "variables";
+@import "mixins";
 
 * {
-    box-sizing:border-box;
+	box-sizing: border-box;
 }
 
 #App {
-    height:calc(100vh - 56px);
-    overflow:scroll;
+	height: calc(100vh - 56px);
 }
 
 #content {
-    // $height: calc(100vh - 56px + 70px);
-    // @include flex-wrapper-height($height);
-    @include flex-wrapper();
-    height:100%;
+	// $height: calc(100vh - 56px + 70px);
+	// @include flex-wrapper-height($height);
+	@include flex-wrapper();
+	height: 100%;
 
-    .centerH {
-        margin-left:auto;
-        margin-right:auto;
-    }
+	.centerH {
+		margin-left: auto;
+		margin-right: auto;
+	}
 
-    .centerV {
-        margin-top:auto;
-        margin-bottom:auto;
-    }
+	.centerV {
+		margin-top: auto;
+		margin-bottom: auto;
+	}
 
-    .card {
-        padding:$padding-std;
-    }
+	.card {
+		padding: $padding-std;
+	}
 
-    & > .card {
-        width:700px;
-        max-width:90vw;
-    }
+	& > .card {
+		width: 700px;
+		max-width: 90vw;
+	}
 
-    .container > :first-child {
-        margin-top:0;
-    }
+	.container > :first-child {
+		margin-top: 0;
+	}
 
-    .container > :last-child {
-        margin-bottom:0;
-    }
-} 
+	.container > :last-child {
+		margin-bottom: 0;
+	}
+}
 
 .bottom-navigation-bar {
-    position:fixed;
-    width:100%;
-    bottom:0;
+	position: fixed;
+	width: 100%;
+	bottom: 0;
 }

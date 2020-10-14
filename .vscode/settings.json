@@ -7,7 +7,7 @@
         "**/.DS_Store": true,
         "node_modules": true,
         "build": true,
-        ".vscode": true
+        ".vscode": false
     },
     "explorerExclude.backup": null
 }
