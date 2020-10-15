@@ -13,103 +13,106 @@
 
 	.calendar-day-cell {
 		height: $cell-height;
-	}
 
-	.calendar-day-cell:not(.calendar-emptyDay) {
-		padding: 0;
-		text-align: center;
-		font-weight: 600;
-		cursor: pointer;
+		&:not(.empty) {
+			padding: 0;
+			text-align: center;
+			font-weight: 600;
+			cursor: pointer;
 
-		$selected-colour: $color-primary-light;
+			$selected-colour: $color-primary-light;
 
-		.flex-wrapper {
-			display: flex;
-			position: relative;
-			@include square(100%);
+			.flex-wrapper {
+				position: relative;
 
-			.overlay-target-outer-wrapper {
-				display: flex;
-				width: 100%;
-				height: $cell-height;
+				@include flex-wrapper();
+				@include square(100%);
 
-				position: absolute;
-
-				.overlay-target-inner-wrapper {
-					margin: auto;
-					@include square($cell-height);
-
-					position: relative;
-
-					.overlay-target {
-						position: absolute;
-						margin: auto;
-						@include square($cell-height);
-						@include border-radius(50px);
-
-						&.selection {
-							z-index: 9;
-						}
-
-						&.hover {
-							z-index: 11;
-						}
-					}
-				}
-
-				.overlay-target.selection-range {
+				.overlay-target-outer-wrapper {
 					position: absolute;
 
-					display: flex;
+					width: 100%;
+					height: $cell-height;
 
-					@include border-radius(0px);
+					@include flex-wrapper();
 
-					@include square(100%);
+					.overlay-target-inner-wrapper {
+						position: relative;
 
-					.left,
-					.right {
-						display: block;
-						height: 50%;
-						width: 50%;
 						margin: auto;
+
+						@include square($cell-height);
+
+						.overlay-target {
+							position: absolute;
+							margin: auto;
+
+							@include square($cell-height);
+							@include border-radius(50px);
+
+							&.selection {
+								z-index: 9;
+							}
+
+							&.hover {
+								z-index: 11;
+							}
+						}
+					}
+
+					.overlay-target.selection-range {
+						position: absolute;
+
+						@include flex-wrapper();
+						@include square(100%);
+						@include border-radius(0px);
+
+						.left,
+						.right {
+							display: block;
+							height: 70%;
+							width: 50%;
+							margin: auto;
+							opacity: 0.2;
+						}
+					}
+				}
+
+				.day-number {
+					margin: auto;
+					z-index: 10;
+				}
+
+				&:hover {
+					.overlay-target.hover:hover {
+						background-color: rgba(0, 0, 0, 0.2);
 					}
 				}
 			}
 
-			.day-number {
-				margin: auto;
-				z-index: 10;
-			}
-
-			&:hover {
-				.overlay-target.hover:hover {
-					background-color: rgba(0, 0, 0, 0.2);
+			&.selected {
+				.overlay-target {
+					&.selection {
+						background-color: $selected-colour;
+					}
 				}
 			}
-		}
 
-		&.calendar-day-selected {
-			.overlay-target {
-				&.selection {
-					background-color: $selected-colour;
+			&.in-selection {
+				.overlay-target.selection-range {
+					.left,
+					.right {
+						background-color: $selected-colour;
+					}
 				}
 			}
-		}
 
-		&.calendar-day-inside-selection {
-			.overlay-target.selection-range {
-				.left,
-				.right {
-					background-color: pink;
-				}
+			&.selected.first .overlay-target.selection-range .right {
+				background-color: $selected-colour;
 			}
-		}
-
-		&.calendar-day-first-selection .overlay-target.selection-range .right {
-			background-color: pink;
-		}
-		&.calendar-day-second-selection .overlay-target.selection-range .left {
-			background-color: pink;
+			&.selected.second .overlay-target.selection-range .left {
+				background-color: $selected-colour;
+			}
 		}
 	}
 }

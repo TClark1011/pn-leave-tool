@@ -61,7 +61,7 @@ class Day extends React.Component {
 			this.date > this.props.selectedDays.first &&
 			this.date < this.props.selectedDays.second
 		) {
-			this.cellRef.current.classList.add("calendar-day-inside-selection");
+			this.cellRef.current.classList.add("in-selection");
 			//? Adding a class to a reference but updating state exceeds max depth and crashes the app
 		} else {
 			this.cellRef.current.classList.remove("calendar-day-inside-selection");
@@ -73,10 +73,8 @@ class Day extends React.Component {
 	class() {
 		//# Generate the className of the day
 		var result = "calendar-day-cell ";
-		result += this.state.selected
-			? `calendar-day-selected calendar-day-${this.state.selected}-selection`
-			: "";
-		result += this.empty ? "calendar-emptyDay" : "";
+		result += this.state.selected ? `selected ${this.state.selected}` : "";
+		result += this.empty ? "empty" : "";
 		return result;
 	}
 
@@ -126,6 +124,11 @@ class Day extends React.Component {
 			</td>
 		);
 	}
+
+	/** Possible ways to style probability:
+	 * Multiple rings around the number, higher probability = more rings
+	 *
+	 */
 }
 
 export default Day;
