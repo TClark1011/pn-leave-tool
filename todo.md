@@ -32,8 +32,13 @@
 - Apple touch icon
 - Page Titles (Also look into bug where IE page title is just 'Waiting for localhost', although this may go away when you run the static built app)
 - Write Error Messages
+- Have a message recommending people to book...
+  - In advance (3+ months is preferable)
+  - In blocks (minimum amount that can be requested is 7 days, ideal number is 2+ weeks)
+    - That ideal number is pulled out of the air, should ask around if there is actually an existing ideal number
 
 ## BOTH END - MISC
 
-- Field length Limits
-  - Login/Register
+- Input Validation
+  - Field text length
+    - Login/Register

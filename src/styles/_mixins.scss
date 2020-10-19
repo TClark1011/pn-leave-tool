@@ -1,34 +1,50 @@
 @mixin border-radius($radius) {
-    //# Set border radius with all special case properties
-    border-radius:$radius;
-    -webkit-border-radius:$radius;
-    -moz-border-radius:$radius;
-    -ms-border-radius:$radius;
-    -o-border-radius:$radius;
+	//# Set border radius with all special case properties
+	border-radius: $radius;
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	-ms-border-radius: $radius;
+	-o-border-radius: $radius;
 }
 
 @mixin square($size) {
-    //# Set width and height equal to passed 'size'
-    height:$size;
-    width:$size;
+	//# Set width and height equal to passed 'size'
+	height: $size;
+	width: $size;
 }
 //@param inline { boolean } [false] => If true, display is set to 'inline-flex', else display is set to 'flex'
 @mixin flex-wrapper($inline: false) {
-    //# Flex wrapper properties
-    @if $inline {
-        display:inline-flex;
-    } @else {
-        display:flex;
-    }
-    align-items:center;
+	//# Flex wrapper properties
+	@if $inline {
+		display: inline-flex;
+	} @else {
+		display: flex;
+	}
+	align-items: center;
 }
 
 //@param height { number } [100%] => Height of element
-@mixin flex-wrapper-height($height:100%) {
-    //# Extends 'flex-wrapper()', also sets height according to IE requirements
-    @include flex-wrapper();
+@mixin flex-wrapper-height($height: 100%) {
+	//# Extends 'flex-wrapper()', also sets height according to IE requirements
+	@include flex-wrapper();
 
-    min-height:$height;
-    height:1px;
-        //? IE compatibility fix, 1px height is overridden by min-height on render but is required for items in flex wrapper to be centered on IE
+	min-height: $height;
+	height: 1px;
+	//? IE compatibility fix, 1px height is overridden by min-height on render but is required for items in flex wrapper to be centered on IE
+}
+
+@mixin transform($properties) {
+	transform: $properties;
+	-webkit-transform: $properties;
+	-moz-transform: $properties;
+	-ms-transform: $properties;
+	-o-transform: $properties;
+}
+
+@mixin transition($properties) {
+	transition: $properties;
+	-webkit-transition: $properties;
+	-moz-transition: $properties;
+	-ms-transition: $properties;
+	-o-transition: $properties;
 }

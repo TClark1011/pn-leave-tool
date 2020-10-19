@@ -1,10 +1,6 @@
-import "../../styles/Calendar.scss";
-
 import React from "react";
 
 import moment from "moment";
-
-import { TextField } from "@material-ui/core";
 
 import Day from "./Day";
 
@@ -44,11 +40,13 @@ class Calendar extends React.Component {
 			this.setState({
 				userSelect: { ...this.state.userSelect, first: number },
 			});
+			this.props.setDatesFn(number, this.state.userSelect.second);
 		} else if (number > this.state.userSelect.first) {
 			//# First is selected and new comes after
 			this.setState({
 				userSelect: { ...this.state.userSelect, second: number },
 			});
+			this.props.setDatesFn(this.state.userSelect.first, number);
 		} else if (
 			number < this.state.userSelect.first &&
 			!this.state.userSelect.second
@@ -56,12 +54,13 @@ class Calendar extends React.Component {
 			this.setState({
 				userSelect: { second: this.state.userSelect.first, first: number },
 			});
+			this.props.setDatesFn(number, this.state.userSelect.first);
 		} else if (number < this.state.userSelect.first) {
 			//# First is selected and new comes before
 			this.setState({
 				userSelect: { ...this.state.userSelect, first: number },
 			});
-		} else {
+			this.props.setDatesFn(number, this.state.userSelect.second);
 		}
 		//TODO: When clicking in the middle, have the date that is closer to the cursor move
 		//TODO: Clear button
@@ -104,29 +103,16 @@ class Calendar extends React.Component {
 
 	//TODO: Ability to switch months
 	//TODO: Weekday headers
+	//FIXME: IE MOUSE DETECTION IS BROKEN (MOST LIKELY CAUSED BY FLEX CENTERING/ALIGN-ITEMS:CENTER/HEIGHT ISSUES)
 
-	//TODO: Fully refactor html code for better clarity and design
 	render() {
-		const t = this;
-		function printDate(option) {
-			if (t.state.userSelect[option]) {
-				const day = moment(t.state.userSelect[option]).format("DD");
-				const month = moment(t.state.userSelect[option]).format("MM");
-				const year = moment(t.state.userSelect[option]).format("YYYY");
-				return `${day}/${month}/${year}`;
-			}
-			return "";
-		}
 		return (
 			<div className="datepicker-calendar">
 				<table className="calendar-container" style={this.style}>
 					<tbody>{this.content()}</tbody>
 				</table>
-				<TextField value={printDate("first")} />
-				<TextField value={printDate("second")} />
 			</div>
 		);
-		//TODO: Refactor so text fields are supplied by external parent component rather than being a part of the calendar component
 	}
 }
 

@@ -36,6 +36,7 @@ class Day extends React.Component {
 		//# Check if 'selected' status needs to be changed when component updates
 		const isFirstSelection = this.props.selectedDays.first === this.date;
 		const isSecondSelection = this.props.selectedDays.second === this.date;
+		const inSelectionClass = "in-selection";
 		if (!this.state.selected) {
 			//# If item was not previously selected but now should be
 			if (isFirstSelection) {
@@ -46,7 +47,6 @@ class Day extends React.Component {
 			}
 		}
 		if (this.state.selected === "first") {
-			console.log("is first selected");
 			if (isSecondSelection) {
 				this.setState({ selected: "second" });
 			}
@@ -61,10 +61,10 @@ class Day extends React.Component {
 			this.date > this.props.selectedDays.first &&
 			this.date < this.props.selectedDays.second
 		) {
-			this.cellRef.current.classList.add("in-selection");
+			this.cellRef.current.classList.add(inSelectionClass);
 			//? Adding a class to a reference but updating state exceeds max depth and crashes the app
 		} else {
-			this.cellRef.current.classList.remove("calendar-day-inside-selection");
+			this.cellRef.current.classList.remove(inSelectionClass);
 		}
 	}
 
@@ -85,13 +85,9 @@ class Day extends React.Component {
 	select() {
 		//# Push current instance into user selection
 		this.props.selectFn(this.date);
-		//FIXME: If none are selected and then you select a day, then select a day behind that, the selection indicator on the first day is facing backwards. This is because the first selected day is set to "first" selected but is not updated to second once the one behind it is selected
 	}
 
-	//TODO: Style user selection (both selected dates and the dates inbetween)
-	//TODO: Refactor class names (label the hover element with hover, the inner square, etc.)
-	//TODO: Add transitions to user selection (should probably just bite the bullet and style in an external css file)
-	//TODO: Don't have selections be shaped while there is only a single selection
+	//TODO: Don't show selection range indicator when there is only a single selection
 
 	render() {
 		function OverlayTargets() {
