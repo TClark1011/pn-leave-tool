@@ -7,6 +7,7 @@
 
 #App {
 	height: calc(100vh - 56px);
+	font-family: Roboto, sans-serif;
 }
 
 #content {
@@ -14,6 +15,11 @@
 	// @include flex-wrapper-height($height);
 	@include flex-wrapper();
 	height: 100%;
+	overflow-y: scroll;
+
+	$padding-spacing: 8px;
+	padding-bottom: $padding-spacing;
+	padding-top: $padding-spacing;
 
 	.centerH {
 		margin-left: auto;
