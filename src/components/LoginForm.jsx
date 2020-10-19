@@ -172,26 +172,11 @@ class LoginForm extends React.Component {
 	}
 
 	register() {
-		if (this.validateFields()) {
-			if (!this.state.show_reg_fields) {
-				//# If registration fields are not showing (therefore it is the initial registration submission)
-				axios
-					.get("/api/user/" + this.state.employee_number)
-					.then((response) => {
-						this.setState({ form_error: "A user with that id already exists" });
-					})
-					.catch((error) => {
-						//? The catch/then logic is somewhat reversed here
-						//? We actually want a 404 'error', as this indicates no user with 'employee_number' exists yet
-						//? So if we get a 404, then we continue with registration, otherwise we do not
-						if (error.response.status === 404) {
-							this.setState({ show_reg_fields: true });
-							this.setState({ form_error: null });
-							//TODO: Clear 'employee_number already exists' error if present
-						}
-					});
-			} else {
-				//# Secondary 'confirmation' registration request (user has filled out all registration fields)
+		if (!this.state.show_reg_fields) {
+			this.setState({ show_reg_fields: true });
+		} else {
+			//# Secondary 'confirmation' registration request (user has filled out all registration fields)
+			if (this.validateFields()) {
 				axios
 					.post("/api/registerUser", {
 						employee_number: this.state.employee_number,
@@ -201,7 +186,7 @@ class LoginForm extends React.Component {
 						console.log(response.data);
 					})
 					.catch((error) => {
-						console.log(error);
+						this.setState({ form_error: error.response.data.error });
 					});
 			}
 		}
