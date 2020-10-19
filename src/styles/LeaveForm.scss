@@ -121,10 +121,9 @@
 	}
 
 	.selected-dates-container {
-		display: flex;
+		@include flex-wrapper();
 		.selected-date-field {
-			margin: auto;
-			width: 150px;
+			@include flex-space-horizontal(4px);
 
 			input {
 				text-align: center;

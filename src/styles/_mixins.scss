@@ -48,3 +48,20 @@
 	-ms-transition: $properties;
 	-o-transition: $properties;
 }
+
+@mixin flex-space-horizontal($gap: 0px) {
+	margin-right: $gap;
+	width: 100%;
+
+	&:last-child {
+		margin-right: 0;
+	}
+}
+
+@mixin padding-space-horizontal($gap) {
+	padding-right: $gap;
+
+	&:last-child {
+		padding-right: 0;
+	}
+}

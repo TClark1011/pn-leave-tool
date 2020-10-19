@@ -36,6 +36,7 @@
   - In advance (3+ months is preferable)
   - In blocks (minimum amount that can be requested is 7 days, ideal number is 2+ weeks)
     - That ideal number is pulled out of the air, should ask around if there is actually an existing ideal number
+- Provide instructions for how users can check how much stored days of leave they have
 
 ## BOTH END - MISC
 

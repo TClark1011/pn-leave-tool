@@ -123,7 +123,7 @@ class Day extends React.Component {
 
 	/** Possible ways to style probability:
 	 * Multiple rings around the number, higher probability = more rings
-	 *
+	 * Dots underlining the date umber, more dots = higher probability
 	 */
 }
 

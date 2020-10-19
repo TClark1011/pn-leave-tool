@@ -14,13 +14,21 @@ class LeaveForm extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			startDate: null,
-			endDate: null,
+			userSelected: {
+				start: null,
+				end: null,
+			},
+			//TODO: Refactor all instances of user selection to use to the terms 'start' and 'end'
 		};
 	}
 
+	/**
+	 * Sets the start and end date state items
+	 * @param {Moment} startDate - The starting date of the user's selection
+	 * @param {Moment} endDate   - The ending date of the user's selection
+	 */
 	setDates = (startDate, endDate) => {
-		this.setState({ startDate, endDate });
+		this.setState({ userSelected: { startDate, endDate } });
 	};
 
 	//TODO: Show how many days long the requested leave is
@@ -43,7 +51,7 @@ class LeaveForm extends React.Component {
 				<Calendar date="2020-05-06" setDatesFn={this.setDates} />
 				<div className="selected-dates-container">
 					<TextField
-						value={printDate(this.state.startDate)}
+						value={printDate(this.state.userSelected.start)}
 						className="selected-date-field"
 						variant="outlined"
 						InputProps={{
@@ -51,7 +59,7 @@ class LeaveForm extends React.Component {
 						}}
 					/>
 					<TextField
-						value={printDate(this.state.endDate)}
+						value={printDate(this.state.userSelected.start)}
 						className="selected-date-field"
 						variant="outlined"
 						InputProps={{
