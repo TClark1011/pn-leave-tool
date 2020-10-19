@@ -1,9 +1,9 @@
-@import "variables.scss";
+@import "config/variables.scss";
 
 form .form-input {
-    margin-bottom:$item-spacing-std;
+	margin-bottom: $item-spacing-std;
 }
 form .form-input.field {
-    margin-bottom:$item-spacing-std * 2;
-    border-radius:4px;
+	margin-bottom: $item-spacing-std * 2;
+	border-radius: 4px;
 }

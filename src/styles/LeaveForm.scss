@@ -1,6 +1,6 @@
-@import "variables";
-@import "mixins";
-@import "functions";
+@import "config/variables";
+@import "config/mixins";
+@import "config/functions";
 
 .leave-form {
 	.calendar-container {
