@@ -58,15 +58,53 @@ function checkMissingFields(expectedFields, request) {
 	return false;
 }
 
-//TODO: Function for checking required fields are present in a request (takes an array of strings of fields and a request object)
-
 //TODO: Webtoken authentication
+
+/**
+ * Processes a request for annual leave and returns approval status
+ * @param  {object} dates - Object with start/end dates of requested annual leave
+ * @param  {object} user - Information about user who requested leave
+ * @returns {number} 1 if approved, 0 if undetermined, -1 if denied
+ */
+async function processLeaveRequest(dates, user) {
+	//TODO: Process leave request and return approval status
+	return 1;
+}
 
 //# LEAVE DATA
 apiRouter.get("/api/leave", (request, response) => {
 	//# Fetch leave
 	console.log("Received request to fetch 'leave' items");
 	response.status(200).json({ leave: "this will be data one day" });
+});
+
+/**
+ * Handle user submitted request for annual leave
+ * @param {object} user - The user who submitted the request
+ * @param {object} leaveReq - Information about the leave request
+ * @param {object} leaveReq.dates - The date range that the requested leave spans
+ * @param {Date} leaveReq.dates.start - The date that the requested leave starts on
+ * @param {Date} leaveReq.dates.end - The date that the requested leave ends on
+ * ...
+ */
+apiRouter.post("/api/leave", async (request, response) => {
+	//# Submit a leave request
+	console.log("Received request to submit a request for annual leave");
+	const leaveReq = request.body.request;
+	const user = request.body.user;
+
+	console.log("Received leave request made by: ", user);
+
+	const status = await processLeaveRequest(leaveReq.dates, user);
+
+	switch (status) {
+		case 1:
+			response.status(200).json({ status: "The request has been approved" }); //user message
+			console.log("leave request was approved");
+			break;
+		default:
+			response.status(500).json({ status: "Request has defaulted" });
+	}
 });
 
 //# USER LOGIN

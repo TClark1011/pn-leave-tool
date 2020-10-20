@@ -205,11 +205,6 @@ class LoginForm extends React.Component {
 			);
 		}
 
-		function getLabel(label, error) {
-			const displayError = error ? `(${error})` : "";
-			return `${label} ${displayError}`;
-		}
-
 		return (
 			<div className="login-form container">
 				<SectionTitle>Login</SectionTitle>
@@ -225,14 +220,12 @@ class LoginForm extends React.Component {
 						color="primary"
 						variant="outlined"
 						className="form-input field employee_number"
-						label={getLabel(
-							"Employee Number",
-							this.state.employee_number_error
-						)}
+						label={"Employee Number"}
 						type="tel"
 						onChange={(e) => this.handlers.employee_number(e.target.value)}
 						value={this.state.employee_number}
 						error={this.state.employee_number_error ? true : false}
+						helperText={this.state.employee_number_error}
 						style={{ marginTop: 8 }}
 					/>
 					<TextField
@@ -240,11 +233,12 @@ class LoginForm extends React.Component {
 						color="primary"
 						variant="outlined"
 						className="form-input field password"
-						label={getLabel("Password", this.state.password_error)}
+						label={"Password"}
 						type="password"
 						onChange={(e) => this.handlers.password(e.target.value)}
 						value={this.state.password}
 						error={this.state.password_error ? true : false}
+						helperText={this.state.password_error}
 					/>
 					<Collapse in={this.state.show_reg_fields}>
 						{/* ? Extra fields for registration are initially hidden */}
@@ -255,16 +249,14 @@ class LoginForm extends React.Component {
 							color="primary"
 							variant="outlined"
 							className="form-input field"
-							label={getLabel(
-								"Confirm Password",
-								this.state.confirmation_password_error
-							)}
+							label={"Confirm Password"}
 							type="password"
 							value={this.state.confirmation_password}
-							error={this.state.confirmation_password_error}
+							error={this.state.confirmation_password_error ? true : false}
 							onChange={(e) =>
 								this.handlers.confirmation_password(e.target.value)
 							}
+							helperText={this.state.confirmation_password_error}
 						/>
 						<TextField
 							fullWidth
