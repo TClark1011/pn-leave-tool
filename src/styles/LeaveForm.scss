@@ -14,11 +14,17 @@
 
 		margin-bottom: $item-spacing-std;
 
+		$selection-range-height: 100%;
+		$row-spacing: 8px;
+
 		.calendar-day-cell {
+			box-sizing: content-box;
 			height: $cell-height;
 
+			padding: 0;
+			padding-bottom: $row-spacing;
+
 			&:not(.empty) {
-				padding: 0;
 				text-align: center;
 				font-weight: 600;
 				cursor: pointer;
@@ -74,7 +80,7 @@
 						.left,
 						.right {
 							display: block;
-							height: 70%;
+							height: $selection-range-height;
 							width: 50%;
 							margin: auto;
 							opacity: 0.2;
@@ -116,6 +122,9 @@
 				&.selected.second .overlay-target.selection-range .left {
 					background-color: $selected-colour;
 				}
+			}
+			&.empty {
+				pointer-events: none;
 			}
 		}
 	}
