@@ -68,7 +68,9 @@ function InfoForm(props) {
 			axios
 				.post("/api/leave", {
 					user: props.user,
-					request: { dates: { start: props.start, end: props.end } },
+					request: {
+						dates: { start: props.start.toDate(), end: props.end.toDate() },
+					},
 				})
 				.then((response) => {
 					console.log(response);
@@ -110,6 +112,7 @@ function InfoForm(props) {
 				/>
 			</div>
 			<span>You have {remainingLeave} days of leave remaining</span>
+			{/* TODO: Style this, add warning indication if stored leave has been exceeded */}
 			<Button
 				variant="contained"
 				fullWidth

@@ -1,10 +1,20 @@
 //# This file routes requests made to the paths found at '/api/...'field
 //# Such requests are made by the user's browser to fetch data
 
+const leaveParameters = {
+	defaultDrivers: 30,
+	minimumDrivers: 20,
+};
+//FIXME: THIS IS TEMPORARY DATA TO BE USED AS THE PARAMETERS FOR APPROVING/DENYING LEAVE REQUEST, IN THE FUTURE THIS INFORMATION WILL BE STORED IN A DEPOT'S ENTRY IN THE DATABASE
+
+//TODO: Refactor into seperate route files eg; users, leave, etc.
+//TODO: Backend field authentication
+
 const express = require("express");
 const bcrypt = require("bcrypt");
 
 const User = require("../models/user");
+const RosterDay = require("../models/rosterDay");
 
 const apiRouter = express.Router();
 /**
@@ -44,9 +54,9 @@ async function findUser(employee_number) {
 }
 
 /**
- * @param  { string[] } expectedFields => List of names of fields expected to be found in the request's body
- * @param  { object }   request        => HTTP request object
- * @return { false||string }           => The name of the first field found missing. False if no fields are missing.
+ * @param  {string[]} expectedFields - List of names of fields expected to be found in the request's body
+ * @param  {Object} request - HTTP request object
+ * @return {(boolean|string)} The name of the first field found missing. False if no fields are missing.
  */
 function checkMissingFields(expectedFields, request) {
 	//# Check if any key in 'expectedFields' is missing from body of 'request'
@@ -62,16 +72,48 @@ function checkMissingFields(expectedFields, request) {
 
 /**
  * Processes a request for annual leave and returns approval status
- * @param  {object} dates - Object with start/end dates of requested annual leave
- * @param  {object} user - Information about user who requested leave
+ * @param  {Object} dates - Object with start/end dates of requested annual leave
+ * @param  {Object} user - Information about user who requested leave
  * @returns {number} 1 if approved, 0 if undetermined, -1 if denied
  */
 async function processLeaveRequest(dates, user) {
+	const storedUpdates = [];
+	for (
+		let date = new Date(dates.start);
+		date <= new Date(dates.end);
+		date = new Date(date.setDate(date.getDate() + 1))
+	) {
+		const storedDay = await RosterDay.getDateRecord(date);
+		if (dayCheck(storedDay)) {
+			const newDay = storedDay;
+			newDay.absentDrivers += 1;
+			storedUpdates.push(new RosterDay(newDay));
+		} else {
+			return -1;
+		}
+	}
+
+	for (let i of storedUpdates) {
+		i.save();
+	}
+
+	function dayCheck(dateRecord) {
+		//TODO: Check if it is alright for the driver to be absent on this day
+		return true;
+	}
+
 	//TODO: Process leave request and return approval status
 	return 1;
 }
 
 //# LEAVE DATA
+
+/**
+ * Route handling request to fetch information about submitted leave requests
+ * @param {Object} user - The user requesting the information, affects what information is returned
+ * @param {...} user[...] - Describe user fields
+ * @return {Object[]} List of annual leave requests
+ */
 apiRouter.get("/api/leave", (request, response) => {
 	//# Fetch leave
 	console.log("Received request to fetch 'leave' items");
@@ -79,21 +121,20 @@ apiRouter.get("/api/leave", (request, response) => {
 });
 
 /**
- * Handle user submitted request for annual leave
- * @param {object} user - The user who submitted the request
- * @param {object} leaveReq - Information about the leave request
- * @param {object} leaveReq.dates - The date range that the requested leave spans
+ * Route handling user submission of annual leave request
+ * @param {Object} user - The user who submitted the request
+ * @param {Object} leaveReq - Information about the leave request
+ * @param {Object} leaveReq.dates - The date range that the requested leave spans
  * @param {Date} leaveReq.dates.start - The date that the requested leave starts on
  * @param {Date} leaveReq.dates.end - The date that the requested leave ends on
  * ...
+ * @returns {Object} Status of submitted leave request
  */
 apiRouter.post("/api/leave", async (request, response) => {
 	//# Submit a leave request
 	console.log("Received request to submit a request for annual leave");
 	const leaveReq = request.body.request;
 	const user = request.body.user;
-
-	console.log("Received leave request made by: ", user);
 
 	const status = await processLeaveRequest(leaveReq.dates, user);
 
@@ -107,12 +148,18 @@ apiRouter.post("/api/leave", async (request, response) => {
 	}
 });
 
+/**
+ * Route handling request to login
+ * @param {number} employee_number - The PN employee number provided by the user
+ * @param {string} password - The password provided by the user
+ */
+
 //# USER LOGIN
 apiRouter.post("/api/login", async (request, response) => {
 	//# User tries to log in
 	//@param    {string} employee_number => The PN employee number of the user trying to log in
 	//@param    {string} password        => The unencrypted password sent by the user
-	//@response {object} user            => Object containing user data
+	//@response {Object} user            => Object containing user data
 	console.log("Received a request to log in");
 
 	//TODO: Validate passed data (contains required fields)
@@ -149,12 +196,17 @@ apiRouter.post("/api/login", async (request, response) => {
 });
 
 //# USER REGISTRATION
+
+/**
+ * Request to register a new user
+ * @param {number} employee_number - The PN employee number of the user registering their account
+ * @param {string} password - The desired password of the new account
+ * @return {Object} The object representing the new user account with 'unsafe' information (eg; password) removed
+ */
 apiRouter.post("/api/registerUser", async (request, response) => {
 	//# Request to register a new user
 	//* Expected request body data fields:
-	//@param    {string} employee_number => The PN employee number of the user registering their account
-	//@param    {string} password        => The desired password of the new account
-	//@response {object} newUser         => The object representing the new user account with 'unsafe' information (eg; password) removed
+
 	console.log("Received request to register a new user");
 
 	const missingField = checkMissingFields(

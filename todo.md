@@ -13,6 +13,8 @@
   - Design
 - Front end requests
 - Password Resets
+- Allow for login based on either email or an arbitrary username
+  - Users aren't going to be able to remember their PN employee number, so requiring that to login will be very annoying
 
 ## LEAVE SUBMISSION FORM
 
@@ -42,4 +44,3 @@
 
 - Input Validation
   - Field text length
-    - Login/Register

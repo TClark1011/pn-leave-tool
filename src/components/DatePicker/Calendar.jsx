@@ -103,8 +103,8 @@ class Calendar extends React.Component {
 
 	//TODO: Ability to switch months
 	//TODO: Weekday headers
-	//FIXME: IE MOUSE DETECTION IS BROKEN (MOST LIKELY CAUSED BY FLEX CENTERING/ALIGN-ITEMS:CENTER/HEIGHT ISSUES)
-
+	//TODO: Don't allow selection of past dates
+	//FIXME: IE OVERLAY POSITIONS ARE BROKEN (LIKELY CAUSED BY FLEX/ALIGN ITEMS/HEIGHT)
 	render() {
 		return (
 			<div className="datepicker-calendar">

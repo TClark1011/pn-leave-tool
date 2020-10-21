@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+mongoose.set("useFindAndModify", false);
 const url = process.env.MONGO_URI;
 console.log(`connecting to ${url}`);
 mongoose
@@ -8,13 +9,13 @@ mongoose
 	})
 	.catch((error) => {
 		console.log("error connecting too MongoDB: ", error.message);
-    });
-    
+	});
+
 //TODO: Extra fields
 const userSchema = {
-    employee_number: {type:Number,required:true},
-    password: {type:String,required:true},
-    date_created: {type:Date, default:Date.now()}
+	employee_number: { type: Number, required: true },
+	password: { type: String, required: true },
+	date_created: { type: Date, default: Date.now() },
 };
 
 const User = mongoose.model("User", userSchema);
