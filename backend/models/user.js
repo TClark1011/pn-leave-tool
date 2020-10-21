@@ -20,4 +20,8 @@ const userSchema = {
 
 const User = mongoose.model("User", userSchema);
 
+User.getFromEmployeeNumber = async function (employee_number) {
+	return await User.findOne({ employee_number });
+};
+
 module.exports = User;

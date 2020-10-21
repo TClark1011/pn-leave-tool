@@ -156,11 +156,12 @@ class LoginForm extends React.Component {
 		//# Submit field data
 		if (this.validateFields()) {
 			axios
-				.post("/api/login", {
+				.post("/api/users/login", {
 					employee_number: this.state.employee_number,
 					password: this.state.password,
 				})
 				.then((response) => {
+					console.log(response.data);
 					this.props.setUserFn(response.data);
 					//* If login request was successful, set the user object
 				})
@@ -178,7 +179,7 @@ class LoginForm extends React.Component {
 			//# Secondary 'confirmation' registration request (user has filled out all registration fields)
 			if (this.validateFields()) {
 				axios
-					.post("/api/registerUser", {
+					.post("/api/users/register", {
 						employee_number: this.state.employee_number,
 						password: this.state.password,
 					})
