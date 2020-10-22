@@ -29,12 +29,12 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"test": "react-scripts test",
+		"test": "cross-env NODE_ENV=test jest --verbose --runInBand",
 		"eject": "react-scripts eject",
 		"server": "node backend/server.js",
 		"dev-server": "nodemon backend/server.js",
-		"jest": "cross-env NODE_ENV=test jest --verbose --runInBand",
-		"jest-handles": "cross-env NODE_ENV=test jest --verbose --detectOpenHandles"
+		"jest-handles": "cross-env NODE_ENV=test jest --verbose --detectOpenHandles",
+		"original-test-script": "react-scripts test"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
