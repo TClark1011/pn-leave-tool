@@ -66,11 +66,9 @@ function InfoForm(props) {
 
 			//# Axios code
 			axios
-				.post("/api/leave", {
+				.post("/api/leave/request", {
 					user: props.user,
-					request: {
-						dates: { start: props.start.toDate(), end: props.end.toDate() },
-					},
+					dates: { start: props.start.toDate(), end: props.end.toDate() },
 				})
 				.then((response) => {
 					console.log(response);

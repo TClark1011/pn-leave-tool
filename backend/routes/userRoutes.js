@@ -10,6 +10,8 @@ const genericError = require("../utility/genericError");
 const authenticateUser = require("../utility/authenticateUser");
 const encryptPassword = require("../utility/encryptPassword");
 
+//TODO: Webtoken authentication
+
 //# USER LOGIN
 /**
  * Route handling request to login
