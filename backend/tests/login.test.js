@@ -12,7 +12,9 @@ beforeEach(() => {
 });
 afterEach((done) => {
 	delete require.cache[require.resolve("../app")];
+	//? We 'un-import' the 'app.js' file, then in the 'beforeEach()' method above, we re-import it, resetting the server between every test.
 	done();
+	//? 'done()' is a function provided by jest that signals that the current test is over
 });
 
 //# Close mongoose connection at end of tests
