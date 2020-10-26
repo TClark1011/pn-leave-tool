@@ -30,13 +30,26 @@ leaveRouter.post("/request", async (request, response) => {
 		request.body.user
 	);
 
-	// await leaveRequest.init();
-	await leaveRequest.commit();
+	const evaluation = await leaveRequest.evaluate(sampleLeaveData);
 
-	response.status(200).json({ status: "Request for annual leave approved" });
-	console.log("Leave request approved");
+	if (evaluation.approved) {
+		await leaveRequest.commit();
+		response.status(200).json({ status: "Request for annual leave approved" });
+		console.log("Leave request approved");
+	} else {
+		response.status(550).json({
+			status: `Request for annual leave denied due to the following dates being unavailable: ${evaluation.invalidDays}`,
+		});
+		console.log(
+			`Request for annual leave denied due to the following dates being unavailable: ${evaluation.invalidDays}`
+		);
+	}
 });
 
+/**
+ * Randomly generate leave data for dev testing
+ * @param {string} key - A key to authenticate the sender of the request has the correct authorisation
+ */
 leaveRouter.post("/randomgen", async (request, response) => {
 	console.log("Received post request to randomise leave data");
 
