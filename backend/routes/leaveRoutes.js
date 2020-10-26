@@ -1,7 +1,7 @@
 const express = require("express");
 const leaveRouter = express.Router();
 
-const LeaveProcessor = require("../utility/LeaveProcessor");
+const newLeaveProcessor = require("../utility/LeaveProcessor");
 
 //# ANNUAL LEAVE REQUEST SUBMISSION
 /**
@@ -16,12 +16,14 @@ const LeaveProcessor = require("../utility/LeaveProcessor");
 leaveRouter.post("/request", async (request, response) => {
 	console.log("Received request for annual leave");
 
-	const leaveRequest = new LeaveProcessor(
+	const leaveRequest = await newLeaveProcessor(
 		request.body.dates,
 		request.body.user
 	);
-	await leaveRequest.init();
+
+	// await leaveRequest.init();
 	await leaveRequest.commit();
+
 	response.status(200).json({ status: "Request for annual leave approved" });
 	console.log("Leave request approved");
 });

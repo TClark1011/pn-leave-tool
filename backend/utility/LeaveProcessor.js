@@ -1,27 +1,9 @@
 const RosterDay = require("../models/rosterDay");
 
-async function processLeaveRequest(dates, user) {
-	const storedUpdates = [];
-	for (
-		let date = new Date(dates.start);
-		date <= new Date(dates.end);
-		date = new Date(date.setDate(date.getDate() + 1))
-	) {
-		const storedDay = await RosterDay.getDateRecord(date);
-		if (dayCheck(storedDay)) {
-			const newDay = storedDay;
-			newDay.absentDrivers += 1;
-			storedUpdates.push(new RosterDay(newDay));
-		} else {
-			return -1;
-		}
-	}
-
-	function dayCheck() {
-		//TODO: Check if a day has enough drivers to continue operation with the requesting driver absent
-	}
-
-	return 1;
+async function newLeaveProcessor(dates, user) {
+	const result = new LeaveProcessor(dates, user);
+	await result.init();
+	return result;
 }
 
 class LeaveProcessor {
@@ -51,4 +33,5 @@ class LeaveProcessor {
 	};
 }
 
-module.exports = LeaveProcessor;
+// module.exports = LeaveProcessor;
+module.exports = newLeaveProcessor;
