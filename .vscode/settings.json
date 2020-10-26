@@ -9,5 +9,8 @@
         "build": false,
         ".vscode": false
     },
-    "explorerExclude.backup": null
+    "explorerExclude.backup": null,
+    "cSpell.ignoreWords": [
+        "randomgen"
+    ]
 }
