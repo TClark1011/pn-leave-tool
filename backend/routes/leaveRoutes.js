@@ -1,7 +1,16 @@
 const express = require("express");
 const leaveRouter = express.Router();
 
+const RosterDay = require("../models/rosterDay");
+
 const newLeaveProcessor = require("../utility/LeaveProcessor");
+const validateRequest = require("../utility/validateRequest");
+const genericError = require("../utility/genericError");
+
+const sampleLeaveData = {
+	minimumDrivers: 25,
+	averageDrivers: 35,
+};
 
 //# ANNUAL LEAVE REQUEST SUBMISSION
 /**
@@ -26,6 +35,37 @@ leaveRouter.post("/request", async (request, response) => {
 
 	response.status(200).json({ status: "Request for annual leave approved" });
 	console.log("Leave request approved");
+});
+
+leaveRouter.post("/randomgen", async (request, response) => {
+	console.log("Received post request to randomise leave data");
+
+	const validation = validateRequest(request, {
+		expectedFields: ["key"],
+	});
+	if (!validation.valid) {
+		response
+			.status(500)
+			.json({ error: genericError("randomise leave request data") });
+		return console.log(`Error: ${validation.reason} - ${validation.details}`);
+	}
+
+	if (request.body.key === process.env.ADMIN_FUNC_KEY) {
+		for (let i = 1; i <= 31; i++) {
+			const date = new Date(`10/${i}/2020`);
+			const record = await RosterDay.getDateRecord(date);
+			record.absentDrivers = Math.floor(Math.random() * 10) + 1;
+			await record.save();
+		}
+
+		response.status(200).json({ status: "fine" });
+		console.log("Request to randomise leave data was processed successfully");
+	} else {
+		response.status(401).json({ status: "error: authentication failed" });
+		console.log(
+			"There was an authentication error in the request to generate leave data"
+		);
+	}
 });
 
 module.exports = leaveRouter;

@@ -29,6 +29,10 @@ daySchema.pre("save", function () {
 
 const RosterDay = mongoose.model("roster_day", daySchema);
 
+/**
+ * Add an absent driver to the date record for passed date. if no record exists, creates and saves one with a single absent driver
+ * @param {Date} date - The date to add an absent driver too
+ */
 RosterDay.addAbsentDriver = async function (date) {
 	const dateCopy = new Date(date);
 	const lower = new Date(dateCopy.setHours(0, 0, 0, 0));
@@ -47,6 +51,11 @@ RosterDay.addAbsentDriver = async function (date) {
 	}
 };
 
+/**
+ * Get the date record for provided date
+ * @param {Date} date - the date to retrieve the record for
+ * @returns {RosterDay} - The record for the provided date, if no record exists, returns a blank record for that date
+ */
 RosterDay.getDateRecord = async function (date) {
 	const dateCopy = new Date(date);
 	const lower = new Date(dateCopy.setHours(0, 0, 0, 0));
