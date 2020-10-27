@@ -1,15 +1,21 @@
-import "../styles/LeaveForm.scss";
+import "./LeaveForm.scss";
 
 import React, { useState, useEffect } from "react";
 
 import moment from "moment";
 import axios from "axios";
 
-import { Button, TextField } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Modal from "@material-ui/core/Modal";
+import Card from "@material-ui/core/Card";
 
-import SectionTitle from "./utility/SectionTitle";
-import ErrorMessage from "./utility/ErrorMessage";
-import Calendar from "./DatePicker/Calendar";
+import SectionTitle from "../utility/SectionTitle";
+import ErrorMessage from "../utility/ErrorMessage";
+import Calendar from "../DatePicker/Calendar";
+import FlexBox from "../layout/FlexBox";
+
+import australianDate from "../../services/australianDate";
 
 class LeaveForm extends React.Component {
 	constructor() {
@@ -19,6 +25,7 @@ class LeaveForm extends React.Component {
 				start: null,
 				end: null,
 			},
+			showResult: false,
 			//TODO: Refactor all instances of user selection to use to the terms 'start' and 'end'
 		};
 	}
@@ -33,7 +40,7 @@ class LeaveForm extends React.Component {
 	};
 
 	//TODO: Show how many days long the requested leave is
-	//TODO: Error if requested break goes past
+	//TODO: Error if requested break exceeds stored leave days
 
 	render() {
 		return (
@@ -54,6 +61,8 @@ function InfoForm(props) {
 	const [formError, setFormError] = useState(null);
 	const storedLeave = props.user ? props.user.storedLeave || -1 : -2;
 	const [remainingLeave, setRemainingLeave] = useState(storedLeave);
+	const [showResult, setShowResult] = useState(false);
+	const [result, setResult] = useState(null);
 
 	function submitHandler() {
 		//# Validation
@@ -72,6 +81,13 @@ function InfoForm(props) {
 				})
 				.then((response) => {
 					console.log(response);
+					setResult(response.data);
+					setShowResult(true);
+				})
+				.catch((error) => {
+					console.log(error.response.data);
+					setShowResult(true);
+					setResult(error.response.data);
 				});
 		}
 	}
@@ -85,6 +101,28 @@ function InfoForm(props) {
 			setRemainingLeave(newLeaveValue);
 		}
 	});
+
+	function resultMsg() {
+		if (result) {
+			if (result.approved) {
+			} else {
+				const badDays = result.invalidDays.map((item) => {
+					return <li key={item}>{australianDate(item)}</li>;
+				});
+				return (
+					<ErrorMessage>
+						<p className="summary">Your request for annual leave was denied.</p>
+						<p className="justification">
+							The following dates are currently unavailable for annual leave due
+							to roster shortages:
+						</p>
+						<ul className="bad-days">{badDays}</ul>
+					</ErrorMessage>
+				);
+			}
+		}
+		return "fallback result message";
+	}
 
 	return (
 		<form>
@@ -120,6 +158,11 @@ function InfoForm(props) {
 			>
 				Submit
 			</Button>
+			<Modal open={showResult}>
+				<FlexBox>
+					<Card className="request-result container">{resultMsg()}</Card>
+				</FlexBox>
+			</Modal>
 		</form>
 	);
 }
