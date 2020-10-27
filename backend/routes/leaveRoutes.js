@@ -34,11 +34,15 @@ leaveRouter.post("/request", async (request, response) => {
 
 	if (evaluation.approved) {
 		await leaveRequest.commit();
-		response.status(200).json({ status: "Request for annual leave approved" });
+		response
+			.status(200)
+			.json({ approved: true, details: "Request for annual leave approved" });
 		console.log("Leave request approved");
 	} else {
 		response.status(550).json({
-			status: `Request for annual leave denied due to the following dates being unavailable: ${evaluation.invalidDays}`,
+			approved: false,
+			details: `Request for annual leave denied due to the following dates being unavailable: ${evaluation.invalidDays}`,
+			invalidDays: evaluation.invalidDays,
 		});
 		console.log(
 			`Request for annual leave denied due to the following dates being unavailable: ${evaluation.invalidDays}`

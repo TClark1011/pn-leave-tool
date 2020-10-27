@@ -55,9 +55,7 @@ class LeaveProcessor {
 				invalidDays.push(item.date);
 			}
 		}
-		// if (invalidDays.length > 0) {
-		//     return {}
-		// }
+
 		return {
 			approved: invalidDays.length === 0,
 			invalidDays,
