@@ -49,6 +49,10 @@
 	}
 }
 
+.MuiCard-root,
+.MuiPaper-root {
+	padding: $padding-std;
+}
 .bottom-navigation-bar {
 	position: fixed;
 	width: 100%;
