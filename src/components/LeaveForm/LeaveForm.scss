@@ -48,13 +48,10 @@
 						.overlay-target-inner-wrapper {
 							position: relative;
 
-							margin: auto;
-
 							@include square($cell-height);
 
 							.overlay-target {
 								position: absolute;
-								margin: auto;
 
 								@include square($cell-height);
 								@include border-radius(50px);
@@ -82,14 +79,12 @@
 							display: block;
 							height: $selection-range-height;
 							width: 50%;
-							margin: auto;
 							opacity: 0.2;
 						}
 					}
 				}
 
 				.day-number {
-					margin: auto;
 					z-index: 10;
 				}
 

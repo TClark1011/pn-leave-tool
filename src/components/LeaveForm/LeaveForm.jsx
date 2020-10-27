@@ -159,9 +159,9 @@ function InfoForm(props) {
 				Submit
 			</Button>
 			<Modal open={showResult}>
-				<FlexBox>
+				<div className="flexbox">
 					<Card className="request-result container">{resultMsg()}</Card>
-				</FlexBox>
+				</div>
 			</Modal>
 		</form>
 	);

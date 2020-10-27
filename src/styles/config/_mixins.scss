@@ -13,15 +13,15 @@
 	width: $size;
 }
 //@param inline { boolean } [false] => If true, display is set to 'inline-flex', else display is set to 'flex'
-@mixin flex-wrapper($inline: false) {
+@mixin flex-wrapper($inline: false, $justify: center, $align: center) {
 	//# Flex wrapper properties
 	@if $inline {
 		display: inline-flex;
 	} @else {
 		display: flex;
 	}
-	justify-content: center;
-	align-items: center;
+	justify-content: $justify;
+	align-items: $align;
 }
 
 //@param height { number } [100%] => Height of element
