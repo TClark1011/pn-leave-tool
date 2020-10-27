@@ -10,10 +10,9 @@ import TextField from "@material-ui/core/TextField";
 import Modal from "@material-ui/core/Modal";
 import Card from "@material-ui/core/Card";
 
-import SectionTitle from "../utility/SectionTitle";
-import ErrorMessage from "../utility/ErrorMessage";
+import SectionTitle from "../utility/SectionTitle/SectionTitle";
+import ErrorMessage from "../utility/ErrorMessage/ErrorMessage";
 import Calendar from "../DatePicker/Calendar";
-import FlexBox from "../layout/FlexBox";
 
 import australianDate from "../../services/australianDate";
 
