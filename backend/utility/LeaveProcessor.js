@@ -46,11 +46,6 @@ class LeaveProcessor {
 		for (let item of this.storedUpdates) {
 			const rosteredDrivers =
 				sampleLeaveData.averageDrivers - item.absentDrivers;
-			console.log(item);
-			console.log(
-				"Left over drivers: ",
-				rosteredDrivers - sampleLeaveData.minimumDrivers
-			);
 			if (rosteredDrivers < sampleLeaveData.minimumDrivers) {
 				invalidDays.push(item.date);
 			}
@@ -70,6 +65,9 @@ class LeaveProcessor {
 			await item.save();
 		}
 	};
+
+	//TODO: Subtract leave length from requester's 'stored leave'
+	//TODO: Create 'leave' record
 }
 
 module.exports = newLeaveProcessor;

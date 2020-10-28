@@ -50,6 +50,7 @@ RosterDay.addAbsentDriver = async function (date) {
 		new RosterDay({ date: date, absentDrivers: 1 }).save();
 	}
 };
+//TODO: Add validation fields to schema keys
 
 /**
  * Get the date record for provided date

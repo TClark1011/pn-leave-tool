@@ -2,6 +2,7 @@ const express = require("express");
 const leaveRouter = express.Router();
 
 const RosterDay = require("../models/rosterDay");
+const Leave = require("../models/Leave");
 
 const newLeaveProcessor = require("../utility/LeaveProcessor");
 const validateRequest = require("../utility/validateRequest");
@@ -25,18 +26,30 @@ const sampleLeaveData = {
 leaveRouter.post("/request", async (request, response) => {
 	console.log("Received request for annual leave");
 
+	//TODO: Request validator
+
 	const leaveRequest = await newLeaveProcessor(
 		request.body.dates,
 		request.body.user
 	);
 
+	const dates = request.body.dates;
+	const user = request.body.user || { employee_number: 1 };
+	//TODO: Remove the conditional fall-through values before deployment OR only have them if in development environment
+
 	const evaluation = await leaveRequest.evaluate(sampleLeaveData);
 
 	if (evaluation.approved) {
+		new Leave({
+			dates: dates,
+			user: user.employee_number,
+			status: 1,
+		}).save();
 		await leaveRequest.commit();
-		response
-			.status(200)
-			.json({ approved: true, details: "Request for annual leave approved" });
+		response.status(200).json({
+			approved: true,
+			details: "Request for annual leave approved",
+		});
 		console.log("Leave request approved");
 	} else {
 		response.status(550).json({

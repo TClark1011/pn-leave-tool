@@ -11,12 +11,17 @@ mongoose
 		console.log("error connecting too MongoDB: ", error.message);
 	});
 
-//TODO: Extra fields
 const userSchema = {
-	employee_number: { type: Number, required: true },
+	employee_number: {
+		type: Number,
+		required: true,
+		min: [0, "Employee Number cannot be negative"],
+	},
 	password: { type: String, required: true },
 	date_created: { type: Date, default: Date.now() },
 };
+//TODO: Extra fields
+//TODO: Add validation fields to schema keys
 
 const User = mongoose.model("User", userSchema);
 
