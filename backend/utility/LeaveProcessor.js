@@ -1,5 +1,4 @@
 const RosterDay = require("../models/rosterDay");
-const Leave = require("../models/Leave");
 
 async function newLeaveProcessor(dates, user) {
 	const result = new LeaveProcessor(dates, user);
@@ -60,8 +59,9 @@ class LeaveProcessor {
 
 	/**
 	 * Save new 'Leave' record and update rosterDay records if request was approved
+	 * @param {Object} Leave - The mongodb model for leave requests
 	 */
-	commit = async function () {
+	commit = async function (Leave) {
 		await new Leave({
 			dates: this.dates,
 			user: this.user.employee_number,
@@ -75,7 +75,6 @@ class LeaveProcessor {
 	};
 
 	//TODO: Subtract leave length from requester's 'stored leave'
-	//TODO: Create 'leave' record
 }
 
 module.exports = newLeaveProcessor;

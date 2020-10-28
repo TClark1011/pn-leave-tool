@@ -2,7 +2,8 @@ const express = require("express");
 const leaveRouter = express.Router();
 
 const RosterDay = require("../models/rosterDay");
-const Leave = require("../models/Leave");
+const Leave = require("../models/leave");
+const User = require("../models/user");
 
 const newLeaveProcessor = require("../utility/LeaveProcessor");
 const validateRequest = require("../utility/validateRequest");
@@ -38,7 +39,7 @@ leaveRouter.post("/request", async (request, response) => {
 	const evaluation = await leaveRequest.evaluate(sampleLeaveData);
 
 	if (evaluation.approved) {
-		await leaveRequest.commit();
+		await leaveRequest.commit(Leave);
 		response.status(200).json({
 			approved: true,
 			details: "Request for annual leave approved",
@@ -89,6 +90,35 @@ leaveRouter.post("/randomgen", async (request, response) => {
 			"There was an authentication error in the request to generate leave data"
 		);
 	}
+});
+
+/**
+ * Get list of user's submitted leave requests
+ * @param {Object} user - Information about the user requesting to see their leave
+ */
+leaveRouter.get("/:employee_number", async (request, response) => {
+	console.log("Received get request for user to view their own leave requests");
+
+	//TODO: Request field validation
+	const employee_number = request.params.employee_number;
+
+	const storedUser = await User.getFromEmployeeNumber(employee_number);
+	if (storedUser) {
+		//# if a user record with the provided 'employee_number' exists
+		const result = await Leave.find({ user: employee_number });
+		response.status(200).json({ leaveItems: result });
+		console.log("Leave requests successfully returned");
+		//TODO: JWT Authentication
+	} else {
+		response.status(401).send("Invalid user");
+		console.log(
+			"Error: Could not return leave requests to due to invalid provided credentials"
+		);
+	}
+});
+
+leaveRouter.get("/*", (request, response) => {
+	response.status(400).send("no service implemented at that address");
 });
 
 module.exports = leaveRouter;

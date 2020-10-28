@@ -1,0 +1,9 @@
+GET http://localhost:3001/api/leave/1
+Content-Type: application/json
+
+{
+    "user": {
+        "employee_number":1,
+        "password":"p"
+    }
+}

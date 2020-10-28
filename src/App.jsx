@@ -61,9 +61,7 @@ function App() {
 								</Card>
 							</Route>
 							<Route path="/leave">
-								<Card className="centerV centerH card">
-									<LeaveList user={user} />
-								</Card>
+								<LeaveList user={user} />
 							</Route>
 							<Route path="/">
 								<Redirect to="/request" />
