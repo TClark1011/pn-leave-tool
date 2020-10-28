@@ -104,6 +104,7 @@ function InfoForm(props) {
 	function resultMsg() {
 		if (result) {
 			if (result.approved) {
+				return "Your request for annual leave was approved";
 			} else {
 				const badDays = result.invalidDays.map((item) => {
 					return <li key={item}>{australianDate(item)}</li>;
@@ -164,6 +165,8 @@ function InfoForm(props) {
 			</Modal>
 		</form>
 	);
+	//TODO: Loading indicator while waiting for result
+	//TODO: Require sign on to see this page
 }
 
 export default LeaveForm;

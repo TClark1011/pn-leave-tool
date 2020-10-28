@@ -1,9 +1,8 @@
 @import "config/variables.scss";
 
-form .form-input {
-	margin-bottom: $item-spacing-std;
-}
-form .form-input.field {
-	margin-bottom: $item-spacing-std * 2;
-	border-radius: 4px;
+form {
+	.MuiTextField-root,
+	.MuiButtonBase-root {
+		margin-bottom: $item-spacing-std;
+	}
 }

@@ -1,7 +1,9 @@
+import "./ErrorMessage.scss";
+
 import React from "react";
 
-class ErrorMessage extends React.Component {
-	containerStyle = {
+function ErrorMessage(props) {
+	const containerStyle = {
 		display: "inline-block",
 		border: "2px solid #e57373",
 		borderRadius: 4,
@@ -13,18 +15,17 @@ class ErrorMessage extends React.Component {
 		maxWidth: "90%",
 	};
 
-	render() {
-		if (this.props.children) {
-			return (
-				<div className="error-message-wrapper" style={{ display: "flex" }}>
-					<div className="error-message" style={this.containerStyle}>
-						{this.props.children}
-					</div>
-				</div>
-			);
-		} else {
-			return "";
-		}
+	function classes() {
+		var result = "error-message";
+		const border = props.border || "left";
+		result += border !== "none" ? ` border border-${border}` : "";
+		return result;
+	}
+
+	if (props.children) {
+		return <div className={classes()}>{props.children}</div>;
+	} else {
+		return "";
 	}
 }
 

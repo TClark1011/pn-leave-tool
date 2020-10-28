@@ -1,0 +1,23 @@
+@import "../../../styles/config/mixins";
+@import "../../../styles/config/variables";
+
+.error-message {
+	background-color: #ffcdd2;
+	padding: $padding-std;
+
+	&.border {
+		border-color: #c62828;
+
+		@each $side in ("left", "top", "right", "bottom") {
+			&.border-#{$side} {
+				border-#{$side}-width: 4px;
+				border-#{$side}-style: solid;
+			}
+		}
+
+		// @include side-border("top");
+		// @include side-border("left");
+		// @include side-border("bottom");
+		// @include side-border("right");
+	}
+}

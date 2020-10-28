@@ -294,6 +294,7 @@ class LoginForm extends React.Component {
 							variant="contained"
 							disableElevation
 							onClick={() => this.login()}
+							className="form-input"
 						>
 							Login
 						</Button>
