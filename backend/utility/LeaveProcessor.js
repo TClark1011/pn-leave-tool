@@ -62,7 +62,7 @@ class LeaveProcessor {
 	 * Save new 'Leave' record and update rosterDay records if request was approved
 	 */
 	commit = async function () {
-		new Leave({
+		await new Leave({
 			dates: this.dates,
 			user: this.user.employee_number,
 			status: this.approved ? 1 : -1,
