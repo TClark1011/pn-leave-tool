@@ -1,3 +1,6 @@
+//# --- SCALES ---
+
+//# Spacing
 $spacing-1: 4px;
 $spacing-2: 8px;
 $spacing-3: 12px;
@@ -5,19 +8,42 @@ $spacing-4: 16px;
 $spacing-5: 32px;
 $spacing-6: 48px;
 $spacing-7: 64px;
+$spacing-8: 96px;
+$spacing-9: 128px;
+$spacing-10: 192px;
+$spacing-11: 256px;
+$spacing-12: 384px;
+$spacing-13: 512px;
+$spacing-14: 640px;
+$spacing-15: 768px;
+//? See page 73 of 'Refactoring UI'
 
-//? See page 72 of 'Refactoring UI'
+//# Font sizes
+$fontSize-1: 12px;
+$fontSize-2: 14px;
+$fontSize-3: 16px;
+$fontSize-4: 18px;
+$fontSize-5: 20px;
+$fontSize-6: 24px;
+$fontSize-7: 30px;
+$fontSize-8: 36px;
+$fontSize-9: 48px;
+$fontSize-10: 60px;
+$fontSize-11: 72px;
+//? See page 105 of 'Refactoring UI'
 
+//# --- THEMING ---
+$color-primary-light: #007bc3;
+$color-primary-main: #004b8d;
+$color-primary-dark: #002d6b;
+$color-secondary-main: #f2a900;
+
+//# MISC
 $padding-std: $spacing-5;
 $item-spacing-std: $spacing-5;
 
 $border-radius-std: 4px;
 
 $width-card: 700px;
-
-$color-primary-light: #007bc3;
-$color-primary-main: #004b8d;
-$color-primary-dark: #002d6b;
-$color-secondary-main: #f2a900;
 
 $bottom-nav-height: 56px;

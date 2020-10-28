@@ -7,8 +7,8 @@ import React from "react";
 import axios from "axios";
 
 import { TextField, Button, Typography, Collapse } from "@material-ui/core";
-import SectionTitle from "./utility/SectionTitle";
-import ErrorMessage from "./utility/ErrorMessage";
+import SectionTitle from "../utility/SectionTitle";
+import ErrorMessage from "../utility/ErrorMessage";
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -216,11 +216,7 @@ class LoginForm extends React.Component {
 				</Typography>
 				<ErrorMessage>{this.state.form_error}</ErrorMessage>
 				<form>
-					<TextField
-						fullWidth
-						color="primary"
-						variant="outlined"
-						className="form-input field employee_number"
+					<AuthField
 						label={"Employee Number"}
 						type="tel"
 						onChange={(e) => this.handlers.employee_number(e.target.value)}
@@ -229,11 +225,7 @@ class LoginForm extends React.Component {
 						helperText={this.state.employee_number_error}
 						style={{ marginTop: 8 }}
 					/>
-					<TextField
-						fullWidth
-						color="primary"
-						variant="outlined"
-						className="form-input field password"
+					<AuthField
 						label={"Password"}
 						type="password"
 						onChange={(e) => this.handlers.password(e.target.value)}
@@ -245,11 +237,7 @@ class LoginForm extends React.Component {
 						{/* ? Extra fields for registration are initially hidden */}
 						{/* TODO: Extra field handling */}
 						{/* TODO: Extra field validation */}
-						<TextField
-							fullWidth
-							color="primary"
-							variant="outlined"
-							className="form-input field"
+						<AuthField
 							label={"Confirm Password"}
 							type="password"
 							value={this.state.confirmation_password}
@@ -259,32 +247,19 @@ class LoginForm extends React.Component {
 							}
 							helperText={this.state.confirmation_password_error}
 						/>
-						<TextField
-							fullWidth
-							color="primary"
-							variant="outlined"
-							className="form-input field"
-							label="Name"
-						/>
-						<TextField
-							fullWidth
-							color="primary"
-							variant="outlined"
-							className="form-input field"
+						<AuthField label="Name" />
+						<AuthField
 							label="Email Address"
 							onChange={(e) => this.handlers.email(e.target.value)}
 							value={this.state.email}
 							type="email"
 						/>
-						<TextField
-							fullWidth
-							color="primary"
-							variant="outlined"
-							className="form-input field"
+						<AuthField
 							label="Phone No."
 							type="tel"
 							onChange={(e) => this.handlers.phone(e.target.value)}
 						/>
+						<AuthField />
 					</Collapse>
 					<Collapse in={!this.state.show_reg_fields}>
 						<Button
@@ -314,6 +289,10 @@ class LoginForm extends React.Component {
 			</div>
 		);
 	}
+}
+
+function AuthField(props) {
+	return <TextField variant="outlined" color="primary" fullWidth {...props} />;
 }
 
 export default LoginForm;

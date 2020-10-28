@@ -21,7 +21,13 @@
 		display: flex;
 	}
 	justify-content: $justify;
-	align-items: $align;
+	@if $align == center {
+		& > * {
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+	}
+	// align-items: $align;
 }
 
 //@param height { number } [100%] => Height of element

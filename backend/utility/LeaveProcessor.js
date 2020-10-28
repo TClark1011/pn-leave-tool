@@ -1,4 +1,5 @@
 const RosterDay = require("../models/rosterDay");
+const Leave = require("../models/Leave");
 
 async function newLeaveProcessor(dates, user) {
 	const result = new LeaveProcessor(dates, user);
@@ -50,19 +51,26 @@ class LeaveProcessor {
 				invalidDays.push(item.date);
 			}
 		}
-
+		this.approved = invalidDays.length === 0;
 		return {
-			approved: invalidDays.length === 0,
+			approved: this.approved,
 			invalidDays,
 		};
 	};
 
 	/**
-	 * Save records in 'storedUpdates'
+	 * Save new 'Leave' record and update rosterDay records if request was approved
 	 */
 	commit = async function () {
-		for (let item of this.storedUpdates) {
-			await item.save();
+		new Leave({
+			dates: this.dates,
+			user: this.user.employee_number,
+			status: this.approved ? 1 : -1,
+		}).save();
+		if (this.approved) {
+			for (let item of this.storedUpdates) {
+				await item.save();
+			}
 		}
 	};
 

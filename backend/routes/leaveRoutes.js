@@ -40,11 +40,6 @@ leaveRouter.post("/request", async (request, response) => {
 	const evaluation = await leaveRequest.evaluate(sampleLeaveData);
 
 	if (evaluation.approved) {
-		new Leave({
-			dates: dates,
-			user: user.employee_number,
-			status: 1,
-		}).save();
 		await leaveRequest.commit();
 		response.status(200).json({
 			approved: true,

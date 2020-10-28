@@ -27,7 +27,15 @@ import LeaveForm from "./components/LeaveForm";
 
 function App() {
 	const [user, setUser] = useState(null);
-	const [bottomNav, setBottomNav] = useState("request");
+	const startingPage = (() => {
+		switch (window.location.pathname) {
+			case "/login":
+				return "account";
+			default:
+				return "request";
+		}
+	})();
+	const [bottomNav, setBottomNav] = useState(startingPage);
 	//* The initial value of 'bottomNav' needs to correspond to the BottomNavigationAction value of the homepage
 
 	const accountLabel = user ? "Profile" : "Login";
@@ -60,7 +68,7 @@ function App() {
 						value={bottomNav}
 						onChange={(e, newValue) => setBottomNav(newValue)}
 						className="bottom-navigation-bar"
-						// showLabels
+						showLabels
 					>
 						<BottomNavigationAction
 							label={accountLabel}
