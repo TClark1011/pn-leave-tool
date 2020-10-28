@@ -24,6 +24,7 @@ import theme from "./Theme"; //* Pulls theme data from 'Theme.jsx'
 
 import LoginForm from "./components/LoginForm";
 import LeaveForm from "./components/LeaveForm";
+import LeaveList from "./components/LeaveList";
 
 function App() {
 	const [user, setUser] = useState(null);
@@ -57,6 +58,11 @@ function App() {
 							<Route path="/request">
 								<Card className="centerV centerH card">
 									<LeaveForm user={user} />
+								</Card>
+							</Route>
+							<Route path="/leave">
+								<Card className="centerV centerH card">
+									<LeaveList user={user} />
 								</Card>
 							</Route>
 							<Route path="/">
