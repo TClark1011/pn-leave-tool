@@ -12,13 +12,13 @@ class LeaveList extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			leaveItems: [],
+			leaveItems: null,
 		};
 	}
 
 	componentDidMount() {
 		axios
-			.get(`/api/leave/${1}`, {
+			.get(`/api/leave/${this.props.user.employee_number}`, {
 				headers: { token: "temp" },
 			})
 			.then((result) => {
@@ -42,9 +42,11 @@ class LeaveList extends React.Component {
 				return result;
 			} else {
 				return <p>No leave found</p>;
+				//TODO: Style this
 			}
 		} else {
 			return <p>Loading...</p>;
+			//TODO: Loading indicator
 		}
 	}
 

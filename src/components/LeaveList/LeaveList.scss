@@ -1,0 +1,5 @@
+@import "../../styles/config/export";
+
+.leave-item {
+	@include vertical-spacing();
+}

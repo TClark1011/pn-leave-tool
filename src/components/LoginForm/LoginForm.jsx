@@ -20,11 +20,17 @@ class LoginForm extends React.Component {
 			password_error: null,
 			confirmation_password: "",
 			confirmation_password_error: null,
+			first_name: "",
+			first_name_error: null,
+			last_name: "",
+			last_name_error: null,
 			email: "",
 			email_error: null,
 			phone: "",
 			phone_error: null,
-			show_reg_fields: false, //* Should registration-specific fields be visible
+			leave: 0,
+			leave_error: null,
+			show_reg_fields: false, //? registration-specific field visibility
 			form_error: null,
 		};
 	}
@@ -65,8 +71,20 @@ class LoginForm extends React.Component {
 		confirmation_password: (value) => {
 			this.setState({ confirmation_password: value });
 		},
+		first_name: (value) => {
+			this.setState({ first_name: value });
+		},
+		last_name: (value) => {
+			this.setState({ last_name: value });
+		},
 		email: (value) => {
 			this.setState({ email: value });
+		},
+		phone: (value) => {
+			this.setState({ phone: value });
+		},
+		leave: (value) => {
+			this.setState({ leave: value });
 		},
 	};
 
@@ -174,14 +192,20 @@ class LoginForm extends React.Component {
 
 	register() {
 		if (!this.state.show_reg_fields) {
-			this.setState({ show_reg_fields: true });
+			//# If Extra registration fields are currently hidden...
+			this.setState({ show_reg_fields: true }); //*...show them
 		} else {
-			//# Secondary 'confirmation' registration request (user has filled out all registration fields)
+			//# Extra reg fields ewre already visible, now validate and send form contents
 			if (this.validateFields()) {
 				axios
 					.post("/api/users/register", {
 						employee_number: this.state.employee_number,
 						password: this.state.password,
+						first_name: this.state.first_name,
+						last_name: this.state.last_name,
+						email: this.state.email,
+						phone: this.state.phone,
+						leave: this.state.leave,
 					})
 					.then((response) => {
 						console.log(response.data);
@@ -193,8 +217,7 @@ class LoginForm extends React.Component {
 		}
 	}
 
-	//TODO: Password reset
-
+	//TODO: Change form title/description when switching to register mode
 	render() {
 		if (this.props.user) {
 			return (
@@ -247,7 +270,16 @@ class LoginForm extends React.Component {
 							}
 							helperText={this.state.confirmation_password_error}
 						/>
-						<AuthField label="Name" />
+						<AuthField
+							label="First Name"
+							onChange={(e) => this.handlers.first_name(e.target.value)}
+							value={this.state.first_name}
+						/>
+						<AuthField
+							label="Last Name"
+							onChange={(e) => this.handlers.last_name(e.target.value)}
+							value={this.state.last_name}
+						/>
 						<AuthField
 							label="Email Address"
 							onChange={(e) => this.handlers.email(e.target.value)}
@@ -258,8 +290,14 @@ class LoginForm extends React.Component {
 							label="Phone No."
 							type="tel"
 							onChange={(e) => this.handlers.phone(e.target.value)}
+							value={this.state.phone}
 						/>
-						<AuthField />
+						<AuthField
+							label="Stored Leave"
+							type="Number"
+							onChange={(e) => this.handlers.leave(e.target.value)}
+							value={this.state.leave}
+						/>
 					</Collapse>
 					<Collapse in={!this.state.show_reg_fields}>
 						<Button
@@ -289,10 +327,25 @@ class LoginForm extends React.Component {
 			</div>
 		);
 	}
+	//TODO: Password reset
 }
 
 function AuthField(props) {
-	return <TextField variant="outlined" color="primary" fullWidth {...props} />;
+	const autoProps = {};
+	if (props.fieldName && props.form) {
+		autoProps.onChange = (e) =>
+			props.form.handlers[props.fieldName](e.target.value);
+		autoProps.value = props.form.state[props.fieldName];
+	}
+	return (
+		<TextField
+			variant="outlined"
+			color="primary"
+			fullWidth
+			// {...autoProps}
+			{...props}
+		/>
+	);
 }
 
 export default LoginForm;

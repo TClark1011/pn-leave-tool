@@ -58,7 +58,7 @@ class LeaveForm extends React.Component {
 
 function InfoForm(props) {
 	const [formError, setFormError] = useState(null);
-	const storedLeave = props.user ? props.user.storedLeave || -1 : -2;
+	const storedLeave = props.user ? props.user.leave || -1 : -2;
 	const [remainingLeave, setRemainingLeave] = useState(storedLeave);
 	const [showResult, setShowResult] = useState(false);
 	const [result, setResult] = useState(null);

@@ -32,15 +32,18 @@ function App() {
 		switch (window.location.pathname) {
 			case "/login":
 				return "account";
+			case "/leave":
+				return "leave";
 			default:
 				return "request";
 		}
 	})();
-	const [bottomNav, setBottomNav] = useState(startingPage);
+	const [navStatus, setNavStatus] = useState(startingPage);
 	//* The initial value of 'bottomNav' needs to correspond to the BottomNavigationAction value of the homepage
 
 	const accountLabel = user ? "Profile" : "Login";
 	const accountIcon = user ? "account_box" : "login";
+
 	return (
 		<ThemeProvider theme={theme}>
 			{/** Theme provider component passes 'theme' down to all child components*/}
@@ -68,30 +71,56 @@ function App() {
 							</Route>
 						</Switch>
 					</div>
-					<BottomNavigation
-						value={bottomNav}
-						onChange={(e, newValue) => setBottomNav(newValue)}
-						className="bottom-navigation-bar"
-						showLabels
-					>
-						<BottomNavigationAction
-							label={accountLabel}
-							value="account"
-							icon={<Icon>{accountIcon}</Icon>}
-							component={Link}
-							to="/login"
-						/>
-						<BottomNavigationAction
-							label="Submit Request"
-							value="request"
-							icon={<Icon>event</Icon>}
-							component={Link}
-							to="/request"
-						/>
-					</BottomNavigation>
+					<BottomNavBar
+						navStatus={navStatus}
+						setNavStatus={setNavStatus}
+						accountLabel={accountLabel}
+						accountIcon={accountIcon}
+					/>
 				</Router>
 			</div>
 		</ThemeProvider>
+	);
+}
+
+function BottomNavBar(props) {
+	const navStatus = props.navStatus;
+	const setNavStatus = props.setNavStatus;
+	const accountLabel = props.accountLabel;
+	const accountIcon = props.accountIcon;
+
+	//TODO: Update selected item on nav bar when user uses backwards/forwards browser buttons
+	return (
+		<BottomNavigation
+			id="bottom-navigation"
+			value={navStatus}
+			onChange={(e, newValue) => setNavStatus(newValue)}
+			className="bottom-navigation-bar"
+			showLabels
+			style={{ boxShadow: theme.shadows[4] }}
+		>
+			<BottomNavigationAction
+				label={accountLabel}
+				value="account"
+				icon={<Icon>{accountIcon}</Icon>}
+				component={Link}
+				to="/login"
+			/>
+			<BottomNavigationAction
+				label="Submit"
+				value="request"
+				icon={<Icon>send</Icon>}
+				component={Link}
+				to="/request"
+			/>
+			<BottomNavigationAction
+				label="Requests"
+				value="leave"
+				icon={<Icon>event</Icon>}
+				component={Link}
+				to="/leave"
+			/>
+		</BottomNavigation>
 	);
 }
 

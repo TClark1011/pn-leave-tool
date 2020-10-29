@@ -30,11 +30,9 @@ leaveRouter.post("/request", async (request, response) => {
 	//TODO: Request validator
 
 	const dates = request.body.dates;
-	const user = request.body.user || { employee_number: 1 };
+	const user = request.body.user;
 
 	const leaveRequest = await newLeaveProcessor(dates, user);
-
-	//TODO: Remove the conditional fall-through values before deployment OR only have them if in development environment
 
 	const evaluation = await leaveRequest.evaluate(sampleLeaveData);
 

@@ -18,6 +18,22 @@ const userSchema = {
 		min: [0, "Employee Number cannot be negative"],
 	},
 	password: { type: String, required: true },
+	first_name: { type: String, required: true },
+	last_name: { type: String, required: true },
+	email: {
+		type: String,
+		required: true,
+		validate: {
+			validator: function () {
+				const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+				return emailRegex.test(this.email);
+			},
+			message: "invalid email address",
+		},
+	},
+	phone: { type: Number, required: true },
+	//add phone validation
+	leave: { type: Number, min: [0, "user leave must be positive"] },
 	date_created: { type: Date, default: Date.now() },
 };
 //TODO: Extra fields

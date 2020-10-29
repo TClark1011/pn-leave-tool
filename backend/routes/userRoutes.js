@@ -64,6 +64,7 @@ userRouter.post("/register", async (request, response) => {
 		response.status(500).json({ error: genericError("register a new user") });
 		return console.log(`Error: ${validation.reason}`);
 	}
+	//TODO: Extra field checking
 
 	//# Initialise request body parameter variables
 	const employee_number = request.body.employee_number;
@@ -81,15 +82,19 @@ userRouter.post("/register", async (request, response) => {
 		);
 	} else {
 		//# There is no pre-existing account
-		const userObj = {
-			employee_number: employee_number,
-			password: await encryptPassword(password),
-			date: Date.now(),
-		};
+		// const userObj = {
+		// 	employee_number: employee_number,
+		//     password: await encryptPassword(password),
+		// 	date: Date.now(),
+		// };
+		const userObj = request.body;
+		userObj.password = await encryptPassword(password);
+		userObj.date = Date.now();
 
-		new User(userObj).save().then(() => {
+		await new User(userObj).save().then(() => {
 			response.status(200).json(sanitiseUser(userObj));
 		});
+		console.log("new user registered successfully");
 	}
 });
 

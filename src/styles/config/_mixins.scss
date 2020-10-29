@@ -72,3 +72,9 @@
 		padding-right: 0;
 	}
 }
+
+@mixin vertical-spacing($spacing: $item-spacing-std) {
+	&:not(:last-child) {
+		margin-bottom: $spacing;
+	}
+}
