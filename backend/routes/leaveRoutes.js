@@ -38,8 +38,9 @@ leaveRouter.post("/request", async (request, response) => {
 
 	const evaluation = await leaveRequest.evaluate(sampleLeaveData);
 
+	await leaveRequest.commit(Leave);
+
 	if (evaluation.approved) {
-		await leaveRequest.commit(Leave);
 		response.status(200).json({
 			approved: true,
 			details: "Request for annual leave approved",

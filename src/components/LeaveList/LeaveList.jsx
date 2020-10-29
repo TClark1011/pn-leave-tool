@@ -1,3 +1,5 @@
+import "./LeaveList.scss";
+
 import React from "react";
 
 import axios from "axios";
@@ -32,7 +34,7 @@ class LeaveList extends React.Component {
 				const result = [];
 				leaveItems.map((item) => {
 					result.push(
-						<LeaveItem key={item._id} dates={item.dates}>
+						<LeaveItem key={item._id} {...item}>
 							{item.dates.start}
 						</LeaveItem>
 					);
@@ -53,12 +55,17 @@ class LeaveList extends React.Component {
 
 function LeaveItem(props) {
 	const dates = props.dates;
+	const status = props.status;
+	const user = props.user;
+	//TODO: fetch full user data
 
 	return (
-		<Card>
+		<Card className="leave-item">
 			<p>
 				{australianDate(dates.start)} - {australianDate(dates.end)}
 			</p>
+			<p>User: {user}</p>
+			<p>Status: {status}</p>
 		</Card>
 	);
 }
