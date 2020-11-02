@@ -1,15 +1,6 @@
 const mongoose = require("mongoose");
-mongoose.set("useFindAndModify", false);
-const url = process.env.MONGO_URI;
-console.log(`connecting to ${url}`);
-mongoose
-	.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-	.then((result) => {
-		console.log("connected to MongoDB");
-	})
-	.catch((error) => {
-		console.log("error connecting too MongoDB: ", error.message);
-	});
+const mongooseConnect = require("../utility/mongooseConnect");
+mongooseConnect(mongoose, process.env.MONGO_URI);
 
 const userSchema = new mongoose.Schema({
 	employee_number: {
