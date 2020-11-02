@@ -11,7 +11,7 @@ mongoose
 		console.log("error connecting too MongoDB: ", error.message);
 	});
 
-const userSchema = {
+const userSchema = new mongoose.Schema({
 	employee_number: {
 		type: Number,
 		required: true,
@@ -35,7 +35,7 @@ const userSchema = {
 	//add phone validation
 	leave: { type: Number, min: [0, "user leave must be positive"] },
 	date_created: { type: Date, default: Date.now() },
-};
+});
 //TODO: Extra fields
 //TODO: Add validation fields to schema keys
 
