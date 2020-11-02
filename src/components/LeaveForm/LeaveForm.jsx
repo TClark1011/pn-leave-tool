@@ -12,7 +12,7 @@ import Card from "@material-ui/core/Card";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 import SectionTitle from "../utility/SectionTitle/SectionTitle";
-import ErrorMessage from "../utility/ErrorMessage/ErrorMessage";
+import StatusMessage from "../utility/StatusMessage/StatusMessage";
 import Calendar from "../DatePicker/Calendar";
 
 import australianDate from "../../services/australianDate";
@@ -111,14 +111,14 @@ function InfoForm(props) {
 					return <li key={item}>{australianDate(item)}</li>;
 				});
 				return (
-					<ErrorMessage>
+					<StatusMessage>
 						<p className="summary">Your request for annual leave was denied.</p>
 						<p className="justification">
 							The following dates are currently unavailable for annual leave due
 							to roster shortages:
 						</p>
 						<ul className="bad-days">{badDays}</ul>
-					</ErrorMessage>
+					</StatusMessage>
 				);
 			}
 		}
@@ -131,7 +131,7 @@ function InfoForm(props) {
 
 	return (
 		<form>
-			<ErrorMessage>{formError}</ErrorMessage>
+			<StatusMessage>{formError}</StatusMessage>
 			<div className="selected-dates-container">
 				<TextField
 					value={props.start ? props.start.format("DD/MM/YYYY") : " "}
@@ -172,9 +172,9 @@ function InfoForm(props) {
 			</Modal>
 		</form>
 	);
-	//TODO: Click out of result modal
+	//TODO: Include 'X' button to close
+	//TODO: Either redirect straight to leave list or have button to go to it
 	//TODO: Loading indicator while waiting for result
-	//TODO: Require sign on to see this page
 }
 
 export default LeaveForm;

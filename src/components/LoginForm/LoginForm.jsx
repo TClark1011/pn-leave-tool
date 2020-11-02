@@ -8,7 +8,7 @@ import axios from "axios";
 
 import { TextField, Button, Typography, Collapse } from "@material-ui/core";
 import SectionTitle from "../utility/SectionTitle";
-import ErrorMessage from "../utility/ErrorMessage";
+import StatusMessage from "../utility/StatusMessage";
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -237,7 +237,7 @@ class LoginForm extends React.Component {
 					a new account, enter your Pacific National Employee Number and your
 					desired Password and click 'REGISTER'
 				</Typography>
-				<ErrorMessage>{this.state.form_error}</ErrorMessage>
+				<StatusMessage>{this.state.form_error}</StatusMessage>
 				<form>
 					<AuthField
 						label={"Employee Number"}

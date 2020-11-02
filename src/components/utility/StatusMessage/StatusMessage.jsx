@@ -1,8 +1,8 @@
-import "./ErrorMessage.scss";
+import "./StatusMessage.scss";
 
 import React from "react";
 
-function ErrorMessage(props) {
+function StatusMessage(props) {
 	const containerStyle = {
 		display: "inline-block",
 		border: "2px solid #e57373",
@@ -17,8 +17,13 @@ function ErrorMessage(props) {
 
 	function classes() {
 		var result = "error-message";
+
+		const tone = props.tone || "negative";
 		const border = props.border || "left";
+
 		result += border !== "none" ? ` border border-${border}` : "";
+		result += ` ${tone}`;
+
 		return result;
 	}
 
@@ -29,4 +34,6 @@ function ErrorMessage(props) {
 	}
 }
 
-export default ErrorMessage;
+//TODO: Change to status message and take tone prop, accepting values 'positive', 'negative' or 'warning' which change the colour of the message
+
+export default StatusMessage;

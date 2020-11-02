@@ -1,0 +1,36 @@
+@import "../../../styles/config/mixins";
+@import "../../../styles/config/variables";
+
+.error-message {
+	padding: $spacing-5;
+
+	&.positive {
+		background-color: $color-positive-lightest;
+		&.border {
+			border-color: $color-positive-dark;
+		}
+	}
+
+	&.negative {
+		background-color: $color-negative-lightest;
+		&.border {
+			border-color: $color-negative-dark;
+		}
+	}
+
+	&.warning {
+		background-color: $color-warning-lightest;
+		&.border {
+			border-color: $color-warning-dark;
+		}
+	}
+
+	&.border {
+		@each $side in ("left", "top", "right", "bottom") {
+			&.border-#{$side} {
+				border-#{$side}-width: 4px;
+				border-#{$side}-style: solid;
+			}
+		}
+	}
+}
