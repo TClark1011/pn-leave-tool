@@ -33,9 +33,31 @@ $fontSize-11: 72px;
 //? See page 105 of 'Refactoring UI'
 
 //# --- THEMING ---
-$color-primary-light: #007bc3;
-$color-primary-main: #004b8d;
-$color-primary-dark: #002d6b;
+$color-primary-lightest: hsl(215, 100%, 90%);
+$color-primary-light: hsl(215, 100%, 70%);
+$color-primary-main: hsl(215, 100%, 50%);
+$color-primary-dark: hsl(215, 100%, 30%);
+$color-primary-darkest: hsl(215, 100%, 20%);
+
+$color-positive-lightest: #e3fcec;
+$color-positive-light: #a8eec1;
+$color-positive-main: #38c172;
+$color-positive-dark: #197741;
+$color-positive-darkest: #155239;
+
+$color-negative-lightest: #f9e5e5;
+$color-negative-light: #e36363;
+$color-negative-main: #da2f2f;
+$color-negative-dark: #b82020;
+$color-negative-darkest: #601717;
+
+$color-warning-lightest: #fdf3d7;
+$color-warning-light: #fae29f;
+$color-warning-main: #f4ca64;
+$color-warning-dark: #caa53d;
+$color-warning-darkest: #8c6d1f;
+//? See 'Refactoring UI' page 146
+
 $color-secondary-main: #f2a900;
 
 //# MISC
