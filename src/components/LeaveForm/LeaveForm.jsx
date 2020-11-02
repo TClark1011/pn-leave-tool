@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Modal from "@material-ui/core/Modal";
 import Card from "@material-ui/core/Card";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 import SectionTitle from "../utility/SectionTitle/SectionTitle";
 import ErrorMessage from "../utility/ErrorMessage/ErrorMessage";
@@ -124,6 +125,10 @@ function InfoForm(props) {
 		return "fallback result message";
 	}
 
+	function msgClickAway() {
+		setShowResult(false);
+	}
+
 	return (
 		<form>
 			<ErrorMessage>{formError}</ErrorMessage>
@@ -160,11 +165,14 @@ function InfoForm(props) {
 			</Button>
 			<Modal open={showResult}>
 				<div className="flexbox">
-					<Card className="request-result container">{resultMsg()}</Card>
+					<ClickAwayListener onClickAway={msgClickAway}>
+						<Card className="request-result container">{resultMsg()}</Card>
+					</ClickAwayListener>
 				</div>
 			</Modal>
 		</form>
 	);
+	//TODO: Click out of result modal
 	//TODO: Loading indicator while waiting for result
 	//TODO: Require sign on to see this page
 }
