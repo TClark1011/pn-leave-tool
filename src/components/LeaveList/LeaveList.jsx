@@ -22,7 +22,6 @@ class LeaveList extends React.Component {
 				headers: { token: "temp" },
 			})
 			.then((result) => {
-				console.log(result.data.leaveItems);
 				this.setState({ leaveItems: result.data.leaveItems });
 			});
 	}

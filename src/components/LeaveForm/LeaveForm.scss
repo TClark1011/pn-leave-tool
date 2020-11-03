@@ -1,160 +1,52 @@
-@import "../../styles/config/variables";
-@import "../../styles/config/mixins";
-@import "../../styles/config/functions";
+@import "../../styles/config/export";
 
 .leave-form {
-	.calendar-container {
-		// @include border-radius($border-radius-std);
-		//? Because the background colour i on the cells not the table, you need too apply the border radius to the corner cells
+	.datepickers-wrapper {
+		@include flex-wrapper();
+		flex-wrap: wrap;
 
-		overflow: hidden;
 		width: 100%;
 
-		$cell-height: 50px;
+		.calendar-wrapper {
+			@include flex-wrapper();
+			flex-wrap: wrap;
 
-		margin-bottom: $item-spacing-std;
+			width: 300px;
 
-		$selection-range-height: 100%;
-		$row-spacing: 8px;
-
-		.calendar-day-cell {
-			box-sizing: content-box;
-			height: $cell-height;
-
-			padding: 0;
-			padding-bottom: $row-spacing;
-
-			&:not(.empty) {
-				text-align: center;
-				font-weight: 600;
-				cursor: pointer;
-
-				$selected-colour: $color-primary-light;
-
-				.flex-wrapper {
-					position: relative;
-
-					@include flex-wrapper();
-					@include square(100%);
-
-					.overlay-target-outer-wrapper {
-						position: absolute;
-
-						width: 100%;
-						height: $cell-height;
-
-						@include flex-wrapper();
-
-						.overlay-target-inner-wrapper {
-							position: relative;
-
-							@include square($cell-height);
-
-							.overlay-target {
-								position: absolute;
-
-								@include square($cell-height);
-								@include border-radius(50px);
-
-								&.selection {
-									z-index: 9;
-								}
-							}
-
-							&.hover {
-								z-index: 11;
-							}
-						}
-					}
-
-					.overlay-target.selection-range {
-						position: absolute;
-
-						@include flex-wrapper();
-						@include square(100%);
-						@include border-radius(0px);
-
-						.left,
-						.right {
-							display: block;
-							height: $selection-range-height;
-							width: 50%;
-							opacity: 0.2;
-						}
-					}
-				}
-
-				.day-number {
-					z-index: 10;
-				}
-
-				&:hover {
-					.overlay-target.hover {
-						background-color: rgba(0, 0, 0, 0.2);
-					}
-				}
-				&.selected {
-					.overlay-target {
-						&.selection {
-							background-color: $selected-colour;
-							@include transform(none !important);
-						}
-					}
-				}
-
-				&.in-selection {
-					.overlay-target.selection-range {
-						.left,
-						.right {
-							background-color: $selected-colour;
-						}
-					}
-				}
-
-				&.selected.first .overlay-target.selection-range .right {
-					background-color: $selected-colour;
-				}
-				&.selected.second .overlay-target.selection-range .left {
-					background-color: $selected-colour;
-				}
+			$margin-spacing: $spacing-2;
+			&:first-child {
+				margin-right: $margin-spacing;
 			}
-			&.empty {
-				pointer-events: none;
+			&:last-child {
+				margin-left: $margin-spacing;
+			}
+
+			margin-bottom: $spacing-2;
+
+			.MuiPickersStaticWrapper-staticWrapperRoot,
+			.date-field {
+				width: 80%;
+			}
+
+			.date-field {
+				input {
+					text-align: center;
+				}
+				min-width: 5em;
 			}
 		}
-	}
-
-	.selected-dates-container {
-		@include flex-wrapper();
-		.selected-date-field {
-			@include flex-space-horizontal(4px);
-
-			input {
-				text-align: center;
-			}
-		}
-	}
-
-	.error-message-wrapper {
-		margin-bottom: 4px;
 	}
 }
 
-.request-result {
-	max-width: 400px;
+.inner-modal {
+	margin: auto;
+	width: 100%;
+	height: 100%;
+	display: flex;
 
-	.bad-days,
-	.justification {
-		margin: 0;
-	}
-
-	.error-message :first-child {
-		margin-top: 0;
-		padding-top: 0;
-	}
-
-	.error-message :last-child {
-		margin-bottom: 0;
-		padding-bottom: 0;
+	.request-result-card {
+		margin: auto;
+		width: 700px;
+		max-width: 90vw;
 	}
 }
