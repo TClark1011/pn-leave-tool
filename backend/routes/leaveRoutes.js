@@ -9,6 +9,12 @@ const newLeaveProcessor = require("../utility/LeaveProcessor");
 const validateRequest = require("../utility/validateRequest");
 const genericError = require("../utility/genericError");
 
+const startOfMonth = require("date-fns/startOfMonth");
+const endOfMonth = require("date-fns/startOfMonth");
+const addDays = require("date-fns/addDays");
+const parse = require("date-fns/parse");
+const startOfDay = require("date-fns/startOfDay");
+
 const sampleLeaveData = {
 	minimumDrivers: 25,
 	averageDrivers: 35,
@@ -41,13 +47,13 @@ leaveRouter.post("/request", async (request, response) => {
 	if (evaluation.approved) {
 		response.status(200).json({
 			approved: true,
-			details: "Request for annual leave approved",
+			message: "Request for annual leave approved",
 		});
 		console.log("Leave request approved");
 	} else {
 		response.status(550).json({
 			approved: false,
-			details: `Request for annual leave denied due to the following dates being unavailable: ${evaluation.invalidDays}`,
+			message: `Request for annual leave denied due to the following dates being unavailable: ${evaluation.invalidDays}`,
 			invalidDays: evaluation.invalidDays,
 		});
 		console.log(
@@ -74,9 +80,16 @@ leaveRouter.post("/randomgen", async (request, response) => {
 	}
 
 	if (request.body.key === process.env.ADMIN_FUNC_KEY) {
-		for (let i = 1; i <= 31; i++) {
-			const date = new Date(`10/${i}/2020`);
-			const record = await RosterDay.getDateRecord(date);
+		const start =
+			parse(request.body.start, "dd/MM/yyyy", startOfDay(new Date())) ||
+			startOfMonth(new Date());
+		const end =
+			parse(request.body.end, "dd/MM/yyyy", startOfDay(new Date())) ||
+			endOfMonth(new Date());
+		console.log("Beginning Randomisation...");
+		for (let i = start; i <= end; i = addDays(i, 1)) {
+			console.log("Randomising: ", i);
+			const record = await RosterDay.getDateRecord(i);
 			record.absentDrivers = Math.floor(Math.random() * 10) + 1;
 			await record.save();
 		}

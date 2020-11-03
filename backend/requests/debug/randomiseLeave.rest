@@ -2,5 +2,7 @@ POST http://localhost:3001/api/leave/randomgen
 Content-Type: application/json
 
 {
+    "start":"01/01/2020",
+    "end":"29/12/2020",
     "key":"{{$dotenv ADMIN_FUNC_KEY}}"
 }
