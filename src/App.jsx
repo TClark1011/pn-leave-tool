@@ -1,7 +1,6 @@
 import "./styles/base.scss";
-import "./styles/forms.scss";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
 	BrowserRouter as Router,
@@ -26,29 +25,36 @@ import LoginForm from "./components/LoginForm";
 import LeaveForm from "./components/LeaveForm";
 import LeaveList from "./components/LeaveList";
 
+import AuthenticatedRoute from "./components/utility/AuthenticatedRoute";
+
+const checkNav = () => {
+	switch (window.location.pathname) {
+		case "/login":
+			return "account";
+		case "/leave":
+			return "leave";
+		case "/request":
+			return "request";
+		default:
+			return null;
+	}
+};
+
 function App() {
 	const [user, setUser] = useState(null);
-	const startingPage = (() => {
-		switch (window.location.pathname) {
-			case "/login":
-				return "account";
-			case "/leave":
-				return "leave";
-			default:
-				return "request";
-		}
-	})();
-	const [navStatus, setNavStatus] = useState(startingPage);
+	const [navStatus, setNavStatus] = useState(checkNav());
 	//* The initial value of 'bottomNav' needs to correspond to the BottomNavigationAction value of the homepage
 
 	const accountLabel = user ? "Profile" : "Login";
 	const accountIcon = user ? "account_box" : "login";
 
+	window.addEventListener("popstate", () => setNavStatus(checkNav()));
+
 	return (
 		<ThemeProvider theme={theme}>
 			{/** Theme provider component passes 'theme' down to all child components*/}
 			<CssBaseline />
-			{/** Initialises a standard 'default' css sheet to avoid visual discrepancies causes by different browser default stylesheets*/}
+			{/** Initialises a standard 'default' css sheet to avoid visual discrepancies caused by different browser default stylesheets*/}
 			<div id="App">
 				<Router>
 					<div id="content">
@@ -63,9 +69,9 @@ function App() {
 									<LeaveForm user={user} />
 								</Card>
 							</Route>
-							<Route path="/leave">
+							<AuthenticatedRoute path="/leave" user={user}>
 								<LeaveList user={user} />
-							</Route>
+							</AuthenticatedRoute>
 							<Route path="/">
 								<Redirect to="/request" />
 							</Route>
@@ -78,9 +84,11 @@ function App() {
 						accountIcon={accountIcon}
 					/>
 				</Router>
+				{/* TODO: 'AuthenticatedRoute' component */}
 			</div>
 		</ThemeProvider>
 	);
+	//TODO: Vertical overflow of cards is hidden in IE
 }
 
 function BottomNavBar(props) {
@@ -89,7 +97,11 @@ function BottomNavBar(props) {
 	const accountLabel = props.accountLabel;
 	const accountIcon = props.accountIcon;
 
-	//TODO: Update selected item on nav bar when user uses backwards/forwards browser buttons
+	useEffect(() => {
+		setNavStatus(checkNav());
+	});
+
+	//TODO: make sure highlighted button is always accurate to currently active section
 	return (
 		<BottomNavigation
 			id="bottom-navigation"

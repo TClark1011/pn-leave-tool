@@ -63,6 +63,31 @@ leaveRouter.post("/request", async (request, response) => {
 });
 
 /**
+ * Get list of user's submitted leave requests
+ * @param {Object} user - Information about the user requesting to see their leave
+ */
+leaveRouter.get("/:employee_number", async (request, response) => {
+	console.log("Received get request for user to view their own leave requests");
+
+	//TODO: Request field validation
+	const employee_number = request.params.employee_number;
+
+	const storedUser = await User.getFromEmployeeNumber(employee_number);
+	if (storedUser) {
+		//# if a user record with the provided 'employee_number' exists
+		const result = await Leave.find({ user: employee_number });
+		response.status(200).json({ leaveItems: result });
+		console.log("Leave requests successfully returned");
+		//TODO: JWT Authentication
+	} else {
+		response.status(401).send("Invalid user");
+		console.log(
+			"Error: Could not return leave requests to due to invalid provided credentials"
+		);
+	}
+});
+
+/**
  * Randomly generate leave data for dev testing
  * @param {string} key - A key to authenticate the sender of the request has the correct authorisation
  */
@@ -100,31 +125,6 @@ leaveRouter.post("/randomgen", async (request, response) => {
 		response.status(401).json({ status: "error: authentication failed" });
 		console.log(
 			"There was an authentication error in the request to generate leave data"
-		);
-	}
-});
-
-/**
- * Get list of user's submitted leave requests
- * @param {Object} user - Information about the user requesting to see their leave
- */
-leaveRouter.get("/:employee_number", async (request, response) => {
-	console.log("Received get request for user to view their own leave requests");
-
-	//TODO: Request field validation
-	const employee_number = request.params.employee_number;
-
-	const storedUser = await User.getFromEmployeeNumber(employee_number);
-	if (storedUser) {
-		//# if a user record with the provided 'employee_number' exists
-		const result = await Leave.find({ user: employee_number });
-		response.status(200).json({ leaveItems: result });
-		console.log("Leave requests successfully returned");
-		//TODO: JWT Authentication
-	} else {
-		response.status(401).send("Invalid user");
-		console.log(
-			"Error: Could not return leave requests to due to invalid provided credentials"
 		);
 	}
 });
