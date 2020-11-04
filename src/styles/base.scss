@@ -1,5 +1,4 @@
-@import "config/variables";
-@import "config/mixins";
+@import "config/export";
 
 * {
 	box-sizing: border-box;
@@ -16,13 +15,11 @@
 	height: 100%;
 	overflow-y: scroll;
 
-	$padding-spacing: 8px;
-	padding-bottom: $padding-spacing;
-	padding-top: $padding-spacing;
+	$padding-spacing: $spacing-2;
+	@include vertical-padding($padding-spacing);
 
 	& > .card {
 		width: 700px;
-		max-width: 90vw;
 	}
 
 	.container > :first-child {
@@ -36,8 +33,18 @@
 
 .MuiCard-root,
 .MuiPaper-root {
-	padding: $padding-std;
+	padding: $spacing-5;
+
+	@media (max-width: 800px) {
+		padding: $spacing-4;
+	}
+	@media (max-width: 600px) {
+		padding: $spacing-3;
+	}
+
+	max-width: 95vw;
 }
+//TODO: Media query to increase padding on larger screens
 .bottom-navigation-bar {
 	position: fixed;
 	width: 100%;
@@ -48,4 +55,8 @@
 	width: 100%;
 	height: 100%;
 	@include flex-wrapper();
+}
+
+.MuiPickersModal-dialogRoot {
+	padding: 0;
 }
