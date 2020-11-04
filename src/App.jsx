@@ -65,7 +65,10 @@ function App() {
 								</Card>
 							</Route>
 							<Route path="/request">
-								<Card className="centerV centerH card">
+								<Card
+									className="centerV centerH card"
+									style={{ width: "400px" }}
+								>
 									<LeaveForm user={user} />
 								</Card>
 							</Route>

@@ -1,34 +1,49 @@
 import "./LeaveForm.scss";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import Card from "@material-ui/core/Card";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 
 import DateFnsUtils from "@date-io/date-fns";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import {
+	KeyboardDatePicker,
+	MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 
-import { addDays, startOfDay, format, parse } from "date-fns";
+import {
+	addDays,
+	startOfDay,
+	differenceInDays,
+	max as maxDate,
+} from "date-fns";
 
 import StatusMessage from "../utility/StatusMessage";
+import SectionTitle from "../utility/SectionTitle";
 
 function LeaveForm(props) {
 	const [startDate, setStartDate] = useState(startOfDay(new Date()));
 	const [endDate, setEndDate] = useState(startOfDay(addDays(new Date(), 1)));
 	const [response, setResponse] = useState(null);
 
-	const dateFormat = "dd/MM/yyyy";
+	const lengthField = React.createRef();
 
 	function updateStartDate(date) {
 		setStartDate(startOfDay(date));
+		const newEndDate = maxDate([endDate, addDays(date, 1)]);
+		setEndDate(newEndDate);
+		lengthField.current.value = differenceInDays(newEndDate, date) || 1;
 	}
 	function updateEndDate(date) {
 		setEndDate(startOfDay(date));
+		lengthField.current.value = differenceInDays(date, startDate) || 1;
 	}
 
 	function onSubmit(e) {
@@ -53,31 +68,81 @@ function LeaveForm(props) {
 		}
 	}
 
+	/**
+	 * Convert the boolean 'approved' value of the response to a string value accepted by the 'StatusMessage' component's 'tone' prop
+	 */
 	function responseStatusTone() {
 		return response?.approved ? "positive" : "negative";
 	}
 
+	/**
+	 * Limit the length of a 'number' typed input to 3 characters
+	 * @param {Object} e - The 'onInput' event of the field
+	 */
+	function limitLength(e) {
+		e.target.value = Math.max(0, parseInt(e.target.value))
+			.toString()
+			.slice(0, 3);
+	}
+
+	function onLengthFieldChange(e) {
+		if (validateLengthField(e.target.value)) {
+			updateEndDate(addDays(startDate, e.target.value));
+		}
+	}
+
+	function lengthFieldFocusOut(e) {
+		if (!validateLengthField(e.target.value)) {
+			e.target.value = differenceInDays(endDate, startDate);
+		}
+	}
+
+	/**
+	 * Check whether or not the passed value would be a valid input into the leave length field
+	 */
+	function validateLengthField(value) {
+		return value.length > 0 && value > 0;
+	}
+
 	return (
-		<div className="leave-form">
-			<div className="datepickers-wrapper">
-				<MuiPickersUtilsProvider utils={DateFnsUtils}>
-					<div className="calendar-wrapper">
-						<Calendar value={startDate} onChange={updateStartDate} />
-						<DateField value={format(startDate, dateFormat)} />
-					</div>
-					<div className="calendar-wrapper">
-						<Calendar
-							value={endDate}
-							onChange={updateEndDate}
-							minDate={addDays(startDate, 1)}
-						/>
-						<DateField value={format(endDate, dateFormat)} />
-					</div>
-				</MuiPickersUtilsProvider>
+		<form className="leave-form">
+			<SectionTitle>Submit Leave Request</SectionTitle>
+			<MuiPickersUtilsProvider utils={DateFnsUtils}>
+				<DateField value={startDate} onChange={updateStartDate}></DateField>
+				<BodyText className="date-field-divider form-item">To</BodyText>
+				<DateField
+					value={endDate}
+					onChange={updateEndDate}
+					minDate={addDays(startDate, 1)}
+				></DateField>
+			</MuiPickersUtilsProvider>
+			<div className="form-item extra-data">
+				<div className="length">
+					<BodyText>Your leave is</BodyText>
+					<TextField
+						className="leave-length-field"
+						onInput={limitLength}
+						onChange={onLengthFieldChange}
+						type="number"
+						variant="outlined"
+						inputRef={lengthField}
+						onBlur={lengthFieldFocusOut}
+						defaultValue="1"
+					/>
+					<BodyText>days long</BodyText>
+				</div>
+				<div className="remaining-leave">
+					<BodyText>
+						You have{" "}
+						{props.user?.storedLeave - differenceInDays(endDate, startDate)}{" "}
+						days of leave remaining
+					</BodyText>
+				</div>
 			</div>
 			<Button
 				variant="contained"
 				color="primary"
+				className="submit-button form-item"
 				disableElevation
 				onClick={onSubmit}
 			>
@@ -94,30 +159,27 @@ function LeaveForm(props) {
 					</ClickAwayListener>
 				</div>
 			</Modal>
-		</div>
+		</form>
 	);
 
-	function Calendar(props) {
+	function BodyText(props) {
 		return (
-			<DatePicker
-				disablePast="true"
-				autoOk
-				variant="static"
-				openTo="date"
-				className="calendar"
-				{...props}
-			/>
+			<Typography variant="body1" component="span" {...props}>
+				{props.children}
+			</Typography>
 		);
 	}
 
 	function DateField(props) {
 		return (
-			<TextField
-				className="date-field"
-				variant="outlined"
-				readOnly
+			<KeyboardDatePicker
+				autoOk
+				inputVariant="outlined"
+				format="dd/MM/yyyy"
+				className="date-field form-item"
+				disablePast
 				{...props}
-			></TextField>
+			></KeyboardDatePicker>
 		);
 	}
 }
