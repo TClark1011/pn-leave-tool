@@ -6,7 +6,7 @@ import axios from "axios";
 
 import Card from "@material-ui/core/Card";
 
-import australianDate from "../../services/australianDate";
+import { format } from "date-fns";
 
 class LeaveList extends React.Component {
 	constructor() {
@@ -60,10 +60,13 @@ function LeaveItem(props) {
 	const user = props.user;
 	//TODO: fetch full user data
 
+	const dateFormat = "dd/MM/yyyy";
+
 	return (
 		<Card className="leave-item">
 			<p>
-				{australianDate(dates.start)} - {australianDate(dates.end)}
+				{format(new Date(dates.start), dateFormat)} -{" "}
+				{format(new Date(dates.end), dateFormat)}
 			</p>
 			<p>User: {user}</p>
 			<p>Status: {status}</p>
