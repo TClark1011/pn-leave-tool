@@ -1,12 +1,11 @@
-//# Form for logins and registration
-//* Login: User enters number and password, presses 'login' and is then logged in
-//* Register: user enters number and desired password, presses 'register', then we check if an account with their number already exists, if not we expand the form to show the other details they need to fill in
+import "./LoginForm.scss";
 
 import React from "react";
 
 import axios from "axios";
 
 import { TextField, Button, Typography, Collapse } from "@material-ui/core";
+
 import SectionTitle from "../utility/SectionTitle";
 import StatusMessage from "../utility/StatusMessage";
 
@@ -33,18 +32,6 @@ class LoginForm extends React.Component {
 			show_reg_fields: false, //? registration-specific field visibility
 			form_error: null,
 		};
-	}
-
-	//#Form change handlers
-
-	passwordHandler(e) {
-		//# Update password state value when user types into password field
-		const newValue = e.target.value;
-		this.setState({ password: newValue });
-		if (this.state.password_error === "Required") {
-			//# If present, remove 'required' error
-			this.setState({ password_error: null });
-		}
 	}
 
 	handlers = {
@@ -111,7 +98,7 @@ class LoginForm extends React.Component {
 				reg_only: false,
 			},
 			{
-				//* Employee number
+				//* Password
 				value: this.state.password,
 				setError: (value) => {
 					this.setState({ password_error: value });
@@ -121,6 +108,7 @@ class LoginForm extends React.Component {
 				reg_only: false,
 			},
 			{
+				//* Confirmation Password
 				value: this.state.confirmation_password,
 				setError: (value) => {
 					this.setState({ confirmation_password_error: value });
@@ -232,7 +220,7 @@ class LoginForm extends React.Component {
 		return (
 			<div className="login-form container">
 				<SectionTitle>Login</SectionTitle>
-				<Typography>
+				<Typography variant="body1">
 					To sign in, enter your account details and click 'LOGIN'. To register
 					a new account, enter your Pacific National Employee Number and your
 					desired Password and click 'REGISTER'
@@ -300,34 +288,37 @@ class LoginForm extends React.Component {
 						/>
 					</Collapse>
 					<Collapse in={!this.state.show_reg_fields}>
-						<Button
-							fullWidth
-							className="form-input"
-							color="primary"
+						<FormButton
 							variant="contained"
-							disableElevation
 							onClick={() => this.login()}
-							className="form-input"
+							className="login-button"
 						>
 							Login
-						</Button>
+						</FormButton>
 					</Collapse>
-					<Button
-						fullWidth
-						color="primary"
-						className="form-input"
-						variant="outlined"
-						onClick={() => this.register()}
-						disableElevation
-					>
+					<FormButton variant="outlined" onClick={() => this.register()}>
 						{this.state.show_reg_fields ? "Confirm" : "Register"}
-					</Button>
+					</FormButton>
 					{/* TODO: Registration frontend requests */}
 				</form>
 			</div>
 		);
 	}
 	//TODO: Password reset
+}
+
+function FormButton(props) {
+	return (
+		<Button
+			color="primary"
+			fullWidth
+			disableElevation
+			{...props}
+			className={`form-item ${props.className}`}
+		>
+			{props.children}
+		</Button>
+	);
 }
 
 function AuthField(props) {
@@ -342,7 +333,7 @@ function AuthField(props) {
 			variant="outlined"
 			color="primary"
 			fullWidth
-			// {...autoProps}
+			className="form-item"
 			{...props}
 		/>
 	);

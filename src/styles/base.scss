@@ -35,11 +35,8 @@
 .MuiPaper-root {
 	padding: $spacing-5;
 
-	@media (max-width: 800px) {
-		padding: $spacing-4;
-	}
 	@media (max-width: 600px) {
-		padding: $spacing-3;
+		padding: $spacing-4;
 	}
 
 	max-width: 95vw;
@@ -59,4 +56,11 @@
 
 .MuiPickersModal-dialogRoot {
 	padding: 0;
+}
+
+form,
+div {
+	.form-item {
+		@include vertical-spacing($spacing-3);
+	}
 }
