@@ -1,6 +1,11 @@
 @import "../../styles/config/export";
 
 .leave-form {
+	.form-item {
+		width: 100%;
+		@include vertical-spacing($spacing-3);
+	}
+
 	.date-field {
 		&:first-of-type {
 			margin-bottom: 0 !important;
@@ -10,6 +15,25 @@
 		}
 	}
 
+	.extra-data {
+		$border: 1px solid $input-border-grey;
+		border-top: $border;
+		border-bottom: $border;
+
+		@include vertical-padding($spacing-3);
+
+		.leave-length-field {
+			width: 3.8em;
+
+			display: inline-block;
+
+			@include horizontal-margin($spacing-1);
+
+			input {
+				padding: $spacing-1;
+			}
+		}
+	}
 	.date-field-divider {
 		display: flex;
 		align-items: center;
@@ -28,32 +52,6 @@
 		}
 		&::after {
 			margin-left: 0.25em;
-		}
-	}
-
-	.form-item {
-		width: 100%;
-		@include vertical-spacing($spacing-3);
-	}
-
-	.extra-data {
-		$border: 1px solid $input-border-grey;
-		border-top: $border;
-		border-bottom: $border;
-
-		@include vertical-padding($spacing-3);
-
-		.leave-length-field {
-			width: 2.5em;
-
-			display: inline-block;
-
-			@include horizontal-margin($spacing-1);
-
-			input {
-				padding: $spacing-1;
-				text-align: center;
-			}
 		}
 	}
 }
