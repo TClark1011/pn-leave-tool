@@ -66,7 +66,8 @@ userRouter.post("/register", async (request, response) => {
 		response.status(500).json({ error: genericError("register a new user") });
 		return console.log(`Error: ${validation.reason}`);
 	}
-	//TODO: Extra field checking
+
+	//TODO: yup validation
 
 	//# Initialise request body parameter variables
 	const employee_number = request.body.employee_number;

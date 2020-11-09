@@ -33,7 +33,7 @@ const sampleLeaveData = {
 leaveRouter.post("/request", async (request, response) => {
 	console.log("Received request for annual leave");
 
-	//TODO: Request validator
+	//TODO: Yup validation
 
 	const dates = request.body.dates;
 	const user = request.body.user;
