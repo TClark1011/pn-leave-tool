@@ -167,11 +167,11 @@ class LoginForm extends React.Component {
 					password: this.state.password,
 				})
 				.then((response) => {
-					console.log(response.data);
 					this.props.setUserFn(response.data);
 					//* If login request was successful, set the user object
 				})
 				.catch((error) => {
+					console.log(error);
 					this.setState({ form_error: error.response.data.error });
 					//* Set form error state if the request returned an error
 				});
@@ -199,13 +199,13 @@ class LoginForm extends React.Component {
 						console.log(response.data);
 					})
 					.catch((error) => {
+						console.log(error.response);
 						this.setState({ form_error: error.response.data.error });
 					});
 			}
 		}
 	}
 
-	//TODO: Change form title/description when switching to register mode
 	render() {
 		if (this.props.user) {
 			return (
@@ -246,8 +246,6 @@ class LoginForm extends React.Component {
 					/>
 					<Collapse in={this.state.show_reg_fields}>
 						{/* ? Extra fields for registration are initially hidden */}
-						{/* TODO: Extra field handling */}
-						{/* TODO: Extra field validation */}
 						<AuthField
 							label={"Confirm Password"}
 							type="password"
@@ -280,6 +278,7 @@ class LoginForm extends React.Component {
 							onChange={(e) => this.handlers.phone(e.target.value)}
 							value={this.state.phone}
 						/>
+						{/* Make sure only numbers can be entered ('tel' type does not enforce this) */}
 						<AuthField
 							label="Stored Leave"
 							type="Number"
@@ -304,8 +303,10 @@ class LoginForm extends React.Component {
 			</div>
 		);
 	}
+	//TODO: Change form title/description when switching to register mode
 	//TODO: Password reset
 	//TODO: If user is redirected here from try to access protected route, show a message explaining this
+	//TODO: message once user sucessfully registers
 }
 
 function FormButton(props) {

@@ -10,6 +10,8 @@ const genericError = require("../utility/genericError");
 const authenticateUser = require("../utility/authenticateUser");
 const encryptPassword = require("../utility/encryptPassword");
 
+const registerVal = require("../validation/registerVal");
+
 //TODO: Webtoken authentication
 
 //# USER LOGIN
@@ -70,6 +72,13 @@ userRouter.post("/register", async (request, response) => {
 	const employee_number = request.body.employee_number;
 	const password = request.body.password;
 
+	try {
+		await registerVal.validate(request.body);
+	} catch (error) {
+		response.status(400).json({ error: error.errors[0] });
+		return console.log("yup validation failed: ", error.errors[0]);
+	}
+
 	//# Check if an account with the provided employee number already exists
 	if (await User.getFromEmployeeNumber(employee_number)) {
 		//# If there is an existing account
@@ -82,11 +91,6 @@ userRouter.post("/register", async (request, response) => {
 		);
 	} else {
 		//# There is no pre-existing account
-		// const userObj = {
-		// 	employee_number: employee_number,
-		//     password: await encryptPassword(password),
-		// 	date: Date.now(),
-		// };
 		const userObj = request.body;
 		userObj.password = await encryptPassword(password);
 		userObj.date = Date.now();
