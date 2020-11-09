@@ -25,7 +25,7 @@ afterAll(() => {
 //# Constant Test Data
 const devtestCredentials = {
 	employee_number: 1,
-	password: "p",
+	password: "pppppp",
 };
 
 test("can login to devtest user account", async (done) => {
