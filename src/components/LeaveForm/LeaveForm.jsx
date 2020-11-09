@@ -107,6 +107,9 @@ function LeaveForm(props) {
 	return (
 		<form className="leave-form">
 			<SectionTitle>Submit Leave Request</SectionTitle>
+			<BodyText>
+				Enter the start and end dates for your annual leave then press 'Submit'
+			</BodyText>
 			<MuiPickersUtilsProvider utils={DateFnsUtils}>
 				<DateField value={startDate} onChange={updateStartDate}></DateField>
 				<BodyText className="date-field-divider form-item">To</BodyText>
@@ -161,6 +164,7 @@ function LeaveForm(props) {
 			</Modal>
 		</form>
 	);
+	//TODO: Set minimum 'start' date field according to minimum required notice for PN annual leave (2 weeks i think?)
 
 	function BodyText(props) {
 		return (

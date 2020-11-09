@@ -5,8 +5,11 @@ import React from "react";
 import axios from "axios";
 
 import Card from "@material-ui/core/Card";
+import Icon from "@material-ui/core/Icon";
 
 import { format } from "date-fns";
+
+import LabelledDivider from "../utility/LabelledDivider";
 
 class LeaveList extends React.Component {
 	constructor() {
@@ -57,21 +60,56 @@ class LeaveList extends React.Component {
 function LeaveItem(props) {
 	const dates = props.dates;
 	const status = props.status;
-	const user = props.user;
+
+	console.log(status);
 	//TODO: fetch full user data
 
 	const dateFormat = "dd/MM/yyyy";
 
+	function statusIconSwitch() {
+		switch (status) {
+			case 1:
+				return <StatusIcon>check_circle</StatusIcon>;
+				break;
+			case -1:
+				return <StatusIcon>cancel</StatusIcon>;
+				break;
+			default:
+				return "?";
+				break;
+		}
+	}
+
+	function StatusIcon(props) {
+		return <Icon className="status-icon">{props.children}</Icon>;
+	}
+
 	return (
 		<Card className="leave-item">
-			<p>
-				{format(new Date(dates.start), dateFormat)} -{" "}
-				{format(new Date(dates.end), dateFormat)}
-			</p>
-			<p>User: {user}</p>
-			<p>Status: {status}</p>
+			<div className="request-status" status={status}>
+				{statusIconSwitch()}
+			</div>
+			<div className="body card-padding">
+				<LeaveItemBodyRow>
+					{format(new Date(dates.start), dateFormat)}
+				</LeaveItemBodyRow>
+				<LeaveItemBodyRow>
+					<LabelledDivider label="to"></LabelledDivider>
+				</LeaveItemBodyRow>
+				<LeaveItemBodyRow>
+					{format(new Date(dates.end), dateFormat)}
+				</LeaveItemBodyRow>
+			</div>
 		</Card>
 	);
+
+	function LeaveItemBodyRow(props) {
+		return (
+			<div className="leave-item-body-row" {...props}>
+				{props.children}
+			</div>
+		);
+	}
 }
 
 export default LeaveList;

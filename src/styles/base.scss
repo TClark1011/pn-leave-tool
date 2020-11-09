@@ -32,7 +32,8 @@
 }
 
 .MuiCard-root,
-.MuiPaper-root {
+.MuiPaper-root,
+.card-padding {
 	padding: $spacing-5;
 
 	@media (max-width: 600px) {
@@ -62,5 +63,16 @@ form,
 div {
 	.form-item {
 		@include vertical-spacing($spacing-3);
+	}
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	.MuiButtonBase-root.MuiBottomNavigationAction-root {
+		min-width: 200px;
+		flex: 0;
+		@media (max-width: 500px) {
+			flex: 1;
+			min-width: 80px;
+		}
 	}
 }

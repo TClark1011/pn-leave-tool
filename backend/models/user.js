@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
 	date_created: { type: Date, default: Date.now() },
 });
 //TODO: Extra fields
-//TODO: Add validation fields to schema keys
+//TODO: Add validation fields to schema keys (general field length, phone number format)
 
 const User = mongoose.model("User", userSchema);
 

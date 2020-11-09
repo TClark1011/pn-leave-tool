@@ -305,6 +305,7 @@ class LoginForm extends React.Component {
 		);
 	}
 	//TODO: Password reset
+	//TODO: If user is redirected here from try to access protected route, show a message explaining this
 }
 
 function FormButton(props) {
