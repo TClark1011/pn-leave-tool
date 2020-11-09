@@ -29,8 +29,10 @@ import StatusMessage from "../utility/StatusMessage";
 import SectionTitle from "../utility/SectionTitle";
 
 function LeaveForm(props) {
-	const [startDate, setStartDate] = useState(startOfDay(new Date()));
-	const [endDate, setEndDate] = useState(startOfDay(addDays(new Date(), 1)));
+	const [startDate, setStartDate] = useState(
+		startOfDay(addDays(new Date(), 1))
+	);
+	const [endDate, setEndDate] = useState(addDays(startDate, 1));
 	const [response, setResponse] = useState(null);
 
 	const lengthField = React.createRef();
@@ -136,8 +138,7 @@ function LeaveForm(props) {
 				</div>
 				<div className="remaining-leave">
 					<BodyText>
-						You have{" "}
-						{props.user?.storedLeave - differenceInDays(endDate, startDate)}{" "}
+						You have {props.user?.leave - differenceInDays(endDate, startDate)}{" "}
 						days of leave remaining
 					</BodyText>
 				</div>
