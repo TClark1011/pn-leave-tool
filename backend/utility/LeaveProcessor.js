@@ -1,4 +1,6 @@
 const RosterDay = require("../models/rosterDay");
+const User = require("../models/user");
+const differenceInDays = require("date-fns/differenceInDays");
 
 async function newLeaveProcessor(dates, user) {
 	const result = new LeaveProcessor(dates, user);
@@ -71,10 +73,16 @@ class LeaveProcessor {
 			for (let item of this.storedUpdates) {
 				await item.save();
 			}
+			const userRecord = await User.getFromEmployeeNumber(
+				this.user.employee_number
+			);
+			userRecord.leave -= differenceInDays(
+				new Date(this.dates.end),
+				new Date(this.dates.start)
+			);
+			await userRecord.save();
 		}
 	};
-
-	//TODO: Subtract leave length from requester's 'stored leave'
 }
 
 module.exports = newLeaveProcessor;

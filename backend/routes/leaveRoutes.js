@@ -69,7 +69,6 @@ leaveRouter.post("/request", async (request, response) => {
 leaveRouter.get("/:employee_number", async (request, response) => {
 	console.log("Received get request for user to view their own leave requests");
 
-	//TODO: Request field validation
 	const employee_number = request.params.employee_number;
 
 	const storedUser = await User.getFromEmployeeNumber(employee_number);

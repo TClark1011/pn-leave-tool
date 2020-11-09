@@ -11,7 +11,6 @@ const daySchema = new mongoose.Schema({
 	date: { type: Date, required: true },
 	absentDrivers: { type: Number, default: 0 },
 });
-//TODO: Extra fields (depot)
 //TODO: Need to store the (accurate) average number of available drivers
 
 daySchema.pre("save", function () {

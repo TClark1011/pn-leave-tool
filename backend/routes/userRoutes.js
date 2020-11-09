@@ -121,7 +121,6 @@ userRouter.get("/:employee_number", async (request, response) => {
 		response
 			.status(500)
 			.json({ error: genericError("retrieve user information") });
-		//TODO: Replace with generic error function call
 		return console.log(
 			`Error: employee_number not provided, user data could not be retrieved`
 		);

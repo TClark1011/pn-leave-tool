@@ -37,8 +37,6 @@ const userSchema = new mongoose.Schema({
 	leave: { type: Number, min: [0, "user leave must be positive"] },
 	date_created: { type: Date, default: Date.now() },
 });
-//TODO: Extra fields (email address of a superior)
-//TODO: Add validation fields to schema keys (general field length, phone number format)
 
 const User = mongoose.model("User", userSchema);
 
