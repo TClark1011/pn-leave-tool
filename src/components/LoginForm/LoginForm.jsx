@@ -78,6 +78,7 @@ class LoginForm extends React.Component {
 	validateFields() {
 		//# Iterate through field data and make sure they all meet validation conditions
 		//# Fields with invalid values are marked with corresponding errors
+		const t = this;
 		const allFields = [
 			//# Store all field data required for validation in objects
 			/**
@@ -115,9 +116,10 @@ class LoginForm extends React.Component {
 				},
 				checkError: () => {
 					if (this.state.confirmation_password !== this.state.password) {
+						t.setState({ password_error: "Password fields do not match" });
 						return {
 							form_error: "Password fields must match",
-							field_error: "Does not match",
+							field_error: "Password fields do not match",
 						};
 					}
 				},
@@ -139,6 +141,8 @@ class LoginForm extends React.Component {
 					if (fieldError.form_error) {
 						this.setState({ form_error: fieldError.form_error });
 					}
+					formIsValid = false;
+					break;
 				}
 				if (field.required && !field.value) {
 					//#If a required field is empty
@@ -147,16 +151,13 @@ class LoginForm extends React.Component {
 						form_error: "Please make sure all highlighted fields are not empty",
 					});
 					formIsValid = false;
+					break;
 				}
 			}
 		}
 
 		return formIsValid;
 	}
-
-	// clearErrors(errors) {
-	//     //# Will clear the current form error if it is contained in the passed list of errors
-	// }
 
 	login() {
 		//# Submit field data
@@ -185,6 +186,7 @@ class LoginForm extends React.Component {
 		} else {
 			//# Extra reg fields ewre already visible, now validate and send form contents
 			if (this.validateFields()) {
+				console.log("fields validated, sending registration");
 				axios
 					.post("/api/users/register", {
 						employee_number: this.state.employee_number,
