@@ -174,6 +174,7 @@ class LoginForm extends React.Component {
 					password: this.state.password,
 				})
 				.then((response) => {
+					console.log(response.data);
 					this.props.setUserFn(response.data);
 					//* If login request was successful, set the user object
 				})

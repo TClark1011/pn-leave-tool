@@ -2,6 +2,8 @@ import "./styles/base.scss";
 
 import React, { useState, useEffect } from "react";
 
+import axios from "axios";
+
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -49,6 +51,14 @@ function App() {
 	const accountIcon = user ? "account_box" : "login";
 
 	window.addEventListener("popstate", () => setNavStatus(checkNav()));
+
+	axios.interceptors.request.use((request) => {
+		if (user) {
+			request.headers.authorisation = user.token;
+		}
+		console.log(request);
+		return request;
+	});
 
 	return (
 		<ThemeProvider theme={theme}>

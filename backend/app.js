@@ -2,17 +2,20 @@ require("dotenv").config();
 const express = require("express");
 
 //# Request routes are handled in external files
-// const apiRouter = require("./routes/api");
 const userRouter = require("./routes/userRoutes");
 const leaveRouter = require("./routes/leaveRoutes");
+const authRouter = require("./routes/authRoute");
 
 const app = express();
 app.use(express.json());
 
 app.use("/api/users", userRouter);
+app.use("/api", authRouter);
 app.use("/api/leave", leaveRouter);
-// app.use(apiRouter);
 
+/**
+ * Catch all get request route
+ */
 app.get("/api/*", (request, response) => {
 	//# Catch all if a request is not handled by any other route
 	//# It is important for this to come last so that it only catches requests that are not handled by any other route.

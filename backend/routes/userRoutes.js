@@ -1,16 +1,17 @@
 const express = require("express");
 
-const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
-const userRouter = express.Router();
+const User = require("../models/user");
 
 const validateRequest = require("../utility/validateRequest");
 const sanitiseUser = require("../utility/sanitiseUser");
 const genericError = require("../utility/genericError");
 const authenticateUser = require("../utility/authenticateUser");
 const encryptPassword = require("../utility/encryptPassword");
-
 const registerVal = require("../validation/registerVal");
+
+const userRouter = express.Router();
 
 //TODO: Webtoken authentication
 
@@ -23,8 +24,6 @@ const registerVal = require("../validation/registerVal");
  */
 userRouter.post("/login", async (request, response) => {
 	console.log("Received request to log in");
-
-	console.log(request.body);
 
 	//# Validate request
 	const validation = validateRequest(request, {
@@ -42,7 +41,10 @@ userRouter.post("/login", async (request, response) => {
 	const foundUser = await User.getFromEmployeeNumber(employee_number); //* Find user with provided id
 	if (foundUser && (await authenticateUser(foundUser, password))) {
 		//#If user exists and password matches
-		response.status(200).json(sanitiseUser(foundUser));
+		const accessToken = jwt.sign({ ...foundUser }, process.env.JWT_SECRET);
+		response
+			.status(200)
+			.json({ ...sanitiseUser(foundUser), token: accessToken });
 		console.log("User successfully logged in");
 	} else {
 		response
