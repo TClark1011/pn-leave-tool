@@ -45,11 +45,7 @@ class LeaveList extends React.Component {
 				});
 				return result;
 			} else {
-				return (
-					<Card className="leave-item">
-						<p>No leave found</p>
-					</Card>
-				);
+				return <h2>No leave found</h2>;
 				//TODO: Style this
 			}
 		} else {
@@ -67,7 +63,6 @@ function LeaveItem(props) {
 	const status = props.status;
 
 	console.log(status);
-	//TODO: fetch full user data
 
 	const dateFormat = "dd/MM/yyyy";
 
