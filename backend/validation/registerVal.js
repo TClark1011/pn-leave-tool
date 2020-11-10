@@ -13,6 +13,8 @@ module.exports = yup.object({
 		.required("Password is required")
 		.min(6, "Password must be at least 6 characters long")
 		.max(24, "Password cannot be longer than 24 characters long"),
+	first_name: yup.string().required("Please enter your first name"),
+	last_name: yup.string().required("Please enter your last name"),
 	email: yup
 		.string()
 		.required("Please enter a valid email address")
@@ -21,4 +23,5 @@ module.exports = yup.object({
 		.string()
 		.required("Please enter a valid Phone Number")
 		.matches(phoneRegex, "Phone Number is invalid"),
+	leave: yup.number().required().min(0, "Amount of leave must be positive"),
 });
