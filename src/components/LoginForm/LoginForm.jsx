@@ -129,6 +129,7 @@ class LoginForm extends React.Component {
 				required: this.state.show_reg_fields,
 				reg_only: true,
 			},
+			//TODO: Update to handle extra registration fields
 		];
 
 		this.setState({ form_error: null });
@@ -303,10 +304,13 @@ class LoginForm extends React.Component {
 					<FormButton variant="outlined" onClick={() => this.register()}>
 						{this.state.show_reg_fields ? "Confirm" : "Register"}
 					</FormButton>
+					{/* TODO: Registration frontend requests */}
 				</form>
 			</div>
 		);
 	}
+	//TODO: If user is redirected here from trying to access protected route, show a message explaining this
+	//TODO: message once user sucessfully registers
 	//TODO: Refactor login/register to external service file
 	//TODO: Highlight problem field on backend error
 }
