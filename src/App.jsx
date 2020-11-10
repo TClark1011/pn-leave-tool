@@ -57,35 +57,31 @@ function App() {
 			{/** Initialises a standard 'default' css sheet to avoid visual discrepancies caused by different browser default stylesheets*/}
 			<div id="App">
 				<Router>
-					<div id="content">
-						<Switch>
-							<Route path="/login">
-								<Card className="centerV centerH card">
-									<LoginForm setUserFn={setUser} user={user} />
-								</Card>
-							</Route>
-							<Route path="/request">
-								<Card
-									className="centerV centerH card"
-									style={{ width: "400px" }}
-								>
-									<LeaveForm user={user} />
-								</Card>
-							</Route>
-							<AuthenticatedRoute path="/leave" user={user}>
-								<LeaveList user={user} />
-							</AuthenticatedRoute>
-							<Route path="/">
-								<Redirect to="/request" />
-							</Route>
-						</Switch>
-					</div>
+					<Switch>
+						<Route path="/login">
+							<Card className="centerV centerH card">
+								<LoginForm setUserFn={setUser} user={user} />
+							</Card>
+						</Route>
+						<Route path="/request">
+							<Card className="centerV centerH card" style={{ width: "400px" }}>
+								<LeaveForm user={user} />
+							</Card>
+						</Route>
+						<AuthenticatedRoute path="/leave" user={user}>
+							<LeaveList user={user} />
+						</AuthenticatedRoute>
+						<Route path="/">
+							<Redirect to="/request" />
+						</Route>
+					</Switch>
 					<BottomNavBar
 						navStatus={navStatus}
 						setNavStatus={setNavStatus}
 						accountLabel={accountLabel}
 						accountIcon={accountIcon}
 					/>
+					{/* TODO: Change to top nav */}
 				</Router>
 				{/* TODO: 'AuthenticatedRoute' component */}
 			</div>

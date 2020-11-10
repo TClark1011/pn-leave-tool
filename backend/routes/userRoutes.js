@@ -24,6 +24,8 @@ const registerVal = require("../validation/registerVal");
 userRouter.post("/login", async (request, response) => {
 	console.log("Received request to log in");
 
+	console.log(request.body);
+
 	//# Validate request
 	const validation = validateRequest(request, {
 		expectedFields: ["employee_number", "password"],

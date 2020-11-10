@@ -4,11 +4,14 @@ const phoneRegex = require("../utility/regex/phone");
 const emailRegex = require("../utility/regex/email");
 mongooseConnect(mongoose, process.env.MONGO_URI);
 
+const enLengthMessage = "employee_number must be 6 characters long";
+//? employee_number length message
 const userSchema = new mongoose.Schema({
 	employee_number: {
-		type: Number,
+		type: String, //?String so as to support 0 starting numbers
 		required: true,
-		min: [0, "Employee Number cannot be negative"],
+		maxlength: [6, enLengthMessage],
+		minlength: [6, enLengthMessage],
 	},
 	password: { type: String, required: true, minLength: 6, maxLength: 24 },
 	first_name: { type: String, required: true },

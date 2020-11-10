@@ -165,6 +165,7 @@ function LeaveForm(props) {
 			</Modal>
 		</form>
 	);
+	//TODO: Format list of unavailable dates on denied submission
 
 	function BodyText(props) {
 		return (

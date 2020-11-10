@@ -9,6 +9,9 @@ import { TextField, Button, Typography, Collapse } from "@material-ui/core";
 import SectionTitle from "../utility/SectionTitle";
 import StatusMessage from "../utility/StatusMessage";
 
+const redirectedMsg =
+	"You must login before attempting to submit or view leave requests";
+
 class LoginForm extends React.Component {
 	constructor(props) {
 		super();
@@ -30,14 +33,14 @@ class LoginForm extends React.Component {
 			leave: 0,
 			leave_error: null,
 			show_reg_fields: false, //? registration-specific field visibility
-			form_error: null,
+			form_error: window.location.search ? redirectedMsg : null,
 		};
 	}
 
 	handlers = {
 		//# Object containing change handlers for all form fields
 		employee_number: (value) => {
-			if (Number(value) || value === "") {
+			if (Number(value) >= 0 || value === "") {
 				//# Do not accept value that contains non-numeral characters
 				this.setState({ employee_number: value });
 				if (this.state.employee_number_error === "Required" || "Numbers Only") {
@@ -129,6 +132,8 @@ class LoginForm extends React.Component {
 			//TODO: Update to handle extra registration fields
 		];
 
+		this.setState({ form_error: null });
+
 		var formIsValid = true;
 
 		for (const field of allFields) {
@@ -138,20 +143,22 @@ class LoginForm extends React.Component {
 				if (fieldError) {
 					//# If field validation function found an error...
 					field.setError(fieldError.field_error);
-					if (fieldError.form_error) {
-						this.setState({ form_error: fieldError.form_error });
+					if (formIsValid) {
+						if (fieldError.form_error) {
+							this.setState({ form_error: fieldError.form_error });
+						}
 					}
-					formIsValid = false;
-					break;
 				}
 				if (field.required && !field.value) {
 					//#If a required field is empty
 					field.setError("Required");
-					this.setState({
-						form_error: "Please make sure all highlighted fields are not empty",
-					});
+					if (formIsValid) {
+						this.setState({
+							form_error:
+								"Please make sure all highlighted fields are not empty",
+						});
+					}
 					formIsValid = false;
-					break;
 				}
 			}
 		}
@@ -172,7 +179,6 @@ class LoginForm extends React.Component {
 					//* If login request was successful, set the user object
 				})
 				.catch((error) => {
-					console.log(error);
 					this.setState({ form_error: error.response.data.error });
 					//* Set form error state if the request returned an error
 				});
@@ -186,7 +192,6 @@ class LoginForm extends React.Component {
 		} else {
 			//# Extra reg fields ewre already visible, now validate and send form contents
 			if (this.validateFields()) {
-				console.log("fields validated, sending registration");
 				axios
 					.post("/api/users/register", {
 						employee_number: this.state.employee_number,
@@ -198,10 +203,9 @@ class LoginForm extends React.Component {
 						leave: this.state.leave,
 					})
 					.then((response) => {
-						console.log(response.data);
+						this.props.setUserFn(response.data);
 					})
 					.catch((error) => {
-						console.log(error.response);
 						this.setState({ form_error: error.response.data.error });
 					});
 			}
@@ -305,10 +309,10 @@ class LoginForm extends React.Component {
 			</div>
 		);
 	}
-	//TODO: Change form title/description when switching to register mode
-	//TODO: Password reset
-	//TODO: If user is redirected here from try to access protected route, show a message explaining this
+	//TODO: If user is redirected here from trying to access protected route, show a message explaining this
 	//TODO: message once user sucessfully registers
+	//TODO: Refactor login/register to external service file
+	//TODO: Highlight problem field on backend error
 }
 
 function FormButton(props) {

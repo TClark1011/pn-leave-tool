@@ -12,7 +12,7 @@ function AuthenticatedRoute(props) {
 	if (props.user) {
 		return <Route {...props}>{props.children}</Route>;
 	} else {
-		return <Redirect to="/login"></Redirect>;
+		return <Redirect to="/login?redir"></Redirect>;
 	}
 }
 

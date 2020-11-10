@@ -5,19 +5,17 @@
 }
 
 #App {
-	height: calc(100vh - 56px);
 	font-family: Roboto, sans-serif;
-}
 
-#content {
 	//FIXME: Tall content gets top chopped off
 	@include flex-wrapper();
-	height: 100%;
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch;
+	min-height: 100vh;
 
-	$padding-spacing: $spacing-2;
-	@include vertical-padding($padding-spacing);
+	justify-content: center;
+	align-items: center;
+
+	box-sizing: border-box;
+	padding-bottom: $bottom-nav-height + $spacing-3;
 
 	& > .card {
 		width: 700px;
@@ -29,6 +27,13 @@
 
 	.container > :last-child {
 		margin-bottom: 0;
+	}
+
+	.bottom-navigation-bar {
+		position: fixed;
+		width: 100%;
+		bottom: 0;
+		z-index: 100;
 	}
 }
 
@@ -44,11 +49,6 @@
 	max-width: 95vw;
 }
 //TODO: Media query to increase padding on larger screens
-.bottom-navigation-bar {
-	position: fixed;
-	width: 100%;
-	bottom: 0;
-}
 
 .flexbox {
 	width: 100%;
