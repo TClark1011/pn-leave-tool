@@ -29,9 +29,9 @@ import StatusMessage from "../utility/StatusMessage";
 import SectionTitle from "../utility/SectionTitle";
 
 function LeaveForm(props) {
-	const [startDate, setStartDate] = useState(
-		startOfDay(addDays(new Date(), 1))
-	);
+	const minNoticeDays = 14;
+	const minDate = startOfDay(addDays(new Date(), minNoticeDays));
+	const [startDate, setStartDate] = useState(minDate);
 	const [endDate, setEndDate] = useState(addDays(startDate, 1));
 	const [response, setResponse] = useState(null);
 
@@ -165,7 +165,6 @@ function LeaveForm(props) {
 			</Modal>
 		</form>
 	);
-	//TODO: Set minimum 'start' date field according to minimum required notice for PN annual leave (2 weeks i think?)
 
 	function BodyText(props) {
 		return (

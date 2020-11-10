@@ -14,6 +14,7 @@
 	@include flex-wrapper();
 	height: 100%;
 	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 
 	$padding-spacing: $spacing-2;
 	@include vertical-padding($padding-spacing);
@@ -62,7 +63,7 @@
 form,
 div {
 	.form-item {
-		@include vertical-spacing($spacing-3);
+		@include vertical-spacing($form-item-spacing);
 	}
 }
 

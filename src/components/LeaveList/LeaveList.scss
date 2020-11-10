@@ -1,58 +1,65 @@
 @import "../../styles/config/export";
 
-.leave-item {
-	@include vertical-spacing($spacing-6);
-
-	$height: 150px;
-
-	width: 95vw;
-	max-width: 500px;
-
+.leave-list {
 	display: flex;
-	height: $height;
+	flex-direction: column;
+	justify-content: flex-start;
+	min-height: 100%;
 
-	padding: 0;
+	.leave-item {
+		@include vertical-spacing($spacing-4);
 
-	.request-status {
-		width: $height;
-		height: 100%;
+		$height: 150px;
+
+		width: 95vw;
+		max-width: 500px;
 
 		display: flex;
-		justify-content: center;
-		align-items: center;
+		height: $height;
 
-		color: white;
+		padding: 0;
 
-		.status-icon {
-			font-size: $fontSize-8 !important;
-		}
-
-		&[status="1"] {
-			background-color: $color-positive-main;
-		}
-		&[status="0"] {
-			background-color: $color-warning-main;
-		}
-		&[status="-1"] {
-			background-color: $color-negative-main;
-		}
-	}
-
-	.body {
-		display: flex;
-		flex-direction: column;
-
-		box-sizing: border-box;
-		flex-grow: 1;
-
-		.leave-item-body-row {
-			width: 100%;
-			margin: 0;
-			flex-grow: 1;
+		.request-status {
+			width: $height;
+			height: 100%;
 
 			display: flex;
-			align-items: center;
 			justify-content: center;
+			align-items: center;
+
+			color: white;
+
+			.status-icon {
+				font-size: $fontSize-8 !important;
+			}
+
+			&[status="1"] {
+				background-color: $color-positive-main;
+			}
+			&[status="0"] {
+				background-color: $color-warning-main;
+			}
+			&[status="-1"] {
+				background-color: $color-negative-main;
+			}
+		}
+
+		.body {
+			display: flex;
+			flex-direction: column;
+
+			box-sizing: border-box;
+			flex-grow: 1;
+
+			.leave-item-body-row {
+				width: 100%;
+				margin: 0;
+				flex-grow: 1;
+
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
 		}
 	}
 }

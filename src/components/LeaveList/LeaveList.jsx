@@ -7,6 +7,8 @@ import axios from "axios";
 import Card from "@material-ui/core/Card";
 import Icon from "@material-ui/core/Icon";
 
+import Skeleton from "@material-ui/lab/Skeleton";
+
 import { format } from "date-fns";
 
 import LabelledDivider from "../utility/LabelledDivider";
@@ -43,17 +45,20 @@ class LeaveList extends React.Component {
 				});
 				return result;
 			} else {
-				return <p>No leave found</p>;
+				return (
+					<Card className="leave-item">
+						<p>No leave found</p>
+					</Card>
+				);
 				//TODO: Style this
 			}
 		} else {
-			return <p>Loading...</p>;
-			//TODO: Loading indicator
+			return <Skeleton variant="rect" className="leave-item" height={200} />;
 		}
 	}
 
 	render() {
-		return <div>{this.formatLeaveList()}</div>;
+		return <div className="leave-list">{this.formatLeaveList()}</div>;
 	}
 }
 
