@@ -19,6 +19,4 @@ function StatusMessage(props) {
 	}
 }
 
-//TODO: Change to status message and take tone prop, accepting values 'positive', 'negative' or 'warning' which change the colour of the message
-
 export default StatusMessage;
