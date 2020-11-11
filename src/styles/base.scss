@@ -33,6 +33,7 @@
 		position: fixed;
 		width: 100%;
 		bottom: 0;
+		left: 0;
 		z-index: 100;
 	}
 }
@@ -68,6 +69,7 @@ div {
 }
 
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	//? IE Only
 	.MuiButtonBase-root.MuiBottomNavigationAction-root {
 		min-width: 200px;
 		flex: 0;
