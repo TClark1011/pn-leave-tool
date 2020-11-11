@@ -41,8 +41,6 @@ leaveRouter.post("/request", async (request, response) => {
 		return console.log("yup validation failed: ", error.errors[0]);
 	}
 
-	console.log(request.body);
-
 	const dates = request.body.dates;
 	const user = await User.getFromEmployeeNumber(request.body.user);
 
