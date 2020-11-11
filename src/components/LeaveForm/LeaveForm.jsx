@@ -57,7 +57,8 @@ function LeaveForm(props) {
 		if (isValid) {
 			axios
 				.post("/api/leave/request", {
-					user: props.user,
+					// user: props.user,
+					user: props.user.employee_number,
 					dates: { start: startDate, end: endDate },
 				})
 				.then((result) => {

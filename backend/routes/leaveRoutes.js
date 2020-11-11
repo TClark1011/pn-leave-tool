@@ -34,9 +34,10 @@ leaveRouter.post("/request", async (request, response) => {
 	console.log("Received request for annual leave");
 
 	//TODO: Yup validation
+	console.log(request.body);
 
 	const dates = request.body.dates;
-	const user = request.body.user;
+	const user = await User.getFromEmployeeNumber(request.body.user);
 
 	const leaveRequest = await newLeaveProcessor(dates, user);
 

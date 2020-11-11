@@ -17,7 +17,7 @@ const leaveSchema = new mongoose.Schema({
 		},
 	},
 	user: {
-		type: Number,
+		type: String,
 		required: true,
 		validate: {
 			validator: () => {

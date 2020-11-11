@@ -73,6 +73,7 @@ function App() {
 				return Promise.reject(error);
 			}
 		);
+		//TODO: Handle timeout response
 	});
 
 	return (
