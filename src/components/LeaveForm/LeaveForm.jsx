@@ -12,6 +12,8 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 import DateFnsUtils from "@date-io/date-fns";
+import formatDate from "date-fns/format";
+
 import {
 	KeyboardDatePicker,
 	MuiPickersUtilsProvider,
@@ -59,12 +61,25 @@ function LeaveForm(props) {
 					dates: { start: startDate, end: endDate },
 				})
 				.then((result) => {
-					setResponse(result.data);
+					setResponse(result.data.message);
 				})
 				.catch((error) => {
-					setResponse(error.response?.data);
+					setResponse(formatDenied(error.response?.data));
 				});
 		}
+	}
+
+	function formatDenied(result) {
+		return (
+			<>
+				{result.message}
+				<ul className="invalid-days">
+					{result.invalidDays.map((item, index) => (
+						<li key={index}>{formatDate(new Date(item), "do MMMM yyyy")}</li>
+					))}
+				</ul>
+			</>
+		);
 	}
 
 	/**
@@ -110,7 +125,11 @@ function LeaveForm(props) {
 				Enter the start and end dates for your annual leave then press 'Submit'
 			</BodyText>
 			<MuiPickersUtilsProvider utils={DateFnsUtils}>
-				<DateField value={startDate} onChange={updateStartDate}></DateField>
+				<DateField
+					value={startDate}
+					onChange={updateStartDate}
+					minDate={startDate}
+				></DateField>
 				<BodyText className="date-field-divider form-item">To</BodyText>
 				<DateField
 					value={endDate}
@@ -154,7 +173,7 @@ function LeaveForm(props) {
 					<ClickAwayListener onClickAway={() => setResponse(null)}>
 						<Card className="request-result-card">
 							<StatusMessage tone={responseStatusTone()}>
-								{response?.message}
+								<BodyText>{response}</BodyText>
 							</StatusMessage>
 						</Card>
 					</ClickAwayListener>
@@ -162,7 +181,6 @@ function LeaveForm(props) {
 			</Modal>
 		</form>
 	);
-	//TODO: Format list of unavailable dates on denied submission
 
 	function BodyText(props) {
 		return (

@@ -72,3 +72,15 @@
 .MuiDialogContent-root {
 	overflow-y: hidden !important;
 }
+
+.invalid-days {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+	margin-top: $spacing-1;
+
+	li::before {
+		padding-right: $spacing-2;
+		content: "-";
+	}
+}

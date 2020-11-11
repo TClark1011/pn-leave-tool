@@ -51,7 +51,7 @@ leaveRouter.post("/request", async (request, response) => {
 		});
 		console.log("Leave request approved");
 	} else {
-		response.status(550).json({
+		response.status(500).json({
 			approved: false,
 			message: `Request for annual leave denied due to the following dates being unavailable: `,
 			invalidDays: evaluation.invalidDays,
