@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-
 const supertest = require("supertest");
+
+const testCredentials = require("./resources/testCredentials");
 
 let app;
 let api;
@@ -22,16 +23,10 @@ afterAll(() => {
 	mongoose.connection.close();
 });
 
-//# Constant Test Data
-const devtestCredentials = {
-	employee_number: "111111",
-	password: "pppppp",
-};
-
 test("can login to devtest user account", async (done) => {
 	await api
 		.post("/api/users/login")
-		.send(devtestCredentials)
+		.send(testCredentials)
 		.expect("Content-Type", /json/)
 		.expect(200);
 	done();
@@ -41,8 +36,8 @@ test("devtest login with incorrect password fails", async (done) => {
 	await api
 		.post("/api/users/login")
 		.send({
-			employee_number: devtestCredentials.employee_number,
-			password: `!${devtestCredentials.password}`,
+			employee_number: testCredentials.employee_number,
+			password: `!${testCredentials.password}`,
 		})
 		.expect("Content-Type", /json/)
 		.expect(401);
@@ -65,7 +60,7 @@ test("login with missing employee_number field fails", async (done) => {
 	await api
 		.post("/api/users/login")
 		.send({
-			password: devtestCredentials.password,
+			password: testCredentials.password,
 		})
 		.expect("Content-Type", /json/)
 		.expect(500);
@@ -76,7 +71,7 @@ test("login with missing password field fails", async (done) => {
 	await api
 		.post("/api/users/login")
 		.send({
-			employee_number: devtestCredentials.employee_number,
+			employee_number: testCredentials.employee_number,
 		})
 		.expect("Content-Type", /json/)
 		.expect(500);
