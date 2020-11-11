@@ -73,7 +73,7 @@ function App() {
 				);
 				if (error.response?.data?.redirect) {
 					window.location = error.response.data.redirect;
-					//FIXME: This is a shoddy way of doing redirecting, should find a way to do it properly iwth react router dom
+					//* This is a shoddy way of redirecting, should find a way to do it properly with react router dom
 				}
 				return error;
 			}
@@ -111,9 +111,8 @@ function App() {
 						accountLabel={accountLabel}
 						accountIcon={accountIcon}
 					/>
-					{/* TODO: Change to top nav */}
+					{/* TODO: Hide authenticated options */}
 				</Router>
-				{/* TODO: 'AuthenticatedRoute' component */}
 			</div>
 		</ThemeProvider>
 	);
