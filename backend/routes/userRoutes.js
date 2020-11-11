@@ -10,6 +10,7 @@ const genericError = require("../utility/genericError");
 const authenticateUser = require("../utility/authenticateUser");
 const encryptPassword = require("../utility/encryptPassword");
 const registerVal = require("../validation/registerVal");
+const getToken = require("../utility/getToken");
 
 const userRouter = express.Router();
 
@@ -39,10 +40,8 @@ userRouter.post("/login", async (request, response) => {
 	const foundUser = await User.getFromEmployeeNumber(employee_number); //* Find user with provided id
 	if (foundUser && (await authenticateUser(foundUser, password))) {
 		//#If user exists and password matches
-		const accessToken = jwt.sign({ ...foundUser }, process.env.JWT_SECRET);
-		response
-			.status(200)
-			.json({ ...sanitiseUser(foundUser), token: accessToken });
+		const cleanUser = sanitiseUser(foundUser);
+		response.status(200).json({ ...cleanUser, token: getToken(cleanUser) });
 		console.log("User successfully logged in");
 	} else {
 		response
@@ -62,25 +61,17 @@ userRouter.post("/login", async (request, response) => {
 userRouter.post("/register", async (request, response) => {
 	console.log("Received request to register a new user");
 
-	//# Validate Request
-	const validation = validateRequest(["employee_number", "password"], request);
-	if (!validation.valid) {
-		response.status(500).json({ error: genericError("register a new user") });
-		return console.log(`Error: ${validation.reason}`);
-	}
-
-	//TODO: yup validation
-
-	//# Initialise request body parameter variables
-	const employee_number = request.body.employee_number;
-	const password = request.body.password;
-
+	//# Validation
 	try {
 		await registerVal.validate(request.body);
 	} catch (error) {
 		response.status(400).json({ error: error.errors[0] });
 		return console.log("yup validation failed: ", error.errors[0]);
 	}
+
+	//# Initialise request body parameter variables
+	const employee_number = request.body.employee_number;
+	const password = request.body.password;
 
 	//# Check if an account with the provided employee number already exists
 	if (await User.getFromEmployeeNumber(employee_number)) {
@@ -92,17 +83,17 @@ userRouter.post("/register", async (request, response) => {
 		console.log(
 			"Error: Account registration failed. An account with the provided employee number already exists"
 		);
-	} else {
-		//# There is no pre-existing account
-		const userObj = request.body;
-		userObj.password = await encryptPassword(password);
-		userObj.date = Date.now();
-
-		await new User(userObj).save().then(() => {
-			response.status(200).json(sanitiseUser(userObj));
-		});
-		console.log("new user registered successfully");
 	}
+
+	//# There is no pre-existing account
+	const userObj = request.body;
+	userObj.password = await encryptPassword(password);
+	userObj.date = Date.now();
+
+	await new User(userObj).save();
+	const cleanUser = sanitiseUser(userObj);
+	response.status(200).json({ ...cleanUser, token: getToken(cleanUser) });
+	console.log("new user registered successfully");
 });
 
 //#USER INFO FETCH

@@ -14,8 +14,11 @@ authRouter.all("/*", (request, response, next) => {
 			.status(401)
 			.json({ error: "no authentication token.", redirect: "/login?redir" });
 	}
-	jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-		if (err) {
+	jwt.verify(token, process.env.JWT_SECRET, (error) => {
+		if (error) {
+			console.log(
+				"A request was denied due to an invalid authentication token"
+			);
 			return response.status(401).json({
 				error: "invalid authentication token.",
 				redirect: "/login?redir",
