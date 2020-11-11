@@ -16,7 +16,7 @@ app.use("/api/leave", leaveRouter);
 /**
  * Catch all get request route
  */
-app.get("/api/*", (request, response) => {
+app.all("/api/*", (request, response) => {
 	//# Catch all if a request is not handled by any other route
 	//# It is important for this to come last so that it only catches requests that are not handled by any other route.
 	response.status(404).json({ error: "invalid api call (bad address)" });
