@@ -14,6 +14,9 @@
 #environment variables
 .env
 
+#debugging rest requests
+/backend/requests
+
 # misc
 .DS_Store
 .env.local
