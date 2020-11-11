@@ -3,11 +3,10 @@ const yup = require("yup");
 const emailRegex = require("../utility/regex/email");
 const phoneRegex = require("../utility/regex/phone");
 
+const employee_number = require("./fields/employee_number");
+
 module.exports = yup.object({
-	employee_number: yup
-		.string()
-		.required("Employee Number is required")
-		.length(6, "Employee Numbers are 6 digits long"),
+	employee_number,
 	password: yup
 		.string()
 		.required("Password is required")

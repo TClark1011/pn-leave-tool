@@ -112,7 +112,6 @@ function App() {
 			</div>
 		</ThemeProvider>
 	);
-	//TODO: Vertical overflow of cards is hidden in IE
 }
 
 function BottomNavBar(props) {

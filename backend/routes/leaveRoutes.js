@@ -5,15 +5,16 @@ const RosterDay = require("../models/rosterDay");
 const Leave = require("../models/leave");
 const User = require("../models/user");
 
-const newLeaveProcessor = require("../utility/LeaveProcessor");
-const validateRequest = require("../utility/validateRequest");
-const genericError = require("../utility/genericError");
-
 const startOfMonth = require("date-fns/startOfMonth");
 const endOfMonth = require("date-fns/startOfMonth");
 const addDays = require("date-fns/addDays");
 const parse = require("date-fns/parse");
 const startOfDay = require("date-fns/startOfDay");
+
+const newLeaveProcessor = require("../utility/LeaveProcessor");
+const validateRequest = require("../utility/validateRequest");
+const genericError = require("../utility/genericError");
+const leaveVal = require("../validation/leaveVal");
 
 const sampleLeaveData = {
 	minimumDrivers: 25,
@@ -33,7 +34,13 @@ const sampleLeaveData = {
 leaveRouter.post("/request", async (request, response) => {
 	console.log("Received request for annual leave");
 
-	//TODO: Yup validation
+	try {
+		await leaveVal.validate(request.body);
+	} catch (error) {
+		response.status(400).json({ error: error.errors[0] });
+		return console.log("yup validation failed: ", error.errors[0]);
+	}
+
 	console.log(request.body);
 
 	const dates = request.body.dates;
