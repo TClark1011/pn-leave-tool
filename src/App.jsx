@@ -1,6 +1,7 @@
 import "./styles/base.scss";
 
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 
 import axios from "axios";
 
@@ -50,15 +51,32 @@ function App() {
 	const accountLabel = user ? "Profile" : "Login";
 	const accountIcon = user ? "account_box" : "login";
 
-	window.addEventListener("popstate", () => setNavStatus(checkNav()));
+	useEffect(() => {
+		window.addEventListener("popstate", () => setNavStatus(checkNav()));
 
-	axios.interceptors.request.use((request) => {
-		if (user) {
-			request.headers.authorisation = user.token;
-		}
-		console.log(request);
-		return request;
-	});
+		axios.interceptors.request.use((request) => {
+			//? Adds authentication headers to all requests made when a user is signed in
+			if (user) {
+				request.headers.authorisation = user.token;
+				delete user.token;
+			}
+			return request;
+		});
+
+		axios.interceptors.response.use(
+			(response) => response,
+			(error) => {
+				console.log(
+					"intercepted error response with data:",
+					error.response.data
+				);
+				if (error.response?.data?.redirect) {
+					window.location = error.response.data.redirect;
+				}
+				return error;
+			}
+		);
+	}, []);
 
 	return (
 		<ThemeProvider theme={theme}>

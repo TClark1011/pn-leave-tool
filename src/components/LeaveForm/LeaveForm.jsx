@@ -1,6 +1,6 @@
 import "./LeaveForm.scss";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import axios from "axios";
 
@@ -10,7 +10,6 @@ import Card from "@material-ui/core/Card";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -64,8 +63,7 @@ function LeaveForm(props) {
 					setResponse(result.data);
 				})
 				.catch((error) => {
-					console.log(error);
-					setResponse(error.response.data);
+					setResponse(error.response?.data);
 				});
 		}
 	}

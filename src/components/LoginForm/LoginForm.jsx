@@ -9,8 +9,8 @@ import { TextField, Button, Typography, Collapse } from "@material-ui/core";
 import SectionTitle from "../utility/SectionTitle";
 import StatusMessage from "../utility/StatusMessage";
 
-const redirectedMsg =
-	"You must login before attempting to submit or view leave requests";
+const redirectedMsg = "An error occurred, please login to proceed";
+//DEPLOYMENT: Rewrite this as a good general purpose error message
 
 class LoginForm extends React.Component {
 	constructor(props) {

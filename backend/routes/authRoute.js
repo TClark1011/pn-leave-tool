@@ -16,12 +16,10 @@ authRouter.all("/*", (request, response, next) => {
 	}
 	jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
 		if (err) {
-			return response
-				.status(401)
-				.json({
-					error: "invalid authentication token.",
-					redirect: "/login?redir",
-				});
+			return response.status(401).json({
+				error: "invalid authentication token.",
+				redirect: "/login?redir",
+			});
 		}
 		next();
 	});
