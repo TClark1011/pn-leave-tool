@@ -9,7 +9,8 @@
 	.leave-item {
 		@include vertical-spacing($spacing-4);
 
-		$height: 150px;
+		$height: 150px !important;
+		border-radius: 4px; //?Required to format the skeleton loading indicator
 
 		width: 95vw;
 		max-width: 500px;
