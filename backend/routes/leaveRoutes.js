@@ -77,7 +77,6 @@ leaveRouter.get("/:employee_number", async (request, response) => {
 		const result = await Leave.find({ user: employee_number });
 		response.status(200).json({ leaveItems: result });
 		console.log("Leave requests successfully returned");
-		//TODO: JWT Authentication
 	} else {
 		response.status(401).send("Invalid user");
 		console.log(
