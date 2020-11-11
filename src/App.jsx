@@ -64,6 +64,7 @@ function App() {
 		});
 
 		axios.interceptors.response.use(
+			//? If an error response has a redirect key, redirect user to that page
 			(response) => response,
 			(error) => {
 				console.log(
@@ -72,11 +73,12 @@ function App() {
 				);
 				if (error.response?.data?.redirect) {
 					window.location = error.response.data.redirect;
+					//FIXME: This is a shoddy way of doing redirecting, should find a way to do it properly iwth react router dom
 				}
 				return error;
 			}
 		);
-	}, []);
+	});
 
 	return (
 		<ThemeProvider theme={theme}>
