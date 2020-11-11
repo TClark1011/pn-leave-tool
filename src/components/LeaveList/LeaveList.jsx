@@ -46,7 +46,6 @@ class LeaveList extends React.Component {
 				return result;
 			} else {
 				return <h2>No leave found</h2>;
-				//TODO: Style this
 			}
 		} else {
 			return <Skeleton variant="rect" className="leave-item" height={200} />;

@@ -53,7 +53,7 @@ leaveRouter.post("/request", async (request, response) => {
 	} else {
 		response.status(550).json({
 			approved: false,
-			message: `Request for annual leave denied due to the following dates being unavailable: ${evaluation.invalidDays}`,
+			message: `Request for annual leave denied due to the following dates being unavailable: `,
 			invalidDays: evaluation.invalidDays,
 		});
 		console.log(
@@ -125,10 +125,6 @@ leaveRouter.post("/randomgen", async (request, response) => {
 			"There was an authentication error in the request to generate leave data"
 		);
 	}
-});
-
-leaveRouter.get("/*", (request, response) => {
-	response.status(400).send("no service implemented at that address");
 });
 
 module.exports = leaveRouter;

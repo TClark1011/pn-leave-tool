@@ -63,6 +63,7 @@ function LeaveForm(props) {
 					setResponse(result.data);
 				})
 				.catch((error) => {
+					console.log("there was an error");
 					setResponse(error.response?.data);
 				});
 		}

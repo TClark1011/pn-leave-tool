@@ -58,7 +58,6 @@ function App() {
 			//? Adds authentication headers to all requests made when a user is signed in
 			if (user) {
 				request.headers.authorisation = user.token;
-				delete user.token;
 			}
 			return request;
 		});
@@ -67,15 +66,11 @@ function App() {
 			//? If an error response has a redirect key, redirect user to that page
 			(response) => response,
 			(error) => {
-				console.log(
-					"intercepted error response with data:",
-					error.response.data
-				);
-				if (error.response?.data?.redirect) {
+				if (error.response.data.redirect) {
 					window.location = error.response.data.redirect;
 					//* This is a shoddy way of redirecting, should find a way to do it properly with react router dom
 				}
-				return error;
+				return Promise.reject(error);
 			}
 		);
 	});
