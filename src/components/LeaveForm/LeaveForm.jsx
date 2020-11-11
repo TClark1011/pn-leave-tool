@@ -59,11 +59,9 @@ function LeaveForm(props) {
 					dates: { start: startDate, end: endDate },
 				})
 				.then((result) => {
-					console.log(result);
 					setResponse(result.data);
 				})
 				.catch((error) => {
-					console.log("there was an error");
 					setResponse(error.response?.data);
 				});
 		}
