@@ -13,8 +13,6 @@ const registerVal = require("../validation/registerVal");
 
 const userRouter = express.Router();
 
-//TODO: Webtoken authentication
-
 //# USER LOGIN
 /**
  * Route handling request to login
