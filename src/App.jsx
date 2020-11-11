@@ -83,24 +83,29 @@ function App() {
 			{/** Initialises a standard 'default' css sheet to avoid visual discrepancies caused by different browser default stylesheets*/}
 			<div id="App">
 				<Router>
-					<Switch>
-						<Route path="/login">
-							<Card className="centerV centerH card">
-								<LoginForm setUserFn={setUser} user={user} />
-							</Card>
-						</Route>
-						<Route path="/request">
-							<Card className="centerV centerH card" style={{ width: "400px" }}>
-								<LeaveForm user={user} />
-							</Card>
-						</Route>
-						<AuthenticatedRoute path="/leave" user={user}>
-							<LeaveList user={user} />
-						</AuthenticatedRoute>
-						<Route path="/">
-							<Redirect to="/request" />
-						</Route>
-					</Switch>
+					<div id="Content">
+						<Switch>
+							<Route path="/login">
+								<Card className="centerV centerH card">
+									<LoginForm setUserFn={setUser} user={user} />
+								</Card>
+							</Route>
+							<Route path="/request">
+								<Card
+									className="centerV centerH card"
+									style={{ width: "400px" }}
+								>
+									<LeaveForm user={user} />
+								</Card>
+							</Route>
+							<AuthenticatedRoute path="/leave" user={user}>
+								<LeaveList user={user} />
+							</AuthenticatedRoute>
+							<Route path="/">
+								<Redirect to="/request" />
+							</Route>
+						</Switch>
+					</div>
 					<BottomNavBar
 						navStatus={navStatus}
 						setNavStatus={setNavStatus}
@@ -108,6 +113,7 @@ function App() {
 						accountIcon={accountIcon}
 					/>
 					{/* TODO: Hide authenticated options */}
+					{/* TODO: Profile section */}
 				</Router>
 			</div>
 		</ThemeProvider>

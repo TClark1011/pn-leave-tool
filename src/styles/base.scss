@@ -17,10 +17,6 @@
 	box-sizing: border-box;
 	padding-bottom: $bottom-nav-height + $spacing-3;
 
-	& > .card {
-		width: 700px;
-	}
-
 	.container > :first-child {
 		margin-top: 0;
 	}
@@ -35,6 +31,14 @@
 		bottom: 0;
 		left: 0;
 		z-index: 100;
+	}
+
+	#Content {
+		padding: $spacing-4;
+
+		& > .card {
+			width: 700px;
+		}
 	}
 }
 
