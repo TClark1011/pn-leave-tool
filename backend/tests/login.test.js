@@ -84,4 +84,4 @@ test("login with missing password field fails", async (done) => {
 });
 
 //TODO: Login with users and check response is different
-//TODO: Register acconut, then login as that account and check the details are correct
+//TODO: Register account, then login as that account and check the details are correct
