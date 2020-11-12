@@ -68,7 +68,6 @@ function App() {
 			//? If an error response has a redirect key, redirect user to that page
 			(response) => response,
 			(error) => {
-				console.log("caught error response");
 				if (error.response.data.redirect) {
 					window.location = error.response.data.redirect;
 					//* This is a shoddy way of redirecting, should find a way to do it properly with react router dom
