@@ -9,8 +9,10 @@ const sanitiseUser = require("../utility/sanitiseUser");
 const genericError = require("../utility/genericError");
 const authenticateUser = require("../utility/authenticateUser");
 const encryptPassword = require("../utility/encryptPassword");
-const registerVal = require("../validation/registerVal");
 const getToken = require("../utility/getToken");
+
+const registerVal = require("../validation/registerVal");
+const loginVal = require("../validation/loginVal");
 
 const userRouter = express.Router();
 
@@ -25,12 +27,11 @@ userRouter.post("/login", async (request, response) => {
 	console.log("Received request to log in");
 
 	//# Validate request
-	const validation = validateRequest(request, {
-		expectedFields: ["employee_number", "password"],
-	});
-	if (!validation.valid) {
-		response.status(500).json({ error: genericError("log in") });
-		return console.log(`Error: ${validation.reason} - ${validation.details}`);
+	try {
+		await loginVal.validate(request.body);
+	} catch (error) {
+		response.status(400).json({ error: error.errors[0] });
+		return console.log("yup validation failed: ", error.errors[0]);
 	}
 
 	//# Initialise request body parameter variables

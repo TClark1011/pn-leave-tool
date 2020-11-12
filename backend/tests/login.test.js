@@ -48,11 +48,11 @@ test("login with non-existant employee_number fails", async (done) => {
 	await api
 		.post("/api/users/login")
 		.send({
-			employee_number: -1,
-			password: -1,
+			employee_number: "-1",
+			password: "-1",
 		})
 		.expect("Content-Type", /json/)
-		.expect(401);
+		.expect(400);
 	done();
 });
 
@@ -63,7 +63,7 @@ test("login with missing employee_number field fails", async (done) => {
 			password: testCredentials.password,
 		})
 		.expect("Content-Type", /json/)
-		.expect(500);
+		.expect(400);
 	done();
 });
 
@@ -74,7 +74,7 @@ test("login with missing password field fails", async (done) => {
 			employee_number: testCredentials.employee_number,
 		})
 		.expect("Content-Type", /json/)
-		.expect(500);
+		.expect(400);
 	done();
 });
 

@@ -5,8 +5,8 @@ const user = require("./fields/employee_number");
 const addWeeks = require("date-fns/addWeeks");
 const startOfToday = require("date-fns/startOfToday");
 
-const schema = {
-	user: user.required(),
+module.exports = yup.object({
+	user,
 	dates: yup.object({
 		start: yup.date().required().min(addWeeks(startOfToday(), 2)),
 		end: yup
@@ -20,6 +20,4 @@ const schema = {
 				}
 			),
 	}),
-};
-
-module.exports = yup.object(schema);
+});
