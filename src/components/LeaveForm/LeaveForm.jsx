@@ -118,6 +118,10 @@ function LeaveForm(props) {
 		return value.length > 0 && value > 0;
 	}
 
+	function getLeaveLength() {
+		return props.user?.leave - differenceInDays(endDate, startDate);
+	}
+
 	return (
 		<form className="leave-form">
 			<SectionTitle>Submit Leave Request</SectionTitle>
@@ -154,10 +158,10 @@ function LeaveForm(props) {
 				</div>
 				<div className="remaining-leave">
 					<BodyText>
-						You have {props.user?.leave - differenceInDays(endDate, startDate)}{" "}
-						days of leave remaining
+						You have {getLeaveLength()} days of leave remaining
 					</BodyText>
 				</div>
+				{/* TODO: Update remaining leave after submitting request */}
 			</div>
 			<Button
 				variant="contained"

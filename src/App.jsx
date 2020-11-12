@@ -22,6 +22,8 @@ import {
 } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
 
+import UserContext from "./components/utility/UserContext";
+
 import theme from "./Theme"; //* Pulls theme data from 'Theme.jsx'
 
 import LoginForm from "./components/LoginForm";
@@ -78,46 +80,48 @@ function App() {
 	}, [user]);
 
 	return (
-		<ThemeProvider theme={theme}>
-			{/** Theme provider component passes 'theme' down to all child components*/}
-			<CssBaseline />
-			{/** Initialises a standard 'default' css sheet to avoid visual discrepancies caused by different browser default stylesheets*/}
-			<div id="App">
-				<Router>
-					<div id="Content">
-						<Switch>
-							<Route path="/login">
-								<Card className="centerV centerH card">
-									<LoginForm setUserFn={setUser} user={user} />
-								</Card>
-							</Route>
-							<Route path="/request">
-								<Card
-									className="centerV centerH card"
-									style={{ width: "400px" }}
-								>
-									<LeaveForm user={user} />
-								</Card>
-							</Route>
-							<AuthenticatedRoute path="/leave" user={user}>
-								<LeaveList user={user} />
-							</AuthenticatedRoute>
-							<Route path="/">
-								<Redirect to="/request" />
-							</Route>
-						</Switch>
-					</div>
-					<BottomNavBar
-						navStatus={navStatus}
-						setNavStatus={setNavStatus}
-						accountLabel={accountLabel}
-						accountIcon={accountIcon}
-					/>
-					{/* TODO: Hide authenticated options */}
-					{/* TODO: Profile section */}
-				</Router>
-			</div>
-		</ThemeProvider>
+		<UserContext.Provider value={{ user, setUser }}>
+			<ThemeProvider theme={theme}>
+				{/** Theme provider component passes 'theme' down to all child components*/}
+				<CssBaseline />
+				{/** Initialises a standard 'default' css sheet to avoid visual discrepancies caused by different browser default stylesheets*/}
+				<div id="App">
+					<Router>
+						<div id="Content">
+							<Switch>
+								<Route path="/login">
+									<Card className="centerV centerH card">
+										<LoginForm setUserFn={setUser} user={user} />
+									</Card>
+								</Route>
+								<Route path="/request">
+									<Card
+										className="centerV centerH card"
+										style={{ width: "400px" }}
+									>
+										<LeaveForm user={user} />
+									</Card>
+								</Route>
+								<AuthenticatedRoute path="/leave" user={user}>
+									<LeaveList user={user} />
+								</AuthenticatedRoute>
+								<Route path="/">
+									<Redirect to="/request" />
+								</Route>
+							</Switch>
+						</div>
+						<BottomNavBar
+							navStatus={navStatus}
+							setNavStatus={setNavStatus}
+							accountLabel={accountLabel}
+							accountIcon={accountIcon}
+						/>
+						{/* TODO: Hide authenticated options */}
+						{/* TODO: Profile section */}
+					</Router>
+				</div>
+			</ThemeProvider>
+		</UserContext.Provider>
 	);
 }
 

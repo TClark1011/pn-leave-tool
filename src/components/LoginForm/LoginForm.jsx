@@ -1,6 +1,6 @@
 import "./LoginForm.scss";
 
-import React from "react";
+import React, { useContext } from "react";
 
 import axios from "axios";
 
@@ -9,8 +9,9 @@ import { TextField, Button, Typography, Collapse } from "@material-ui/core";
 import SectionTitle from "../utility/SectionTitle";
 import StatusMessage from "../utility/StatusMessage";
 
+import UserContext from "../utility/UserContext";
+
 const redirectedMsg = "An error occurred, please login to proceed";
-//DEPLOYMENT: Rewrite this as a good general purpose error message
 
 class LoginForm extends React.Component {
 	constructor(props) {
@@ -240,6 +241,7 @@ class LoginForm extends React.Component {
 						error={this.state.employee_number_error ? true : false}
 						helperText={this.state.employee_number_error}
 						style={{ marginTop: 8 }}
+						inputProps={{ maxLength: 6 }}
 					/>
 					<AuthField
 						label={"Password"}
@@ -248,6 +250,7 @@ class LoginForm extends React.Component {
 						value={this.state.password}
 						error={this.state.password_error ? true : false}
 						helperText={this.state.password_error}
+						inputProps={{ maxLength: 24 }}
 					/>
 					<Collapse in={this.state.show_reg_fields}>
 						{/* ? Extra fields for registration are initially hidden */}
@@ -260,6 +263,7 @@ class LoginForm extends React.Component {
 								this.handlers.confirmation_password(e.target.value)
 							}
 							helperText={this.state.confirmation_password_error}
+							inputProps={{ maxLength: 24 }}
 						/>
 						<AuthField
 							label="First Name"
@@ -341,6 +345,12 @@ function AuthField(props) {
 			{...props}
 		/>
 	);
+}
+
+function Test(props) {
+	const test = useContext(UserContext);
+	console.log(test);
+	return <span />;
 }
 
 export default LoginForm;
