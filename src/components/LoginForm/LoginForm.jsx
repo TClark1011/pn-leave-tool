@@ -1,6 +1,6 @@
 import "./LoginForm.scss";
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import axios from "axios";
 
@@ -14,6 +14,8 @@ import StatusMessage from "../utility/StatusMessage";
 import loginVal from "../../validation/loginVal";
 
 import UserContext from "../utility/UserContext";
+
+import { login } from "../../services/api";
 
 const redirectedMsg = "An error occurred, please login to proceed";
 
@@ -373,20 +375,29 @@ function nameToLabel(name) {
 }
 
 function LoginOnly(props) {
+	//TODO: Finish this
 	const { user, setUser } = useContext(UserContext);
+
+	const [formError, setFormError] = useState(null);
 
 	async function onSubmit(data, { setSubmitting }) {
 		setSubmitting(true);
 
 		console.log(data);
-		// Login request code...
+		await login(data)
+			.then((result) => {
+				setUser(result.data);
+			})
+			.catch((error) => {
+				setFormError(error.response.data.error);
+			});
 
 		setSubmitting(false);
 	}
 
 	return (
 		<Formik
-			initialValues={{ employee_number: 1 }}
+			initialValues={{ employee_number: "", password: "" }}
 			onSubmit={onSubmit}
 			validationSchema={loginVal}
 			validateOnChange={false}
@@ -401,6 +412,7 @@ function LoginOnly(props) {
 				errors,
 			}) => (
 				<Form>
+					<StatusMessage>{formError}</StatusMessage>
 					<Field
 						type="input"
 						name="employee_number"
