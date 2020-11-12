@@ -4,10 +4,14 @@ import React, { useContext } from "react";
 
 import axios from "axios";
 
+import { Formik, Field, Form } from "formik";
+
 import { TextField, Button, Typography, Collapse } from "@material-ui/core";
 
 import SectionTitle from "../utility/SectionTitle";
 import StatusMessage from "../utility/StatusMessage";
+
+import loginVal from "../../validation/loginVal";
 
 import UserContext from "../utility/UserContext";
 
@@ -336,21 +340,92 @@ function AuthField(props) {
 			props.form.handlers[props.fieldName](e.target.value);
 		autoProps.value = props.form.state[props.fieldName];
 	}
+	const label = props.name
+		? {
+				label: nameToLabel(props.name),
+		  }
+		: {};
 	return (
 		<TextField
 			variant="outlined"
 			color="primary"
 			fullWidth
 			className="form-item"
+			{...label}
 			{...props}
 		/>
 	);
 }
 
-function Test(props) {
-	const test = useContext(UserContext);
-	console.log(test);
-	return <span />;
+/**
+ * Take a field name and convert it to a properly formatted field label
+ * @param {string} name - The name to convert
+ * @returns Formatted version of 'name'
+ */
+function nameToLabel(name) {
+	name = name.replace("_", " ");
+	var splitStr = name.toLowerCase().split(" ");
+	for (var i = 0; i < splitStr.length; i++) {
+		splitStr[i] =
+			splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+	}
+	return splitStr.join(" ");
 }
 
-export default LoginForm;
+function LoginOnly(props) {
+	const { user, setUser } = useContext(UserContext);
+
+	async function onSubmit(data, { setSubmitting }) {
+		setSubmitting(true);
+
+		console.log(data);
+		// Login request code...
+
+		setSubmitting(false);
+	}
+
+	return (
+		<Formik
+			initialValues={{ employee_number: 1 }}
+			onSubmit={onSubmit}
+			validationSchema={loginVal}
+			validateOnChange={false}
+			validateOnBlur={false}
+		>
+			{({
+				values,
+				isSubmitting,
+				handleChange,
+				handleBlur,
+				handleSubmit,
+				errors,
+			}) => (
+				<Form>
+					<Field
+						type="input"
+						name="employee_number"
+						as={AuthField}
+						inputProps={{ maxLength: 6 }}
+						error={Boolean(errors.employee_number)}
+						helperText={errors.employee_number}
+					/>
+					<Field
+						type="input"
+						name="password"
+						as={AuthField}
+						inputProps={{ maxLength: 24 }}
+						error={Boolean(errors.password)}
+						helperText={errors.password}
+					/>
+					<Button variant="contained" type="submit" disabled={isSubmitting}>
+						submit
+					</Button>
+				</Form>
+			)}
+		</Formik>
+	);
+}
+
+export default LoginOnly;
+
+// export default LoginForm;

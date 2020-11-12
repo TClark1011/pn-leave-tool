@@ -1,17 +1,20 @@
 const yup = require("yup");
 
+const loginSchema = require("./schemas/loginSchema");
+const passwordField = require("./fields/password");
+
 const emailRegex = require("../utility/regex/email");
 const phoneRegex = require("../utility/regex/phone");
 
-const employee_number = require("./fields/employee_number");
-
 module.exports = yup.object({
-	employee_number,
-	password: yup
-		.string()
-		.required("Password is required")
-		.min(6, "Password must be at least 6 characters long")
-		.max(24, "Password cannot be longer than 24 characters long"),
+	...loginSchema,
+	confirm_password: passwordField.test(
+		"Passwords match",
+		"Passwords do not match",
+		function (value) {
+			return value ? value === this.resolve(yup.ref("password")) : true;
+		}
+	),
 	first_name: yup.string().required("Please enter your first name"),
 	last_name: yup.string().required("Please enter your last name"),
 	email: yup
