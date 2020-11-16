@@ -3,8 +3,8 @@ const yup = require("yup");
 const loginSchema = require("./schemas/loginSchema");
 const passwordField = require("./fields/password");
 
-const emailRegex = require("../utility/regex/email");
-const phoneRegex = require("../utility/regex/phone");
+const emailRegex = require("./regex/email");
+const phoneRegex = require("./regex/phone");
 
 module.exports = yup.object({
 	...loginSchema,

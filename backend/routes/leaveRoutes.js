@@ -14,7 +14,8 @@ const startOfDay = require("date-fns/startOfDay");
 const newLeaveProcessor = require("../utility/LeaveProcessor");
 const validateRequest = require("../utility/validateRequest");
 const genericError = require("../utility/genericError");
-const leaveVal = require("../validation/leaveVal");
+// const leaveVal = require("../validation/leaveVal");
+const leaveVal = require("../../src/validation/leaveVal");
 
 const sampleLeaveData = {
 	minimumDrivers: 25,

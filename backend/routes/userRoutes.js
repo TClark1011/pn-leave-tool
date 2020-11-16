@@ -4,15 +4,16 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
-const validateRequest = require("../utility/validateRequest");
 const sanitiseUser = require("../utility/sanitiseUser");
 const genericError = require("../utility/genericError");
 const authenticateUser = require("../utility/authenticateUser");
 const encryptPassword = require("../utility/encryptPassword");
 const getToken = require("../utility/getToken");
 
-const registerVal = require("../validation/registerVal");
-const loginVal = require("../validation/loginVal");
+// const registerVal = require("../registerVal");
+// const loginVal = require("../validation/loginVal");
+const registerVal = require("../../src/validation/registerVal");
+const loginVal = require("../../src/validation/loginVal");
 
 const userRouter = express.Router();
 
