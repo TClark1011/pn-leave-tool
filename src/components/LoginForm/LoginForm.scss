@@ -1,7 +1,5 @@
 @import "../../styles/config/export";
 
-.login-form {
-	.form-item {
-		margin-bottom: $form-item-spacing;
-	}
+.login-form > .form-item:not(:last-child):not(:empty) {
+	margin-bottom: $form-item-spacing;
 }
