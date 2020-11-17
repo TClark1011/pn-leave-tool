@@ -3,9 +3,7 @@
 .leave-form {
 	.form-item {
 		width: 100%;
-		@include vertical-spacing($spacing-3);
 	}
-
 	.date-field {
 		&:first-of-type {
 			margin-bottom: 0 !important;

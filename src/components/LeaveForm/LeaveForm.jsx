@@ -142,7 +142,7 @@ function LeaveForm(props) {
 				></DateField>
 			</MuiPickersUtilsProvider>
 			<div className="form-item extra-data">
-				<div className="length">
+				<div className="length form-item">
 					<BodyText>Your leave is</BodyText>
 					<TextField
 						className="leave-length-field"
@@ -156,7 +156,7 @@ function LeaveForm(props) {
 					/>
 					<BodyText>days long</BodyText>
 				</div>
-				<div className="remaining-leave">
+				<div className="remaining-leave form-item">
 					<BodyText>
 						You have {getLeaveLength()} days of leave remaining
 					</BodyText>
@@ -185,6 +185,7 @@ function LeaveForm(props) {
 			</Modal>
 		</form>
 	);
+	//TODO: Implement formik into leave form
 
 	function BodyText(props) {
 		return (
