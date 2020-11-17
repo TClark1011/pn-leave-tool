@@ -64,61 +64,56 @@ function LoginForm(props) {
 		return <h1>Employee #{user.employee_number}</h1>;
 	}
 	return (
-		<Formik
-			initialValues={{ employee_number: "", password: "" }}
-			onSubmit={onSubmit}
-			validationSchema={loginVal}
-			validateOnChange={false}
-			validateOnBlur={false}
-		>
-			{({
-				values,
-				isSubmitting,
-				handleChange,
-				handleBlur,
-				handleSubmit,
-				errors,
-			}) => {
-				function FormField(props) {
-					return (
-						<Field
-							type="input"
-							as={AuthField}
-							error={Boolean(errors[props.name])}
-							helperText={errors[props.name]}
-							{...props}
-						/>
-					);
-				}
-				return (
+		<div className="login-form">
+			<Formik
+				initialValues={{ employee_number: "", password: "" }}
+				onSubmit={onSubmit}
+				validationSchema={loginVal}
+				validateOnChange={false}
+				validateOnBlur={false}
+			>
+				{({
+					values,
+					isSubmitting,
+					handleChange,
+					handleBlur,
+					handleSubmit,
+					errors,
+				}) => (
 					<Form>
 						<SectionTitle>Login</SectionTitle>
 						<StatusMessage>{formError}</StatusMessage>
-						<FormField
+						<Field
 							type="input"
 							name="employee_number"
+							as={AuthField}
 							inputProps={{ maxLength: 6 }}
+							error={Boolean(errors.employee_number)}
+							helperText={errors.employee_number}
+							variant="outlined"
 						/>
-						<FormField name="password" inputProps={{ maxLength: 24 }} />
-						<Collapse in={showRegFields}>
-							<h5>Reg fields</h5>
-						</Collapse>
-						<Collapse in={!showRegFields} className="form-item">
-							<AuthButton
-								variant="contained"
-								type="submit"
-								disabled={isSubmitting}
-							>
-								submit
-							</AuthButton>
-						</Collapse>
+						<Field
+							type="input"
+							name="password"
+							as={AuthField}
+							inputProps={{ maxLength: 24 }}
+							error={Boolean(errors.password)}
+							helperText={errors.password}
+						/>
+						<AuthButton
+							variant="contained"
+							type="submit"
+							disabled={isSubmitting}
+						>
+							submit
+						</AuthButton>
 						<AuthButton variant="outlined" onClick={onRegister}>
-							{showRegFields ? "confirm" : "register"}
+							register
 						</AuthButton>
 					</Form>
-				);
-			}}
-		</Formik>
+				)}
+			</Formik>
+		</div>
 	);
 
 	function AuthButton(props) {
