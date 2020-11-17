@@ -39,12 +39,10 @@ function LoginForm(props) {
 	const { user, setUser } = useContext(UserContext);
 
 	const [formError, setFormError] = useState(null);
-	const [showRegFields, setShowRegFields] = useState(false);
 
 	async function onSubmit(data, { setSubmitting }) {
 		setSubmitting(true);
 
-		console.log(data);
 		await login(data)
 			.then((result) => {
 				setUser(result.data);
@@ -54,10 +52,6 @@ function LoginForm(props) {
 			});
 
 		setSubmitting(false);
-	}
-
-	async function onRegister(data) {
-		setShowRegFields(true);
 	}
 
 	if (user) {
@@ -107,9 +101,7 @@ function LoginForm(props) {
 						>
 							submit
 						</AuthButton>
-						<AuthButton variant="outlined" onClick={onRegister}>
-							register
-						</AuthButton>
+						<AuthButton variant="outlined">register</AuthButton>
 					</Form>
 				)}
 			</Formik>
