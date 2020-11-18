@@ -1,8 +1,10 @@
 import "./LeaveForm.scss";
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import axios from "axios";
+
+import { Formik, Form, Field } from "formik";
 
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
@@ -26,48 +28,54 @@ import {
 	max as maxDate,
 } from "date-fns";
 
+import UserContext from "../utility/UserContext";
+
+import leaveVal from "../../validation/leaveVal";
+
 import StatusMessage from "../utility/StatusMessage";
 import SectionTitle from "../utility/SectionTitle";
 import BodyText from "../utility/BodyText";
+import FormButton from "../utility/Forms/FormButton";
 
 function LeaveForm(props) {
+	const { user, setUser } = useContext(UserContext);
+
 	const minNoticeDays = 14;
 	const minDate = startOfDay(addDays(new Date(), minNoticeDays));
 	const [startDate, setStartDate] = useState(minDate);
 	const [endDate, setEndDate] = useState(addDays(startDate, 1));
+	const [length, setLength] = useState(1);
 	const [response, setResponse] = useState(null);
-
-	const lengthField = React.createRef();
 
 	function updateStartDate(date) {
 		setStartDate(startOfDay(date));
 		const newEndDate = maxDate([endDate, addDays(date, 1)]);
 		setEndDate(newEndDate);
-		lengthField.current.value = differenceInDays(newEndDate, date) || 1;
+
+		const newLength = differenceInDays(newEndDate, date) || 1;
+		setLength(newLength);
+		lengthFieldRef.current.value = newLength;
 	}
 	function updateEndDate(date) {
 		setEndDate(startOfDay(date));
-		lengthField.current.value = differenceInDays(date, startDate) || 1;
+		const newLength = differenceInDays(date, startDate) || 1;
+		setLength(newLength);
+		lengthFieldRef.current.value = newLength;
 	}
 
-	function onSubmit(e) {
-		var isValid = true;
-		if (!startDate || !endDate || startDate >= endDate) {
-			isValid = false;
-		}
-		if (isValid) {
-			axios
-				.post("/api/leave/request", {
-					user: props.user?.employee_number,
-					dates: { start: startDate, end: endDate },
-				})
-				.then((result) => {
-					setResponse(result.data.message);
-				})
-				.catch((error) => {
-					setResponse(formatDenied(error.response?.data));
-				});
-		}
+	function onSubmit(data, { setSubmitting }) {
+		setSubmitting(true);
+		console.log("Submitting: ", data);
+		axios
+			.post("/api/leave/request", data)
+			.then((result) => {
+				setResponse(result.data.message);
+				setUser(result.data.updatedUser);
+			})
+			.catch((error) => {
+				setResponse(formatDenied(error.response?.data));
+			});
+		setSubmitting(false);
 	}
 
 	function formatDenied(result) {
@@ -76,9 +84,12 @@ function LeaveForm(props) {
 				{result.message}
 				<ul className="invalid-days">
 					{result.invalidDays.map((item, index) => (
-						<li key={index}>{formatDate(new Date(item), "do MMMM yyyy")}</li>
+						<li key={index}>{formatDate(new Date(item), "MMMM do yyyy")}</li>
 					))}
 				</ul>
+				<p className="try-again-msg">
+					You can go back to select new dates and try again
+				</p>
 			</>
 		);
 	}
@@ -95,14 +106,21 @@ function LeaveForm(props) {
 	 * @param {Object} e - The 'onInput' event of the field
 	 */
 	function limitLength(e) {
-		e.target.value = Math.max(0, parseInt(e.target.value))
-			.toString()
-			.slice(0, 3);
+		e.target.value = e.target.value.toString().slice(0, 3);
+	}
+
+	/**
+	 * Check whether or not the passed value would be a valid input into the leave length field
+	 */
+	function validateLengthField(value, allowBlank) {
+		allowBlank = allowBlank || false;
+		return (value.length > 0 && value > 0 && value <= user.leave) || allowBlank;
 	}
 
 	function onLengthFieldChange(e) {
-		if (validateLengthField(e.target.value)) {
-			updateEndDate(addDays(startDate, e.target.value));
+		if (validateLengthField(e.target.value, true)) {
+			const updatedLength = Math.max(1, e.target.value || 0);
+			updateEndDate(addDays(startDate, updatedLength));
 		}
 	}
 
@@ -112,82 +130,101 @@ function LeaveForm(props) {
 		}
 	}
 
-	/**
-	 * Check whether or not the passed value would be a valid input into the leave length field
-	 */
-	function validateLengthField(value) {
-		return value.length > 0 && value > 0;
-	}
-
 	function getLeaveLength() {
 		return props.user?.leave - differenceInDays(endDate, startDate);
 	}
 
+	const lengthFieldRef = React.createRef();
 	return (
-		<form className="leave-form">
+		<div className="leave-form">
 			<SectionTitle>Submit Leave Request</SectionTitle>
-			<BodyText>
-				Enter the start and end dates for your annual leave then press 'Submit'
-			</BodyText>
-			<MuiPickersUtilsProvider utils={DateFnsUtils}>
-				<DateField
-					value={startDate}
-					onChange={updateStartDate}
-					minDate={startDate}
-				></DateField>
-				<BodyText className="date-field-divider form-item">To</BodyText>
-				<DateField
-					value={endDate}
-					onChange={updateEndDate}
-					minDate={addDays(startDate, 1)}
-				></DateField>
-			</MuiPickersUtilsProvider>
-			<div className="form-item extra-data">
-				<div className="length form-item">
-					<BodyText component="span">Your leave is</BodyText>
-					<TextField
-						className="leave-length-field"
-						onInput={limitLength}
-						onChange={onLengthFieldChange}
-						type="number"
-						variant="outlined"
-						inputRef={lengthField}
-						onBlur={lengthFieldFocusOut}
-						defaultValue="1"
-					/>
-					<BodyText component="span">days long</BodyText>
-				</div>
-				<div className="remaining-leave form-item">
-					<BodyText>
-						You have {getLeaveLength()} days of leave remaining
-					</BodyText>
-				</div>
-				{/* TODO: Update remaining leave after submitting request */}
-			</div>
-			<Button
-				variant="contained"
-				color="primary"
-				className="submit-button form-item"
-				disableElevation
-				onClick={onSubmit}
+			<Formik
+				initialValues={{
+					user: user.employee_number,
+					dates: {
+						start: minDate,
+						end: addDays(minDate, 1),
+					},
+				}}
+				onSubmit={onSubmit}
+				validateOnChange={false}
+				validateOnBlur={false}
+				validationSchema={leaveVal}
 			>
-				Submit
-			</Button>
-			<Modal open={response ? true : false}>
+				{({ errors, isSubmitting, setFieldValue }) => (
+					<Form>
+						<BodyText>
+							Enter the start and end dates for your annual leave then press
+							'Submit'
+						</BodyText>
+						<MuiPickersUtilsProvider utils={DateFnsUtils}>
+							<DateField
+								value={startDate}
+								onChange={(value) => {
+									updateStartDate(value);
+									setFieldValue("dates.start", value);
+								}}
+								minDate={startDate}
+							></DateField>
+							<BodyText className="date-field-divider form-item">To</BodyText>
+							<DateField
+								value={endDate}
+								onChange={(value) => {
+									updateEndDate(value);
+									setFieldValue("dates.end", value);
+								}}
+								minDate={addDays(startDate, 1)}
+								maxDate={addDays(startDate, user.leave)}
+							></DateField>
+						</MuiPickersUtilsProvider>
+						<div className="form-item extra-data">
+							<div className="length form-item">
+								<BodyText component="span">Your leave is</BodyText>
+								<TextField
+									className="leave-length-field"
+									onInput={limitLength}
+									onChange={onLengthFieldChange}
+									inputRef={lengthFieldRef}
+									type="number"
+									variant="outlined"
+									onBlur={lengthFieldFocusOut}
+									defaultValue="1"
+								/>
+								<BodyText component="span">days long</BodyText>
+							</div>
+							<div className="remaining-leave form-item">
+								<BodyText>
+									You have {getLeaveLength()} days of leave remaining
+								</BodyText>
+							</div>
+							{/* TODO: Update remaining leave after submitting request */}
+						</div>
+						<Field name="user" type="hidden" value={user.employee_number} />
+						<FormButton type="submit" disabled={isSubmitting}>
+							submit
+						</FormButton>
+					</Form>
+				)}
+			</Formik>
+			<Modal open={!!response}>
 				<div className="inner-modal">
-					<ClickAwayListener onClickAway={() => setResponse(null)}>
-						<Card className="request-result-card">
-							<StatusMessage tone={responseStatusTone()}>
-								<BodyText>{response}</BodyText>
-							</StatusMessage>
-						</Card>
-					</ClickAwayListener>
+					<Card className="request-result-card">
+						<StatusMessage tone={responseStatusTone()}>
+							{response}
+						</StatusMessage>
+						<Button
+							variant="outlined"
+							className="return-button"
+							onClick={() => setResponse(null)}
+						>
+							return
+						</Button>
+					</Card>
 				</div>
 			</Modal>
-		</form>
+		</div>
 	);
 
-	//TODO: Implement formik into leave form
 	function DateField(props) {
 		return (
 			<KeyboardDatePicker
