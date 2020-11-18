@@ -67,7 +67,12 @@ function RegForm(props) {
 						<FastField name="last_name" component={FormField} />
 						<FastField name="email" component={FormField} />
 						<FastField name="phone" component={FormField} />
-						<FastField name="leave" component={FormField} type="number" />
+						<FastField
+							name="leave"
+							component={FormField}
+							type="number"
+							label="Stored Days of Leave"
+						/>
 						<FormButton type="submit" disabled={isSubmitting}>
 							submit
 						</FormButton>
@@ -76,6 +81,9 @@ function RegForm(props) {
 			</Formik>
 		</div>
 	);
+	//TODO: Add a "confirm employee number" field
+	//TODO: Implement status message
+	//TODO: add a question mark hover to explain the leave field
 }
 
 export default RegForm;
