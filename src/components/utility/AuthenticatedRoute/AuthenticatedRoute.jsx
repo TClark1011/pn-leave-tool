@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, withRouter } from "react-router-dom";
+
+import UserContext from "../UserContext";
 
 function AuthenticatedRoute(props) {
-	if (props.user) {
+	const { user, setUser } = useContext(UserContext);
+	if (user) {
 		return <Route {...props}>{props.children}</Route>;
-	} else {
-		return <Redirect to="/login?redir"></Redirect>;
 	}
+	props.history.push("/login?redir");
+	return null;
 }
 
-export default AuthenticatedRoute;
+export default withRouter(AuthenticatedRoute);

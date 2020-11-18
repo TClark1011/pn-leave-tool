@@ -52,6 +52,7 @@ function LoginForm(props) {
 		setSubmitting(false);
 	}
 
+	//TODO: user withRouter() to redirect to profile once logged in
 	return (
 		<div className="login-form">
 			<Formik
@@ -148,5 +149,3 @@ function LoginForm(props) {
 }
 
 export default LoginForm;
-
-// export default LoginForm;

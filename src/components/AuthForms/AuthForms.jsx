@@ -60,6 +60,7 @@ function AuthForms({ history, form, ...props }) {
 				label={label}
 				className="tab"
 				value={tabIndexes[label.toLowerCase()]}
+				disableRipple
 				{...props}
 			/>
 		);

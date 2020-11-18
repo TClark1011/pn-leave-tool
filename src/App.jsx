@@ -30,11 +30,13 @@ import AuthForms from "./components/AuthForms";
 
 import LeaveForm from "./components/LeaveForm";
 import LeaveList from "./components/LeaveList";
+import Profile from "./components/Profile";
 
 import AuthenticatedRoute from "./components/utility/AuthenticatedRoute";
 
 const checkNav = () => {
 	switch (window.location.pathname) {
+		case "/profile":
 		case "/login":
 			return "account";
 		case "/leave":
@@ -53,6 +55,10 @@ function App() {
 
 	const accountLabel = user ? "Profile" : "Login";
 	const accountIcon = user ? "account_box" : "login";
+
+	function getAuthLink() {
+		return user ? "/profile" : "/login";
+	}
 
 	useEffect(() => {
 		window.addEventListener("popstate", () => setNavStatus(checkNav()));
@@ -107,7 +113,12 @@ function App() {
 										<LeaveForm user={user} />
 									</Card>
 								</Route>
-								<AuthenticatedRoute path="/leave" user={user}>
+								<AuthenticatedRoute path="/profile">
+									<Card className="centerV centerH card">
+										<Profile />
+									</Card>
+								</AuthenticatedRoute>
+								<AuthenticatedRoute path="/leave">
 									<LeaveList user={user} />
 								</AuthenticatedRoute>
 								<Route path="/">
@@ -115,64 +126,52 @@ function App() {
 								</Route>
 							</Switch>
 						</div>
-						<BottomNavBar
-							navStatus={navStatus}
-							setNavStatus={setNavStatus}
-							accountLabel={accountLabel}
-							accountIcon={accountIcon}
-						/>
-						{/* TODO: Hide authenticated options */}
-						{/* TODO: Profile section */}
+						<BottomNavBar />
 					</Router>
 				</div>
 			</ThemeProvider>
 		</UserContext.Provider>
 	);
-}
+	function BottomNavBar(props) {
+		useEffect(() => {
+			setNavStatus(checkNav());
+		});
 
-function BottomNavBar(props) {
-	const navStatus = props.navStatus;
-	const setNavStatus = props.setNavStatus;
-	const accountLabel = props.accountLabel;
-	const accountIcon = props.accountIcon;
-
-	useEffect(() => {
-		setNavStatus(checkNav());
-	});
-
-	//TODO: make sure highlighted button is always accurate to currently active section
-	return (
-		<BottomNavigation
-			id="bottom-navigation"
-			value={navStatus}
-			onChange={(e, newValue) => setNavStatus(newValue)}
-			className="bottom-navigation-bar"
-			showLabels
-			style={{ boxShadow: theme.shadows[4] }}
-		>
-			<BottomNavigationAction
-				label={accountLabel}
-				value="account"
-				icon={<Icon>{accountIcon}</Icon>}
-				component={Link}
-				to="/login"
-			/>
-			<BottomNavigationAction
-				label="Submit"
-				value="request"
-				icon={<Icon>send</Icon>}
-				component={Link}
-				to="/request"
-			/>
-			<BottomNavigationAction
-				label="Requests"
-				value="leave"
-				icon={<Icon>event</Icon>}
-				component={Link}
-				to="/leave"
-			/>
-		</BottomNavigation>
-	);
+		//TODO: make sure highlighted button is always accurate to currently active section
+		return (
+			<BottomNavigation
+				id="bottom-navigation"
+				value={navStatus}
+				onChange={(e, newValue) => setNavStatus(newValue)}
+				className="bottom-navigation-bar"
+				showLabels
+				style={{ boxShadow: theme.shadows[4] }}
+			>
+				<BottomNavigationAction
+					label={accountLabel}
+					value="account"
+					icon={<Icon>{accountIcon}</Icon>}
+					component={Link}
+					to={getAuthLink()}
+				/>
+				<BottomNavigationAction
+					label="Submit"
+					value="request"
+					icon={<Icon>send</Icon>}
+					component={Link}
+					to="/request"
+				/>
+				<BottomNavigationAction
+					label="Requests"
+					value="leave"
+					icon={<Icon>event</Icon>}
+					component={Link}
+					to="/leave"
+				/>
+				{/* TODO: Profile section */}
+			</BottomNavigation>
+		);
+	}
 }
 
 export default App;
