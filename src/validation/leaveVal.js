@@ -1,9 +1,13 @@
+// import { startOfToday, addWeeks } from "date-fns";
+
+const fixRequire = require("../services/fixRequire");
+
 const yup = require("yup");
 
 const user = require("./fields/employee_number");
 
-const addWeeks = require("date-fns/addWeeks");
-const startOfToday = require("date-fns/startOfToday");
+var addWeeks = fixRequire(require("date-fns/addWeeks"));
+var startOfToday = fixRequire(require("date-fns/startOfToday"));
 
 const schema = {
 	user: user.required(),
