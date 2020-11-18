@@ -11,11 +11,12 @@ const addDays = require("date-fns/addDays");
 const parse = require("date-fns/parse");
 const startOfDay = require("date-fns/startOfDay");
 
+const leaveVal = require("../../src/validation/leaveVal");
+
 const newLeaveProcessor = require("../utility/LeaveProcessor");
 const validateRequest = require("../utility/validateRequest");
 const genericError = require("../utility/genericError");
-// const leaveVal = require("../validation/leaveVal");
-const leaveVal = require("../../src/validation/leaveVal");
+const sanitiseUser = require("../utility/sanitiseUser");
 
 const sampleLeaveData = {
 	minimumDrivers: 25,
@@ -52,9 +53,13 @@ leaveRouter.post("/request", async (request, response) => {
 	await leaveRequest.commit(Leave);
 
 	if (evaluation.approved) {
+		const updatedUser = sanitiseUser(
+			await User.getFromEmployeeNumber(request.body.user)
+		);
 		response.status(200).json({
 			approved: true,
 			message: "Request for annual leave approved",
+			updatedUser: updatedUser,
 		});
 		console.log("Leave request approved");
 	} else {
