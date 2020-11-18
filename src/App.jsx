@@ -105,14 +105,14 @@ function App() {
 										<AuthForms form="register" />
 									</Card>
 								</Route>
-								<Route path="/request">
+								<AuthenticatedRoute path="/request">
 									<Card
 										className="centerV centerH card"
 										style={{ width: "400px" }}
 									>
 										<LeaveForm user={user} />
 									</Card>
-								</Route>
+								</AuthenticatedRoute>
 								<AuthenticatedRoute path="/profile">
 									<Card className="centerV centerH card">
 										<Profile />
@@ -122,7 +122,7 @@ function App() {
 									<LeaveList user={user} />
 								</AuthenticatedRoute>
 								<Route path="/">
-									<Redirect to="/request" />
+									<Redirect to="/login" />
 								</Route>
 							</Switch>
 						</div>
