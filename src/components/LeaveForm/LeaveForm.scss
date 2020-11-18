@@ -62,23 +62,33 @@
 
 	.request-result-card {
 		margin: auto;
-		width: 700px;
+		width: 500px;
 		max-width: 90vw;
+
+		.invalid-days {
+			list-style: none;
+			padding-left: 0;
+			margin: 0;
+			margin-top: $spacing-1;
+			font-weight: bold;
+
+			li::before {
+				padding-right: $spacing-2;
+				content: "-";
+			}
+		}
+
+		.try-again-msg {
+			margin: 0;
+			margin-top: $spacing-1;
+		}
+
+		button {
+			margin-top: $spacing-2;
+		}
 	}
 }
 
 .MuiDialogContent-root {
 	overflow-y: hidden !important;
-}
-
-.invalid-days {
-	list-style: none;
-	padding-left: 0;
-	margin: 0;
-	margin-top: $spacing-1;
-
-	li::before {
-		padding-right: $spacing-2;
-		content: "-";
-	}
 }
