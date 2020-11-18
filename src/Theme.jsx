@@ -26,7 +26,6 @@ const theme = createMuiTheme({
 	},
 });
 
-//# NOTES
-//* Page Titles (eg; 'Login') use h2
+//TODO: Pull values from scss using solution from here: https://github.com/css-modules/css-modules/issues/86
 
 export default theme;

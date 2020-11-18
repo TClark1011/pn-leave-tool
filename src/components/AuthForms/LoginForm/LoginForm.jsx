@@ -2,7 +2,7 @@ import "./LoginForm.scss";
 
 import React, { useContext, useState } from "react";
 
-import axios from "axios";
+import { Link, withRouter } from "react-router-dom";
 
 import { Formik, Field, Form } from "formik";
 
@@ -98,7 +98,12 @@ function LoginForm(props) {
 						>
 							submit
 						</AuthButton>
-						<AuthButton variant="outlined">register</AuthButton>
+						<AuthButton
+							variant="outlined"
+							onClick={() => props.setTab("register")}
+						>
+							register
+						</AuthButton>
 					</Form>
 				)}
 			</Formik>
@@ -144,6 +149,6 @@ function LoginForm(props) {
 	}
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);
 
 // export default LoginForm;

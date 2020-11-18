@@ -2,8 +2,9 @@ import "./AuthForms.scss";
 
 import React, { useState, useContext } from "react";
 
-import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
+import { Tabs, Tab } from "@material-ui/core";
 import TabPanel from "../utility/MuiTabPanel";
 
 import UserContext from "../utility/UserContext";
@@ -21,6 +22,13 @@ function AuthForms({ form, ...props }) {
 
 	function handleTabChange(event, tab) {
 		setTabValue(tab);
+		props.history.push(
+			Object.keys(tabIndexes).find((key) => tabIndexes[key] === tab)
+		);
+	}
+
+	function setTab(form) {
+		handleTabChange(null, tabIndexes[form]);
 	}
 
 	if (user) {
@@ -34,17 +42,28 @@ function AuthForms({ form, ...props }) {
 				className="tabs-bar"
 				TabIndicatorProps={{ color: "primary" }}
 			>
-				<Tab label="Login" className="tab" />
-				<Tab label="Register" className="tab" />
+				<AuthTab label="Login" />
+				<AuthTab label="Register" />
 			</Tabs>
 			<TabPanel value={tabValue} index={tabIndexes.login}>
-				<LoginForm />
+				<LoginForm setTab={setTabValue} setTab={setTab} />
 			</TabPanel>
 			<TabPanel value={tabValue} index={tabIndexes.register}>
 				<RegForm />
 			</TabPanel>
 		</div>
 	);
+
+	function AuthTab({ label, ...props }) {
+		return (
+			<Tab
+				label={label}
+				className="tab"
+				value={tabIndexes[label.toLowerCase()]}
+				{...props}
+			/>
+		);
+	}
 }
 
-export default AuthForms;
+export default withRouter(AuthForms);
