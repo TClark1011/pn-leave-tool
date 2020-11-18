@@ -35,7 +35,6 @@ function nameToLabel(name) {
 }
 
 function LoginForm(props) {
-	//TODO: Registration
 	const { user, setUser } = useContext(UserContext);
 
 	const [formError, setFormError] = useState(null);
@@ -53,63 +52,6 @@ function LoginForm(props) {
 
 		setSubmitting(false);
 	}
-
-	//TODO: user withRouter() to redirect to profile once logged in
-	// return (
-	// 	<div className="login-form">
-	// 		<Formik
-	// 			initialValues={{ employee_number: "", password: "" }}
-	// 			onSubmit={onSubmit}
-	// 			validationSchema={loginVal}
-	// 			validateOnChange={false}
-	// 			validateOnBlur={false}
-	// 		>
-	// 			{({
-	// 				values,
-	// 				isSubmitting,
-	// 				handleChange,
-	// 				handleBlur,
-	// 				handleSubmit,
-	// 				errors,
-	// 			}) => (
-	// 				<Form>
-	// 					<SectionTitle>Login</SectionTitle>
-	// 					<StatusMessage>{formError}</StatusMessage>
-	// 					<Field
-	// 						type="input"
-	// 						name="employee_number"
-	// 						as={AuthField}
-	// 						inputProps={{ maxLength: 6 }}
-	// 						error={Boolean(errors.employee_number)}
-	// 						helperText={errors.employee_number}
-	// 						variant="outlined"
-	// 					/>
-	// 					<Field
-	// 						type="input"
-	// 						name="password"
-	// 						as={AuthField}
-	// 						inputProps={{ maxLength: 24 }}
-	// 						error={Boolean(errors.password)}
-	// 						helperText={errors.password}
-	// 					/>
-	// 					<AuthButton
-	// 						variant="contained"
-	// 						type="submit"
-	// 						disabled={isSubmitting}
-	// 					>
-	// 						submit
-	// 					</AuthButton>
-	// 					<AuthButton
-	// 						variant="outlined"
-	// 						onClick={() => props.setTab("register")}
-	// 					>
-	// 						register
-	// 					</AuthButton>
-	// 				</Form>
-	// 			)}
-	// 		</Formik>
-	// 	</div>
-	// );
 	return (
 		<div className="login-form">
 			<Formik
@@ -151,44 +93,6 @@ function LoginForm(props) {
 			</Formik>
 		</div>
 	);
-
-	function AuthButton(props) {
-		return (
-			<Button
-				fullWidth
-				color="primary"
-				disableElevation
-				className="form-item"
-				{...props}
-			>
-				{props.children}
-			</Button>
-		);
-	}
-
-	function AuthField(props) {
-		const autoProps = {};
-		if (props.fieldName && props.form) {
-			autoProps.onChange = (e) =>
-				props.form.handlers[props.fieldName](e.target.value);
-			autoProps.value = props.form.state[props.fieldName];
-		}
-		const label = props.name
-			? {
-					label: nameToLabel(props.name),
-			  }
-			: {};
-		return (
-			<TextField
-				variant="outlined"
-				color="primary"
-				fullWidth
-				className="form-item"
-				{...label}
-				{...props}
-			/>
-		);
-	}
 }
 
 export default LoginForm;
