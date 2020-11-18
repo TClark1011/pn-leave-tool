@@ -28,6 +28,7 @@ import {
 
 import StatusMessage from "../utility/StatusMessage";
 import SectionTitle from "../utility/SectionTitle";
+import BodyText from "../utility/BodyText";
 
 function LeaveForm(props) {
 	const minNoticeDays = 14;
@@ -143,7 +144,7 @@ function LeaveForm(props) {
 			</MuiPickersUtilsProvider>
 			<div className="form-item extra-data">
 				<div className="length form-item">
-					<BodyText>Your leave is</BodyText>
+					<BodyText component="span">Your leave is</BodyText>
 					<TextField
 						className="leave-length-field"
 						onInput={limitLength}
@@ -154,7 +155,7 @@ function LeaveForm(props) {
 						onBlur={lengthFieldFocusOut}
 						defaultValue="1"
 					/>
-					<BodyText>days long</BodyText>
+					<BodyText component="span">days long</BodyText>
 				</div>
 				<div className="remaining-leave form-item">
 					<BodyText>
@@ -185,16 +186,8 @@ function LeaveForm(props) {
 			</Modal>
 		</form>
 	);
+
 	//TODO: Implement formik into leave form
-
-	function BodyText(props) {
-		return (
-			<Typography variant="body1" component="span" {...props}>
-				{props.children}
-			</Typography>
-		);
-	}
-
 	function DateField(props) {
 		return (
 			<KeyboardDatePicker
