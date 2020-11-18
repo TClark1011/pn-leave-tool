@@ -6,7 +6,7 @@ import { FastField, Formik, Form } from "formik";
 
 import UserContext from "../../utility/UserContext";
 
-import * as registerVal from "../../../validation/registerVal";
+import registerVal from "../../../validation/registerVal";
 
 import FormField from "../../utility/Forms/FormField";
 import FormButton from "../../utility/Forms/FormButton";

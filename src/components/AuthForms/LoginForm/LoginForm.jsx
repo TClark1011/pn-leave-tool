@@ -6,12 +6,14 @@ import { Formik, Field, Form } from "formik";
 
 import { TextField, Button, Typography, Collapse } from "@material-ui/core";
 
+import UserContext from "../../utility/UserContext";
+
 import SectionTitle from "../../utility/SectionTitle";
 import StatusMessage from "../../utility/StatusMessage";
+import FormField from "../../utility/Forms/FormField";
+import FormButton from "../../utility/Forms/FormButton";
 
 import loginVal from "../../../validation/loginVal";
-
-import UserContext from "../../utility/UserContext";
 
 import { login } from "../../../services/api";
 
@@ -53,6 +55,61 @@ function LoginForm(props) {
 	}
 
 	//TODO: user withRouter() to redirect to profile once logged in
+	// return (
+	// 	<div className="login-form">
+	// 		<Formik
+	// 			initialValues={{ employee_number: "", password: "" }}
+	// 			onSubmit={onSubmit}
+	// 			validationSchema={loginVal}
+	// 			validateOnChange={false}
+	// 			validateOnBlur={false}
+	// 		>
+	// 			{({
+	// 				values,
+	// 				isSubmitting,
+	// 				handleChange,
+	// 				handleBlur,
+	// 				handleSubmit,
+	// 				errors,
+	// 			}) => (
+	// 				<Form>
+	// 					<SectionTitle>Login</SectionTitle>
+	// 					<StatusMessage>{formError}</StatusMessage>
+	// 					<Field
+	// 						type="input"
+	// 						name="employee_number"
+	// 						as={AuthField}
+	// 						inputProps={{ maxLength: 6 }}
+	// 						error={Boolean(errors.employee_number)}
+	// 						helperText={errors.employee_number}
+	// 						variant="outlined"
+	// 					/>
+	// 					<Field
+	// 						type="input"
+	// 						name="password"
+	// 						as={AuthField}
+	// 						inputProps={{ maxLength: 24 }}
+	// 						error={Boolean(errors.password)}
+	// 						helperText={errors.password}
+	// 					/>
+	// 					<AuthButton
+	// 						variant="contained"
+	// 						type="submit"
+	// 						disabled={isSubmitting}
+	// 					>
+	// 						submit
+	// 					</AuthButton>
+	// 					<AuthButton
+	// 						variant="outlined"
+	// 						onClick={() => props.setTab("register")}
+	// 					>
+	// 						register
+	// 					</AuthButton>
+	// 				</Form>
+	// 			)}
+	// 		</Formik>
+	// 	</div>
+	// );
 	return (
 		<div className="login-form">
 			<Formik
@@ -62,47 +119,33 @@ function LoginForm(props) {
 				validateOnChange={false}
 				validateOnBlur={false}
 			>
-				{({
-					values,
-					isSubmitting,
-					handleChange,
-					handleBlur,
-					handleSubmit,
-					errors,
-				}) => (
+				{({ isSubmitting }) => (
 					<Form>
 						<SectionTitle>Login</SectionTitle>
-						<StatusMessage>{formError}</StatusMessage>
+						<StatusMessage className="form-item">{formError}</StatusMessage>
 						<Field
-							type="input"
 							name="employee_number"
-							as={AuthField}
 							inputProps={{ maxLength: 6 }}
-							error={Boolean(errors.employee_number)}
-							helperText={errors.employee_number}
-							variant="outlined"
+							component={FormField}
 						/>
 						<Field
-							type="input"
 							name="password"
-							as={AuthField}
 							inputProps={{ maxLength: 24 }}
-							error={Boolean(errors.password)}
-							helperText={errors.password}
+							component={FormField}
 						/>
-						<AuthButton
+						<FormButton
 							variant="contained"
 							type="submit"
 							disabled={isSubmitting}
 						>
 							submit
-						</AuthButton>
-						<AuthButton
+						</FormButton>
+						<FormButton
 							variant="outlined"
 							onClick={() => props.setTab("register")}
 						>
 							register
-						</AuthButton>
+						</FormButton>
 					</Form>
 				)}
 			</Formik>
