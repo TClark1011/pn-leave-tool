@@ -20,6 +20,7 @@ function Profile(props) {
 			<BodyText>Phone: {user.phone} </BodyText>
 		</div>
 	);
+	//TODO: Styling
 }
 
 export default Profile;
