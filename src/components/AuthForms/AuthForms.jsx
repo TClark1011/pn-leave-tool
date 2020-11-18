@@ -12,7 +12,7 @@ import UserContext from "../utility/UserContext";
 import LoginForm from "./LoginForm";
 import RegForm from "./RegForm";
 
-function AuthForms({ form, ...props }) {
+function AuthForms({ history, form, ...props }) {
 	const tabIndexes = {
 		login: 0,
 		register: 1,
@@ -22,7 +22,7 @@ function AuthForms({ form, ...props }) {
 
 	function handleTabChange(event, tab) {
 		setTabValue(tab);
-		props.history.push(
+		history.push(
 			Object.keys(tabIndexes).find((key) => tabIndexes[key] === tab)
 		);
 	}

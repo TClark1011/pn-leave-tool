@@ -2,8 +2,6 @@ import "./LoginForm.scss";
 
 import React, { useContext, useState } from "react";
 
-import { Link, withRouter } from "react-router-dom";
-
 import { Formik, Field, Form } from "formik";
 
 import { TextField, Button, Typography, Collapse } from "@material-ui/core";
@@ -149,6 +147,6 @@ function LoginForm(props) {
 	}
 }
 
-export default withRouter(LoginForm);
+export default LoginForm;
 
 // export default LoginForm;
