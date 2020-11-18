@@ -9,7 +9,8 @@ function StatusMessage(props) {
 		"error-message",
 		props.tone || "negative",
 		{ border: props.border !== "none" },
-		{ [`border-${props.border || "left"}`]: props.border !== "none" }
+		{ [`border-${props.border || "left"}`]: props.border !== "none" },
+		props.className
 	);
 
 	if (props.children) {
