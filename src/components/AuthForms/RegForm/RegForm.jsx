@@ -4,16 +4,16 @@ import React, { useState, useContext } from "react";
 
 import { FastField, Formik, Form } from "formik";
 
-import UserContext from "../utility/UserContext";
+import UserContext from "../../utility/UserContext";
 
-import * as registerVal from "../../validation/registerVal";
+import * as registerVal from "../../../validation/registerVal";
 
-import FormField from "../utility/Forms/FormField";
-import FormButton from "../utility/Forms/FormButton";
+import FormField from "../../utility/Forms/FormField";
+import FormButton from "../../utility/Forms/FormButton";
 
-import SectionTitle from "../utility/SectionTitle";
+import SectionTitle from "../../utility/SectionTitle";
 
-import { register } from "../../services/api";
+import { register } from "../../../services/api";
 
 function RegForm(props) {
 	const { user, setUser } = useContext(UserContext);

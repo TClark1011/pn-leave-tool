@@ -8,14 +8,14 @@ import { Formik, Field, Form } from "formik";
 
 import { TextField, Button, Typography, Collapse } from "@material-ui/core";
 
-import SectionTitle from "../utility/SectionTitle";
-import StatusMessage from "../utility/StatusMessage";
+import SectionTitle from "../../utility/SectionTitle";
+import StatusMessage from "../../utility/StatusMessage";
 
-import loginVal from "../../validation/loginVal";
+import loginVal from "../../../validation/loginVal";
 
-import UserContext from "../utility/UserContext";
+import UserContext from "../../utility/UserContext";
 
-import { login } from "../../services/api";
+import { login } from "../../../services/api";
 
 const redirectedMsg = "An error occurred, please login to proceed";
 
@@ -54,9 +54,6 @@ function LoginForm(props) {
 		setSubmitting(false);
 	}
 
-	if (user) {
-		return <h1>Employee #{user.employee_number}</h1>;
-	}
 	return (
 		<div className="login-form">
 			<Formik

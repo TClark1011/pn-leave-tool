@@ -26,10 +26,10 @@ import UserContext from "./components/utility/UserContext";
 
 import theme from "./Theme"; //* Pulls theme data from 'Theme.jsx'
 
-import LoginForm from "./components/LoginForm";
+import AuthForms from "./components/AuthForms";
+
 import LeaveForm from "./components/LeaveForm";
 import LeaveList from "./components/LeaveList";
-import RegForm from "./components/RegForm";
 
 import AuthenticatedRoute from "./components/utility/AuthenticatedRoute";
 
@@ -91,12 +91,12 @@ function App() {
 							<Switch>
 								<Route path="/login">
 									<Card className="centerV centerH card">
-										<LoginForm />
+										<AuthForms form="login" />
 									</Card>
 								</Route>
 								<Route path="/register">
 									<Card className="centerV centerH card">
-										<RegForm />
+										<AuthForms form="register" />
 									</Card>
 								</Route>
 								<Route path="/request">

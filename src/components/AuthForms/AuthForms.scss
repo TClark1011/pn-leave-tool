@@ -1,0 +1,14 @@
+@import "../../styles/config/export";
+
+.auth-forms {
+	.MuiTabs-flexContainer {
+		display: flex;
+		justify-content: center;
+
+		.tab {
+			width: 50%;
+			color: black;
+			border-color: $color-primary-main;
+		}
+	}
+}
