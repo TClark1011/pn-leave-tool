@@ -174,6 +174,7 @@ function App() {
 				</AuthenticatedItem>
 			</BottomNavigation>
 		);
+		//FIXME: Items in 'AuthenticatedItem do not work properly after user signs in (eg; Bottom Nav Actions don't have labels and their links do not work)
 	}
 }
 
