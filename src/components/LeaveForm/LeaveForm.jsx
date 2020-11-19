@@ -14,7 +14,6 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 import DateFnsUtils from "@date-io/date-fns";
-import formatDate from "date-fns/format";
 
 import {
 	KeyboardDatePicker,
@@ -25,6 +24,8 @@ import {
 	addDays,
 	startOfDay,
 	differenceInDays,
+	format as formatDate,
+	isValid as dateIsValid,
 	max as maxDate,
 } from "date-fns";
 
@@ -47,19 +48,40 @@ function LeaveForm(props) {
 	const [length, setLength] = useState(1);
 	const [response, setResponse] = useState(null);
 
-	function updateStartDate(date) {
-		setStartDate(startOfDay(date));
+	// function testDate(date) {
+	//     if (dateIsValid(dateFormatRegex)) {
+
+	//         const dateFormatRegex = /\d\d\/\d\d\/\d\d/g;
+	//         return dateFormatRegex.test(datedaString);
+	//     }
+	// }
+
+	function updateStartDate(date, setFieldValue) {
+		const newStartDate = startOfDay(date);
 		const newEndDate = maxDate([endDate, addDays(date, 1)]);
+
+		setStartDate(newStartDate);
 		setEndDate(newEndDate);
+
+		if (setFieldValue) {
+			setFieldValue("dates.start", newStartDate);
+			setFieldValue("dates.end", newEndDate);
+		}
 
 		const newLength = differenceInDays(newEndDate, date) || 1;
 		setLength(newLength);
+
 		lengthFieldRef.current.value = newLength;
 	}
-	function updateEndDate(date) {
-		setEndDate(startOfDay(date));
+	function updateEndDate(date, setFieldValue) {
+		const newEndDate = startOfDay(date);
+		setEndDate(newEndDate);
+
+		setFieldValue("dates.end", newEndDate);
+
 		const newLength = differenceInDays(date, startDate) || 1;
 		setLength(newLength);
+
 		lengthFieldRef.current.value = newLength;
 	}
 
@@ -69,13 +91,24 @@ function LeaveForm(props) {
 		axios
 			.post("/api/leave/request", data)
 			.then((result) => {
-				setResponse(result.data.message);
+				setResponse(result.data);
 				setUser(result.data.updatedUser);
 			})
 			.catch((error) => {
-				setResponse(formatDenied(error.response?.data));
+				setResponse(error.response?.data);
+				// setResponse(formatDenied(error.response?.data));
 			});
 		setSubmitting(false);
+	}
+
+	function getMessage() {
+		if (response) {
+			if (response.approved) {
+				return response.message;
+			}
+			return formatDenied(response);
+		}
+		return null;
 	}
 
 	function formatDenied(result) {
@@ -114,13 +147,14 @@ function LeaveForm(props) {
 	 */
 	function validateLengthField(value, allowBlank) {
 		allowBlank = allowBlank || false;
-		return (value.length > 0 && value > 0 && value <= user.leave) || allowBlank;
+		return (value.length > 0 || allowBlank) && value > 0 && value <= user.leave;
 	}
 
-	function onLengthFieldChange(e) {
-		if (validateLengthField(e.target.value, true)) {
-			const updatedLength = Math.max(1, e.target.value || 0);
-			updateEndDate(addDays(startDate, updatedLength));
+	function onLengthFieldChange(e, setFieldValue) {
+		const newValue = e.target.value;
+		if (validateLengthField(newValue)) {
+			const updatedLength = Math.max(1, newValue || 0);
+			updateEndDate(addDays(startDate, updatedLength), setFieldValue);
 		}
 	}
 
@@ -151,7 +185,7 @@ function LeaveForm(props) {
 				validateOnBlur={false}
 				validationSchema={leaveVal}
 			>
-				{({ errors, isSubmitting, setFieldValue }) => (
+				{({ isSubmitting, setFieldValue }) => (
 					<Form>
 						<BodyText>
 							Enter the start and end dates for your annual leave then press
@@ -161,8 +195,7 @@ function LeaveForm(props) {
 							<DateField
 								value={startDate}
 								onChange={(value) => {
-									updateStartDate(value);
-									setFieldValue("dates.start", value);
+									updateStartDate(value, setFieldValue);
 								}}
 								minDate={startDate}
 							></DateField>
@@ -170,8 +203,7 @@ function LeaveForm(props) {
 							<DateField
 								value={endDate}
 								onChange={(value) => {
-									updateEndDate(value);
-									setFieldValue("dates.end", value);
+									updateEndDate(value, setFieldValue);
 								}}
 								minDate={addDays(startDate, 1)}
 								maxDate={addDays(startDate, user.leave)}
@@ -183,7 +215,9 @@ function LeaveForm(props) {
 								<TextField
 									className="leave-length-field"
 									onInput={limitLength}
-									onChange={onLengthFieldChange}
+									onChange={(value) =>
+										onLengthFieldChange(value, setFieldValue)
+									}
 									inputRef={lengthFieldRef}
 									type="number"
 									variant="outlined"
@@ -210,7 +244,8 @@ function LeaveForm(props) {
 				<div className="inner-modal">
 					<Card className="request-result-card">
 						<StatusMessage tone={responseStatusTone()}>
-							{response}
+							{console.log(responseStatusTone())}
+							{getMessage()}
 						</StatusMessage>
 						<Button
 							variant="outlined"
@@ -224,6 +259,7 @@ function LeaveForm(props) {
 			</Modal>
 		</div>
 	);
+	//FIXME: Typing into date field broke it
 
 	function DateField(props) {
 		return (

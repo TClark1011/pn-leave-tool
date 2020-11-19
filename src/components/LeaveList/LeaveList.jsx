@@ -58,6 +58,7 @@ class LeaveList extends React.Component {
 }
 
 function LeaveItem(props) {
+	//TODO: Refactor into seperate component file
 	const dates = props.dates;
 	const status = props.status;
 
