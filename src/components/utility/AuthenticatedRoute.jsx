@@ -6,7 +6,7 @@ import AuthenticatedItem from "./AuthenticatedItem";
 
 function AuthenticatedRoute(props) {
 	return (
-		<AuthenticatedItem elseRender={props.history.push("/login?redir")}>
+		<AuthenticatedItem elseRun={() => props.history.push("/login?redir")}>
 			<Route {...props}>{props.children}</Route>
 		</AuthenticatedItem>
 	);
