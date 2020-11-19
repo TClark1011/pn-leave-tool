@@ -235,7 +235,6 @@ function LeaveForm(props) {
 									You have {getLeaveLength()} days of leave remaining
 								</BodyText>
 							</div>
-							{/* TODO: Update remaining leave after submitting request */}
 						</div>
 						<Field name="user" type="hidden" value={user.employee_number} />
 						<FormButton type="submit" disabled={isSubmitting}>
@@ -262,7 +261,6 @@ function LeaveForm(props) {
 			</Modal>
 		</div>
 	);
-	//FIXME: Typing into date field broke it
 
 	function DateField(props) {
 		return (
