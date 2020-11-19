@@ -6,7 +6,7 @@ import UserContext from "./UserContext";
 function AuthenticatedItem({ elseRender, elseRun, children, ...props }) {
 	const { user, setUser } = useContext(UserContext);
 	if (user) {
-		return <>{children}</>;
+		return children;
 	}
 	if (typeof elseRun === "function") {
 		elseRun();
