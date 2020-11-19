@@ -25,8 +25,10 @@ import {
 	startOfDay,
 	differenceInDays,
 	format as formatDate,
-	isValid as dateIsValid,
+	isValid as isValidDate,
 	max as maxDate,
+	parse as parseDate,
+	format,
 } from "date-fns";
 
 import UserContext from "../utility/UserContext";
@@ -37,6 +39,7 @@ import StatusMessage from "../utility/StatusMessage";
 import SectionTitle from "../utility/SectionTitle";
 import BodyText from "../utility/BodyText";
 import FormButton from "../utility/Forms/FormButton";
+import { ClassOutlined } from "@material-ui/icons";
 
 function LeaveForm(props) {
 	const { user, setUser } = useContext(UserContext);
@@ -48,41 +51,38 @@ function LeaveForm(props) {
 	const [length, setLength] = useState(1);
 	const [response, setResponse] = useState(null);
 
-	// function testDate(date) {
-	//     if (dateIsValid(dateFormatRegex)) {
-
-	//         const dateFormatRegex = /\d\d\/\d\d\/\d\d/g;
-	//         return dateFormatRegex.test(datedaString);
-	//     }
-	// }
-
-	function updateStartDate(date, setFieldValue) {
-		const newStartDate = startOfDay(date);
-		const newEndDate = maxDate([endDate, addDays(date, 1)]);
-
-		setStartDate(newStartDate);
-		setEndDate(newEndDate);
-
-		if (setFieldValue) {
-			setFieldValue("dates.start", newStartDate);
-			setFieldValue("dates.end", newEndDate);
-		}
-
-		const newLength = differenceInDays(newEndDate, date) || 1;
-		setLength(newLength);
-
-		lengthFieldRef.current.value = newLength;
+	function testDateString(dateString) {
+		const dateFormatRegex = /\d\d\/\d\d\/\d\d/g;
+		return dateFormatRegex.test(dateString);
 	}
-	function updateEndDate(date, setFieldValue) {
-		const newEndDate = startOfDay(date);
-		setEndDate(newEndDate);
 
-		setFieldValue("dates.end", newEndDate);
+	function updateStartDate(date, string, setFieldValue) {
+		if (isValidDate(date)) {
+			const newStartDate = startOfDay(date);
+			const newEndDate = maxDate([endDate, addDays(date, 1)]);
+			setStartDate(newStartDate);
+			setEndDate(newEndDate);
+			if (setFieldValue) {
+				setFieldValue("dates.start", newStartDate);
+				setFieldValue("dates.end", newEndDate);
+			}
+			const newLength = differenceInDays(newEndDate, date) || 1;
+			setLength(newLength);
+			lengthFieldRef.current.value = newLength;
+		}
+	}
+	function updateEndDate(date, string, setFieldValue) {
+		if (isValidDate(date)) {
+			const newEndDate = startOfDay(date);
+			setEndDate(newEndDate);
 
-		const newLength = differenceInDays(date, startDate) || 1;
-		setLength(newLength);
+			setFieldValue("dates.end", newEndDate);
 
-		lengthFieldRef.current.value = newLength;
+			const newLength = differenceInDays(date, startDate) || 1;
+			setLength(newLength);
+
+			lengthFieldRef.current.value = newLength;
+		}
 	}
 
 	function onSubmit(data, { setSubmitting }) {
@@ -168,6 +168,10 @@ function LeaveForm(props) {
 		return props.user?.leave - differenceInDays(endDate, startDate);
 	}
 
+	function onStartTextFieldChange(data) {
+		console.log("editing starting date text field");
+	}
+
 	const lengthFieldRef = React.createRef();
 	return (
 		<div className="leave-form">
@@ -194,16 +198,16 @@ function LeaveForm(props) {
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 							<DateField
 								value={startDate}
-								onChange={(value) => {
-									updateStartDate(value, setFieldValue);
+								onChange={(value, string) => {
+									updateStartDate(value, string, setFieldValue);
 								}}
 								minDate={startDate}
 							></DateField>
 							<BodyText className="date-field-divider form-item">To</BodyText>
 							<DateField
 								value={endDate}
-								onChange={(value) => {
-									updateEndDate(value, setFieldValue);
+								onChange={(value, string) => {
+									updateEndDate(value, string, setFieldValue);
 								}}
 								minDate={addDays(startDate, 1)}
 								maxDate={addDays(startDate, user.leave)}
@@ -244,7 +248,6 @@ function LeaveForm(props) {
 				<div className="inner-modal">
 					<Card className="request-result-card">
 						<StatusMessage tone={responseStatusTone()}>
-							{console.log(responseStatusTone())}
 							{getMessage()}
 						</StatusMessage>
 						<Button
