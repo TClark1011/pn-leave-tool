@@ -33,6 +33,7 @@ import LeaveList from "./components/LeaveList";
 import Profile from "./components/Profile";
 
 import AuthenticatedRoute from "./components/utility/AuthenticatedRoute";
+import AuthenticatedItem from "./components/utility/AuthenticatedItem";
 
 const checkNav = () => {
 	switch (window.location.pathname) {
@@ -137,7 +138,6 @@ function App() {
 			setNavStatus(checkNav());
 		});
 
-		//TODO: make sure highlighted button is always accurate to currently active section
 		return (
 			<BottomNavigation
 				id="bottom-navigation"
@@ -154,21 +154,24 @@ function App() {
 					component={Link}
 					to={getAuthLink()}
 				/>
-				<BottomNavigationAction
-					label="Submit"
-					value="request"
-					icon={<Icon>send</Icon>}
-					component={Link}
-					to="/request"
-				/>
-				<BottomNavigationAction
-					label="Requests"
-					value="leave"
-					icon={<Icon>event</Icon>}
-					component={Link}
-					to="/leave"
-				/>
-				{/* TODO: Profile section */}
+				<AuthenticatedItem>
+					<BottomNavigationAction
+						label="Submit"
+						value="request"
+						icon={<Icon>send</Icon>}
+						component={Link}
+						to="/request"
+					/>
+				</AuthenticatedItem>
+				<AuthenticatedItem>
+					<BottomNavigationAction
+						label="Requests"
+						value="leave"
+						icon={<Icon>event</Icon>}
+						component={Link}
+						to="/leave"
+					/>
+				</AuthenticatedItem>
 			</BottomNavigation>
 		);
 	}
