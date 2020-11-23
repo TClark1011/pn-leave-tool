@@ -1,7 +1,6 @@
 import './styles/base.scss';
 
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 
 import axios from 'axios';
 
@@ -33,7 +32,6 @@ import LeaveList from './components/LeaveList';
 import Profile from './components/Profile';
 
 import AuthenticatedRoute from './components/utility/AuthenticatedRoute';
-import AuthenticatedItem from './components/utility/AuthenticatedItem';
 
 const checkNav = () => {
 	switch (window.location.pathname) {
@@ -133,6 +131,7 @@ function App() {
 			</ThemeProvider>
 		</UserContext.Provider>
 	);
+
 	function BottomNavBar(props) {
 		useEffect(() => {
 			setNavStatus(checkNav());

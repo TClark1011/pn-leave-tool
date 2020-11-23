@@ -1,27 +1,30 @@
-import "./RegForm.scss";
+import './RegForm.scss';
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext } from 'react';
 
-import { FastField, Formik, Form } from "formik";
+import { FastField, Formik, Form } from 'formik';
 
-import UserContext from "../../utility/UserContext";
+import UserContext from '../../utility/UserContext';
 
-import registerVal from "../../../validation/registerVal";
+import registerVal from '../../../validation/registerVal';
 
-import FormField from "../../utility/Forms/FormField";
-import FormButton from "../../utility/Forms/FormButton";
+import FormField from '../../utility/Forms/FormField';
+import FormButton from '../../utility/Forms/FormButton';
 
-import SectionTitle from "../../utility/SectionTitle";
+import SectionTitle from '../../utility/SectionTitle';
+import StatusMessage from '../../utility/StatusMessage';
 
-import { register } from "../../../services/api";
+import { register } from '../../../services/api';
 
 function RegForm(props) {
 	const { user, setUser } = useContext(UserContext);
 
 	const [formError, setFormError] = useState(null);
 
+	const [formSubmitCount, setFormSubmitCount] = useState(0);
+
 	async function onSubmit(data, { setSubmitting }) {
-		console.log("submitting registration data...");
+		console.log('submitting registration data...');
 		setSubmitting(true);
 
 		const result = await register(data);
@@ -37,48 +40,54 @@ function RegForm(props) {
 	}
 
 	return (
-		<div className="reg-form">
+		<div className='reg-form'>
 			<SectionTitle>Register New Account</SectionTitle>
 			<Formik
 				initialValues={{
-					employee_number: "",
-					password: "",
-					confirm_password: "",
-					first_name: "",
-					last_name: "",
-					email: "",
-					phone: "",
+					employee_number: '',
+					confirm_employee_number: '',
+					password: '',
+					confirm_password: '',
+					first_name: '',
+					last_name: '',
+					email: '',
+					phone: '',
 					leave: 0,
 				}}
 				onSubmit={onSubmit}
 				validationSchema={registerVal}
 				validateOnChange={false}
-			>
-				{({ isSubmitting }) => (
+				render={({ isSubmitting, errors, submitCount }) => (
 					<Form>
+						<StatusMessage>{formError}</StatusMessage>
 						<FastField
-							name="employee_number"
+							name='employee_number'
 							inputProps={{ maxLength: 6 }}
 							component={FormField}
 						/>
-						<FastField name="password" component={FormField} />
-						<FastField name="confirm_password" component={FormField} />
-						<FastField name="first_name" component={FormField} />
-						<FastField name="last_name" component={FormField} />
-						<FastField name="email" component={FormField} />
-						<FastField name="phone" component={FormField} />
 						<FastField
-							name="leave"
+							name='confirm_employee_number'
+							inputProps={{ maxLength: 6 }}
 							component={FormField}
-							type="number"
-							label="Stored Days of Leave"
 						/>
-						<FormButton type="submit" disabled={isSubmitting}>
+						<FastField name='password' component={FormField} />
+						<FastField name='confirm_password' component={FormField} />
+						<FastField name='first_name' component={FormField} />
+						<FastField name='last_name' component={FormField} />
+						<FastField name='email' component={FormField} />
+						<FastField name='phone' component={FormField} />
+						<FastField
+							name='leave'
+							component={FormField}
+							type='number'
+							label='Stored Days of Leave'
+						/>
+						<FormButton type='submit' disabled={isSubmitting}>
 							submit
 						</FormButton>
 					</Form>
 				)}
-			</Formik>
+			></Formik>
 		</div>
 	);
 	//TODO: Add a "confirm employee number" field

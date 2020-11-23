@@ -1,36 +1,45 @@
 @import "../../../styles/config/mixins";
 @import "../../../styles/config/variables";
 
+
+form>.error-message {
+    margin-bottom: $spacing-5;
+    margin-top: $spacing-5;
+}
+
 .error-message {
-	padding: $spacing-5;
+    padding: $spacing-5;
 
-	&.positive {
-		background-color: $color-positive-lightest;
-		&.border {
-			border-color: $color-positive-dark;
-		}
-	}
+    &.positive {
+        background-color: $color-positive-lightest;
 
-	&.negative {
-		background-color: $color-negative-lightest;
-		&.border {
-			border-color: $color-negative-dark;
-		}
-	}
+        &.border {
+            border-color: $color-positive-dark;
+        }
+    }
 
-	&.warning {
-		background-color: $color-warning-lightest;
-		&.border {
-			border-color: $color-warning-dark;
-		}
-	}
+    &.negative {
+        background-color: $color-negative-lightest;
 
-	&.border {
-		@each $side in ("left", "top", "right", "bottom") {
-			&.border-#{$side} {
-				border-#{$side}-width: 4px;
-				border-#{$side}-style: solid;
-			}
-		}
-	}
+        &.border {
+            border-color: $color-negative-dark;
+        }
+    }
+
+    &.warning {
+        background-color: $color-warning-lightest;
+
+        &.border {
+            border-color: $color-warning-dark;
+        }
+    }
+
+    &.border {
+        @each $side in ("left", "top", "right", "bottom") {
+            &.border-#{$side} {
+                border-#{$side}-width: 4px;
+                border-#{$side}-style: solid;
+            }
+        }
+    }
 }

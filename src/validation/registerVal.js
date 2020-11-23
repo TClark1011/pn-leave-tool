@@ -10,6 +10,13 @@ module.exports = yup.object({
 	employee_number: loginSchema.employee_number.required(
 		"Employee Number is a required field"
 	),
+	confirm_employee_number: loginSchema.employee_number
+		.required("You must confirm your Employee Number")
+		.test("Employee Numbers match", "Employee Numbers do not match", function (
+			value
+		) {
+			return value ? value === this.resolve(yup.ref("employee_number")) : true;
+		}),
 	password: loginSchema.password.required("Password is a required field"),
 	confirm_password: passwordField
 		.required()

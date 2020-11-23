@@ -1,43 +1,34 @@
-import "./LoginForm.scss";
+import './LoginForm.scss';
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react';
 
-import { Formik, Field, Form } from "formik";
+import { Redirect, useHistory } from 'react-router-dom';
 
-import { TextField, Button, Typography, Collapse } from "@material-ui/core";
+import { Formik, Field, Form } from 'formik';
 
-import UserContext from "../../utility/UserContext";
+import UserContext from '../../utility/UserContext';
 
-import SectionTitle from "../../utility/SectionTitle";
-import StatusMessage from "../../utility/StatusMessage";
-import FormField from "../../utility/Forms/FormField";
-import FormButton from "../../utility/Forms/FormButton";
+import SectionTitle from '../../utility/SectionTitle';
+import StatusMessage from '../../utility/StatusMessage';
+import FormField from '../../utility/Forms/FormField';
+import FormButton from '../../utility/Forms/FormButton';
 
-import loginVal from "../../../validation/loginVal";
+import loginVal from '../../../validation/loginVal';
 
-import { login } from "../../../services/api";
+import { login } from '../../../services/api';
 
-const redirectedMsg = "An error occurred, please login to proceed";
+const redirectedMsg = 'An error occurred, please login to proceed';
 
-/**
- * Take a field name and convert it to a properly formatted field label
- * @param {string} name - The name to convert
- * @returns Formatted version of 'name'
- */
-function nameToLabel(name) {
-	name = name.replace("_", " ");
-	var splitStr = name.toLowerCase().split(" ");
-	for (var i = 0; i < splitStr.length; i++) {
-		splitStr[i] =
-			splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-	}
-	return splitStr.join(" ");
-}
+const getStartingStatus = () =>
+	window.location.search === '?redir' ? redirectedMsg : null;
 
 function LoginForm(props) {
-	const { user, setUser } = useContext(UserContext);
+	console.log(window.location.search);
+	const { setUser } = useContext(UserContext);
 
-	const [formError, setFormError] = useState(null);
+	const [formError, setFormError] = useState(getStartingStatus());
+
+	const history = useHistory();
 
 	async function onSubmit(data, { setSubmitting }) {
 		setSubmitting(true);
@@ -45,6 +36,7 @@ function LoginForm(props) {
 		await login(data)
 			.then((result) => {
 				setUser(result.data);
+				history.push('/profile');
 			})
 			.catch((error) => {
 				setFormError(error.response.data.error);
@@ -52,10 +44,11 @@ function LoginForm(props) {
 
 		setSubmitting(false);
 	}
+
 	return (
-		<div className="login-form">
+		<div className='login-form'>
 			<Formik
-				initialValues={{ employee_number: "", password: "" }}
+				initialValues={{ employee_number: '', password: '' }}
 				onSubmit={onSubmit}
 				validationSchema={loginVal}
 				validateOnChange={false}
@@ -64,27 +57,27 @@ function LoginForm(props) {
 				{({ isSubmitting }) => (
 					<Form>
 						<SectionTitle>Login</SectionTitle>
-						<StatusMessage className="form-item">{formError}</StatusMessage>
+						<StatusMessage className='form-item'>{formError}</StatusMessage>
 						<Field
-							name="employee_number"
+							name='employee_number'
 							inputProps={{ maxLength: 6 }}
 							component={FormField}
 						/>
 						<Field
-							name="password"
+							name='password'
 							inputProps={{ maxLength: 24 }}
 							component={FormField}
 						/>
 						<FormButton
-							variant="contained"
-							type="submit"
+							variant='contained'
+							type='submit'
 							disabled={isSubmitting}
 						>
 							submit
 						</FormButton>
 						<FormButton
-							variant="outlined"
-							onClick={() => props.setTab("register")}
+							variant='outlined'
+							onClick={() => props.setTab('register')}
 						>
 							register
 						</FormButton>
