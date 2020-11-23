@@ -1,83 +1,90 @@
 @import "config/export";
 
 * {
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 #App {
-	font-family: Roboto, sans-serif;
+    font-family: Roboto, sans-serif;
 
-	@include flex-wrapper();
-	min-height: 100vh;
+    @include flex-wrapper();
+    min-height: 100vh;
 
-	justify-content: center;
-	align-items: center;
+    justify-content: center;
+    align-items: center;
 
-	box-sizing: border-box;
-	padding-bottom: $bottom-nav-height + $spacing-3;
+    box-sizing: border-box;
+    padding-bottom: $bottom-nav-height + $spacing-3;
 
-	.container > :first-child {
-		margin-top: 0;
-	}
+    .container> :first-child {
+        margin-top: 0;
+    }
 
-	.container > :last-child {
-		margin-bottom: 0;
-	}
+    .container> :last-child {
+        margin-bottom: 0;
+    }
 
-	.bottom-navigation-bar {
-		position: fixed;
-		width: 100%;
-		bottom: 0;
-		left: 0;
-		z-index: 100;
-	}
+    .bottom-navigation-bar {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
 
-	#Content {
-		padding: $spacing-4;
+        .MuiBottomNavigationAction-root.Mui-disabled {
+            display: none;
+        }
+    }
 
-		& > .card {
-			width: 700px;
-		}
-	}
+    #Content {
+        padding: $spacing-4;
+
+        &>.card {
+            width: 700px;
+        }
+    }
 }
 
 .MuiCard-root,
 .MuiPaper-root,
 .card-padding {
-	padding: $spacing-5;
+    padding: $spacing-5;
 
-	@media (max-width: 600px) {
-		padding: $spacing-4;
-	}
+    @media (max-width: 600px) {
+        padding: $spacing-4;
+    }
 
-	max-width: 95vw;
+    max-width: 95vw;
 }
 
 .flexbox {
-	width: 100%;
-	height: 100%;
-	@include flex-wrapper();
+    width: 100%;
+    height: 100%;
+    @include flex-wrapper();
 }
 
 .MuiPickersModal-dialogRoot {
-	padding: 0;
+    padding: 0;
 }
 
 form,
 div {
-	.form-item {
-		@include vertical-spacing($form-item-spacing);
-	}
+    .form-item {
+        @include vertical-spacing($form-item-spacing);
+    }
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-	//? IE Only
-	.MuiButtonBase-root.MuiBottomNavigationAction-root {
-		min-width: 200px;
-		flex: 0;
-		@media (max-width: 500px) {
-			flex: 1;
-			min-width: 80px;
-		}
-	}
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+
+    //? IE Only
+    .MuiButtonBase-root.MuiBottomNavigationAction-root {
+        min-width: 200px;
+        flex: 0;
+
+        @media (max-width: 500px) {
+            flex: 1;
+            min-width: 80px;
+        }
+    }
 }
