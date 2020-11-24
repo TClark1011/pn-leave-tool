@@ -6,7 +6,7 @@ import classnames from "classnames";
 
 function StatusMessage(props) {
 	const classes = classnames(
-		"error-message",
+		"status-message",
 		props.tone || "negative",
 		{ border: props.border !== "none" },
 		{ [`border-${props.border || "left"}`]: props.border !== "none" },

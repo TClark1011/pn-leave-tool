@@ -1,29 +1,28 @@
-import './LoginForm.scss';
+import "./LoginForm.scss";
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from "react";
 
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from "react-router-dom";
 
-import { Formik, Field, Form } from 'formik';
+import { Formik, Field, Form } from "formik";
 
-import UserContext from '../../utility/UserContext';
+import UserContext from "../../utility/UserContext";
 
-import SectionTitle from '../../utility/SectionTitle';
-import StatusMessage from '../../utility/StatusMessage';
-import FormField from '../../utility/Forms/FormField';
-import FormButton from '../../utility/Forms/FormButton';
+import SectionTitle from "../../utility/SectionTitle";
+import StatusMessage from "../../utility/StatusMessage";
+import FormField from "../../utility/Forms/FormField";
+import FormButton from "../../utility/Forms/FormButton";
 
-import loginVal from '../../../validation/loginVal';
+import loginVal from "../../../validation/loginVal";
 
-import { login } from '../../../services/api';
+import { login } from "../../../services/api";
 
-const redirectedMsg = 'An error occurred, please login to proceed';
+const redirectedMsg = "An error occurred, please login to proceed";
 
 const getStartingStatus = () =>
-	window.location.search === '?redir' ? redirectedMsg : null;
+	window.location.search === "?redir" ? redirectedMsg : null;
 
 function LoginForm(props) {
-	console.log(window.location.search);
 	const { setUser } = useContext(UserContext);
 
 	const [formError, setFormError] = useState(getStartingStatus());
@@ -33,22 +32,23 @@ function LoginForm(props) {
 	async function onSubmit(data, { setSubmitting }) {
 		setSubmitting(true);
 
-		await login(data)
+		login(data)
 			.then((result) => {
 				setUser(result.data);
-				history.push('/profile');
+				history.push("/profile");
 			})
 			.catch((error) => {
 				setFormError(error.response.data.error);
+			})
+			.finally(() => {
+				setSubmitting(false);
 			});
-
-		setSubmitting(false);
 	}
 
 	return (
-		<div className='login-form'>
+		<div className="login-form">
 			<Formik
-				initialValues={{ employee_number: '', password: '' }}
+				initialValues={{ employee_number: "", password: "" }}
 				onSubmit={onSubmit}
 				validationSchema={loginVal}
 				validateOnChange={false}
@@ -57,27 +57,27 @@ function LoginForm(props) {
 				{({ isSubmitting }) => (
 					<Form>
 						<SectionTitle>Login</SectionTitle>
-						<StatusMessage className='form-item'>{formError}</StatusMessage>
+						<StatusMessage className="form-item">{formError}</StatusMessage>
 						<Field
-							name='employee_number'
+							name="employee_number"
 							inputProps={{ maxLength: 6 }}
 							component={FormField}
 						/>
 						<Field
-							name='password'
+							name="password"
 							inputProps={{ maxLength: 24 }}
 							component={FormField}
 						/>
 						<FormButton
-							variant='contained'
-							type='submit'
+							variant="contained"
+							type="submit"
 							disabled={isSubmitting}
 						>
 							submit
 						</FormButton>
 						<FormButton
-							variant='outlined'
-							onClick={() => props.setTab('register')}
+							variant="outlined"
+							onClick={() => props.setTab("register")}
 						>
 							register
 						</FormButton>

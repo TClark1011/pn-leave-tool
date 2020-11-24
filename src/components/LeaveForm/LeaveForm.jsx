@@ -96,9 +96,10 @@ function LeaveForm(props) {
 			})
 			.catch((error) => {
 				setResponse(error.response?.data);
-				// setResponse(formatDenied(error.response?.data));
+			})
+			.finally(() => {
+				setSubmitting(false);
 			});
-		setSubmitting(false);
 	}
 
 	function getMessage() {

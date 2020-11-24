@@ -1,14 +1,13 @@
 @import "../../../styles/config/mixins";
 @import "../../../styles/config/variables";
 
-
-form>.error-message {
-    margin-bottom: $spacing-5;
-    margin-top: $spacing-5;
-}
-
-.error-message {
+.status-message {
     padding: $spacing-5;
+
+    @at-root form>& {
+        margin-bottom: $spacing-5 !important;
+        margin-top: $spacing-5 !important;
+    }
 
     &.positive {
         background-color: $color-positive-lightest;

@@ -23,9 +23,8 @@ class LeaveList extends React.Component {
 
 	componentDidMount() {
 		axios
-			.get(`/api/leave/${this.props.user.employee_number}`, {
-				headers: { token: "temp" },
-			})
+			// .get(`/api/leave/?user=${this.props.user.employee_number}`, {
+			.get(`/api/leave/view/?user=${this.props.user.employee_number}`)
 			.then((result) => {
 				this.setState({ leaveItems: result.data.leaveItems });
 			});
@@ -61,8 +60,6 @@ function LeaveItem(props) {
 	//TODO: Refactor into seperate component file
 	const dates = props.dates;
 	const status = props.status;
-
-	console.log(status);
 
 	const dateFormat = "dd/MM/yyyy";
 

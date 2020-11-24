@@ -78,15 +78,17 @@ leaveRouter.post("/request", async (request, response) => {
  * Get list of user's submitted leave requests
  * @param {Object} user - Information about the user requesting to see their leave
  */
-leaveRouter.get("/:employee_number", async (request, response) => {
+// leaveRouter.get("/employee_number=:employee_number", async (request, response) => {
+leaveRouter.get("/view", async (request, response) => {
 	console.log("Received get request for user to view their own leave requests");
 
-	const employee_number = request.params.employee_number;
+	// const employee_number = request.params.employee_number;
+	const employee_number = request.query.user;
 
 	const storedUser = await User.getFromEmployeeNumber(employee_number);
 	if (storedUser) {
 		//# if a user record with the provided 'employee_number' exists
-		const result = await Leave.find({ user: employee_number });
+		const result = await Leave.find({ user: employee_number, status: 1 });
 		response.status(200).json({ leaveItems: result });
 		console.log("Leave requests successfully returned");
 	} else {
