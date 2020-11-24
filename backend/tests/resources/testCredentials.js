@@ -1,4 +1,6 @@
+require("dotenv").config();
+
 module.exports = {
-	employee_number: "111111",
-	password: "pppppp",
+	employee_number: `${process.env.TEST_USER_EMP_NUM}`,
+	password: `${process.env.TEST_USER_PASS}`,
 };

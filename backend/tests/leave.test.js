@@ -3,15 +3,17 @@ const supertest = require("supertest");
 
 const addDays = require("date-fns/addDays");
 const addWeeks = require("date-fns/addWeeks");
+const addYears = require("date-fns/addYears");
 const startOfToday = require("date-fns/startOfToday");
 
 const randomInt = require("random-int");
 
 const testCredentials = require("./resources/testCredentials");
-const testToken = require("./resources/testToken");
 
-let app;
-let api;
+let app = require("../app");
+let api = supertest(app);
+
+var token = null;
 
 /**
  * Return promise for standard post request for annual leave
@@ -24,7 +26,7 @@ function sendLeaveRequest(dates) {
 			user: testCredentials.employee_number,
 			dates,
 		})
-		.set("authorisation", testToken)
+		.set("authorisation", token)
 		.expect("Content-Type", /json/);
 }
 
@@ -35,8 +37,8 @@ function sendLeaveRequest(dates) {
 const randomDates = (swap) => {
 	swap = swap || false;
 	const start = addWeeks(
-		addDays(startOfToday(), randomInt(0, 6)),
-		randomInt(2, 10)
+		addYears(addDays(startOfToday(), randomInt(0, 6)), randomInt(2, 10)),
+		randomInt(3, 5)
 	);
 	const end = addWeeks(addDays(start, randomInt(0, 6)), randomInt(0, 4));
 	return {
@@ -45,6 +47,15 @@ const randomDates = (swap) => {
 	};
 };
 
+beforeAll((done) => {
+	api
+		.post("/api/users/login")
+		.send(testCredentials)
+		.end((err, res) => {
+			token = res.body.token;
+			done();
+		});
+});
 beforeEach(() => {
 	app = require("../app");
 	api = supertest(app);
