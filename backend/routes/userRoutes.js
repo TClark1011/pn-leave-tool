@@ -9,9 +9,8 @@ const genericError = require("../utility/genericError");
 const authenticateUser = require("../utility/authenticateUser");
 const encryptPassword = require("../utility/encryptPassword");
 const getToken = require("../utility/getToken");
+const verificationEmail = require("../utility/verificationEmail");
 
-// const registerVal = require("../registerVal");
-// const loginVal = require("../validation/loginVal");
 const registerVal = require("../../src/validation/registerVal");
 const loginVal = require("../../src/validation/loginVal");
 
@@ -72,8 +71,10 @@ userRouter.post("/register", async (request, response) => {
 	}
 
 	//# Initialise request body parameter variables
-	const employee_number = request.body.employee_number;
-	const password = request.body.password;
+	// const employee_number = request.body.employee_number;
+	// const password = request.body.password;
+
+	const { employee_number, password } = request.body;
 
 	//# Check if an account with the provided employee number already exists
 	if (await User.getFromEmployeeNumber(employee_number)) {
@@ -95,7 +96,45 @@ userRouter.post("/register", async (request, response) => {
 	await new User(userObj).save();
 	const cleanUser = sanitiseUser(userObj);
 	response.status(200).json({ ...cleanUser, token: getToken(cleanUser) });
-	console.log("new user registered successfully");
+
+	console.log(
+		"new user registration details processed, sending verification email"
+	);
+
+	await verificationEmail(cleanUser)
+		.then((result) => {
+			console.log("verification email sent");
+		})
+		.catch((error) => {
+			console.log("verification email failed: ", error);
+		});
+});
+
+userRouter.get("/verify/:token", async (request, response) => {
+	//TODO: Check the user's status is pending
+	try {
+		const decodedToken = jwt.verify(
+			request.params.token,
+			process.env.JWT_secret
+		);
+		const foundUser = await User.getFromEmployeeNumber(decodedToken);
+		if (!foundUser.verified) {
+			foundUser.verified = true;
+			foundUser.save();
+			response
+				.status(200)
+				.redirect(`//${process.env.FRONTEND_URL}/login?verified`);
+			return console.log("A user has been successfully verified");
+		} else {
+			response.status(405).send("You are already verified");
+			return console.log(
+				"A user activated a verification link but they were already verified"
+			);
+		}
+	} catch (err) {
+		console.log("error: ", err);
+		return response.status(400).send("Invalid verification link");
+	}
 });
 
 //#USER INFO FETCH

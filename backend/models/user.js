@@ -39,6 +39,7 @@ const userSchema = new mongoose.Schema({
 	},
 	leave: { type: Number, min: [0, "user leave must be positive"] },
 	date_created: { type: Date, default: Date.now() },
+	verified: { type: Boolean, default: false },
 });
 
 const User = mongoose.model("User", userSchema);
