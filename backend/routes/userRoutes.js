@@ -82,15 +82,27 @@ userRouter.post("/register", async (request, response) => {
 
 	//# Check if an account with the provided employee number already exists
 	const foundUser = await User.getFromEmployeeNumber(employee_number);
+
 	if (foundUser) {
-		//# If there is an existing account
-		const errorSummary = `An account with the Employee Number '${employee_number}' already exists.`;
-		const errorLongDescription =
-			" If you are creator of that account you can enter your password and press 'login'. If you did not create that account, please contact ...";
-		response.status(401).json({ error: errorSummary + errorLongDescription });
-		console.log(
-			"Error: Account registration failed. An account with the provided employee number already exists"
-		);
+		//# If there is an existing account...
+		if (foundUser.verified) {
+			//# if that existing account has been verified
+			const errorSummary = `An account with the Employee Number '${employee_number}' already exists.`;
+			const errorLongDescription =
+				" If you are creator of that account you can enter your password and press 'login'. If you did not create that account, please contact ...";
+			response.status(401).json({ error: errorSummary + errorLongDescription });
+			return console.log(
+				"Error: Account registration failed. An account with the provided employee number already exists"
+			);
+		}
+		const updateFields = ["email", "phone", "leave", "first_name", "last_name"];
+		for (let field of updateFields) {
+			foundUser[field] = request.body[field];
+		}
+		foundUser.password = await encryptPassword(request.body.password);
+		await foundUser.save();
+		response.status(200).send("updated unverified user data");
+		return console.log("Updated unverified user data");
 	}
 
 	//# There is no pre-existing account
@@ -98,16 +110,22 @@ userRouter.post("/register", async (request, response) => {
 	userObj.password = await encryptPassword(password);
 	userObj.date = Date.now();
 
-	await new User(userObj).save();
+	if (!foundUser) {
+		await new User(userObj).save();
+	} else {
+		userObj.save();
+	}
+
 	const cleanUser = sanitiseUser(userObj);
 
-	response.status(200).json({ ...cleanUser, token: getToken(cleanUser) });
+	// response.status(200).json({ ...cleanUser, token: getToken(cleanUser) });
+	response.status(200).json({});
 
 	console.log(
 		"new user registration details processed, sending verification email"
 	);
 
-	await verificationEmail(cleanUser)
+	verificationEmail(cleanUser)
 		.then((result) => {
 			console.log("verification email sent");
 		})

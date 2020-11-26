@@ -21,7 +21,6 @@ const sendMail = async ({ employee_number, email, ...user }) => {
 	});
 
 	const token = jwt.sign(employee_number, process.env.JWT_SECRET);
-	console.log("token ", token);
 
 	const msgFields = {
 		...user,
@@ -31,16 +30,7 @@ const sendMail = async ({ employee_number, email, ...user }) => {
 	var htmlStream = fs.createReadStream("backend/html/verificationEmail.html");
 
 	for (let i = 0; i < Object.keys(msgFields).length; i++) {
-		console.log(
-			`iterating through user: index: ${i}, key: ${
-				Object.keys(msgFields)[i]
-			}, value: ${Object.values(msgFields)[i]}`
-		);
 		const regex = new RegExp("{{" + Object.keys(msgFields)[i] + "}}", "g");
-		console.log(
-			"value (just before replacing in stream): ",
-			Object.values(msgFields)[i]
-		);
 		htmlStream = htmlStream.pipe(
 			streamReplace(regex, Object.values(msgFields)[i])
 		);
