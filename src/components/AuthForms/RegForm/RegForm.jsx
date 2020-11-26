@@ -26,7 +26,7 @@ function RegForm(props) {
 
 	const [resentEmail, setResentEmail] = useState(false);
 
-	async function onSubmit(data, { setSubmitting }) {
+	function onSubmit(data, { setSubmitting }) {
 		if (openVerificationInstructions) {
 			setResentEmail("loading");
 			resendVerification(data.employee_number)
