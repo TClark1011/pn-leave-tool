@@ -39,17 +39,21 @@ userRouter.post("/login", async (request, response) => {
 	const password = request.body.password;
 
 	const foundUser = await User.getFromEmployeeNumber(employee_number); //* Find user with provided id
-	if (foundUser && (await authenticateUser(foundUser, password))) {
-		//#If user exists and password matches
-		const cleanUser = sanitiseUser(foundUser);
-		response.status(200).json({ ...cleanUser, token: getToken(cleanUser) });
-		console.log("User successfully logged in");
-	} else {
+	if (!foundUser || !(await authenticateUser(foundUser, password))) {
 		response
 			.status(401)
 			.json({ error: "Incorrect Employee Number or Password" });
-		console.log("Error: login attempt failed (bad credentials)");
+		return console.log("Error: login attempt failed (bad credentials)");
+	} else if (!foundUser.verified) {
+		response
+			.status(401)
+			.json({ error: "You must verify your email before you can login" });
+		return console.log("Error: login attempt failed (email not verified)");
 	}
+	//#If user exists and password matches
+	const cleanUser = sanitiseUser(foundUser);
+	response.status(200).json({ ...cleanUser, token: getToken(cleanUser) });
+	return console.log("User successfully logged in");
 });
 
 //#REGISTER NEW USER
@@ -77,7 +81,8 @@ userRouter.post("/register", async (request, response) => {
 	const { employee_number, password } = request.body;
 
 	//# Check if an account with the provided employee number already exists
-	if (await User.getFromEmployeeNumber(employee_number)) {
+	const foundUser = await User.getFromEmployeeNumber(employee_number);
+	if (foundUser) {
 		//# If there is an existing account
 		const errorSummary = `An account with the Employee Number '${employee_number}' already exists.`;
 		const errorLongDescription =
@@ -95,6 +100,7 @@ userRouter.post("/register", async (request, response) => {
 
 	await new User(userObj).save();
 	const cleanUser = sanitiseUser(userObj);
+
 	response.status(200).json({ ...cleanUser, token: getToken(cleanUser) });
 
 	console.log(
@@ -126,7 +132,9 @@ userRouter.get("/verify/:token", async (request, response) => {
 				.redirect(`//${process.env.FRONTEND_URL}/login?verified`);
 			return console.log("A user has been successfully verified");
 		} else {
-			response.status(405).send("You are already verified");
+			response
+				.status(405)
+				.redirect(`//${process.env.FRONTEND_URL}/login?verified`);
 			return console.log(
 				"A user activated a verification link but they were already verified"
 			);
@@ -136,6 +144,39 @@ userRouter.get("/verify/:token", async (request, response) => {
 		return response.status(400).send("Invalid verification link");
 	}
 });
+
+userRouter.post(
+	"/resendVerification/:employee_number",
+	async (request, response) => {
+		console.log("Received request to resend a verification email");
+		const { employee_number } = request.params;
+		const foundUser = await User.getFromEmployeeNumber(employee_number);
+
+		if (!foundUser || foundUser.verified) {
+			response
+				.status(401)
+				.error({ error: "Your account has already been verified" });
+			return console.log(
+				"Received request to resend a verification email but the user's account had already been verified"
+			);
+		}
+
+		console.log("Processed request to resend verification email, now sending");
+		verificationEmail({
+			email: foundUser.email,
+			employee_number: foundUser.employee_number,
+			first_name: foundUser.first_name,
+		})
+			.then((result) => {
+				response.status(200).json();
+				return console.log("verification email resent");
+			})
+			.catch((error) => {
+				response.status(401);
+				console.log("verification email failed to resend. error: ", error);
+			});
+	}
+);
 
 //#USER INFO FETCH
 /**

@@ -2,43 +2,58 @@
 @import "../../../styles/config/variables";
 
 .status-message {
-    padding: $spacing-5;
+	padding: $spacing-5;
 
-    @at-root form>& {
-        margin-bottom: $spacing-5 !important;
-        margin-top: $spacing-5 !important;
-    }
+	@at-root form > & {
+		margin-bottom: $spacing-5 !important;
+		margin-top: $spacing-5 !important;
+	}
 
-    &.positive {
-        background-color: $color-positive-lightest;
+	&.positive {
+		background-color: $color-positive-lightest;
 
-        &.border {
-            border-color: $color-positive-dark;
-        }
-    }
+		&.border {
+			border-color: $color-positive-dark;
+		}
+	}
 
-    &.negative {
-        background-color: $color-negative-lightest;
+	&.negative {
+		background-color: $color-negative-lightest;
 
-        &.border {
-            border-color: $color-negative-dark;
-        }
-    }
+		&.border {
+			border-color: $color-negative-dark;
+		}
+	}
 
-    &.warning {
-        background-color: $color-warning-lightest;
+	&.neutral {
+		background-color: $color-primary-lightest;
 
-        &.border {
-            border-color: $color-warning-dark;
-        }
-    }
+		&.border {
+			border-color: $color-primary-dark;
+		}
+	}
 
-    &.border {
-        @each $side in ("left", "top", "right", "bottom") {
-            &.border-#{$side} {
-                border-#{$side}-width: 4px;
-                border-#{$side}-style: solid;
-            }
-        }
-    }
+	&.warning {
+		background-color: $color-warning-lightest;
+
+		&.border {
+			border-color: $color-warning-dark;
+		}
+	}
+
+	&.border {
+		@each $side in ("left", "top", "right", "bottom") {
+			&.border-#{$side} {
+				border-#{$side}-width: 4px;
+				border-#{$side}-style: solid;
+			}
+		}
+	}
+
+	> :first-child {
+		margin-top: 0;
+	}
+	> :last-child {
+		margin-botom: 0;
+	}
 }

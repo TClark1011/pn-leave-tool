@@ -1,98 +1,155 @@
-import './RegForm.scss';
+import "./RegForm.scss";
 
-import React, { useState, useContext } from 'react';
+import React, { useState } from "react";
 
-import { FastField, Formik, Form } from 'formik';
+import { FastField, Formik, Form } from "formik";
 
-import UserContext from '../../utility/UserContext';
+import registerVal from "../../../validation/registerVal";
 
-import registerVal from '../../../validation/registerVal';
+import FormField from "../../utility/Forms/FormField";
+import FormButton from "../../utility/Forms/FormButton";
 
-import FormField from '../../utility/Forms/FormField';
-import FormButton from '../../utility/Forms/FormButton';
+import SectionTitle from "../../utility/SectionTitle";
+import StatusMessage from "../../utility/StatusMessage";
+import BodyText from "../../utility/BodyText";
 
-import SectionTitle from '../../utility/SectionTitle';
-import StatusMessage from '../../utility/StatusMessage';
+import { register, resendVerification } from "../../../services/api";
 
-import { register } from '../../../services/api';
+import { Button, Dialog, LinearProgress } from "@material-ui/core";
 
 function RegForm(props) {
-	const { user, setUser } = useContext(UserContext);
-
 	const [formError, setFormError] = useState(null);
+	const [
+		openVerificationInstructions,
+		setOpenVerificationInstructions,
+	] = useState(false);
 
-	const [formSubmitCount, setFormSubmitCount] = useState(0);
+	const [resentEmail, setResentEmail] = useState(false);
 
 	async function onSubmit(data, { setSubmitting }) {
-		console.log('submitting registration data...');
-		setSubmitting(true);
-
-		const result = await register(data);
-
-		const isError = !!result.response;
-		//? result will only have the 'response' field if it is an error
-		if (isError) {
-			setFormError(result.response.data.error);
+		if (openVerificationInstructions) {
+			setResentEmail("loading");
+			resendVerification(data.employee_number)
+				.then(() => {
+					console.log("email has been resent");
+					setResentEmail(true);
+				})
+				.catch((error) => {
+					setResentEmail(false);
+					setOpenVerificationInstructions(false);
+					setFormError(error.response.body.data.error);
+				});
+		} else {
+			setSubmitting(true);
+			register(data)
+				.then((result) => {
+					setOpenVerificationInstructions(true);
+				})
+				.catch((error) => {
+					setFormError(error.response.data.error);
+				})
+				.finally(() => {
+					setSubmitting(false);
+				});
 		}
-		setUser(result.data);
-
-		setSubmitting(false);
 	}
 
 	return (
-		<div className='reg-form'>
+		<div className="reg-form">
 			<SectionTitle>Register New Account</SectionTitle>
 			<Formik
 				initialValues={{
-					employee_number: '',
-					confirm_employee_number: '',
-					password: '',
-					confirm_password: '',
-					first_name: '',
-					last_name: '',
-					email: '',
-					phone: '',
+					employee_number: "",
+					confirm_employee_number: "",
+					password: "",
+					confirm_password: "",
+					first_name: "",
+					last_name: "",
+					email: "",
+					phone: "",
 					leave: 0,
 				}}
 				onSubmit={onSubmit}
 				validationSchema={registerVal}
 				validateOnChange={false}
-				render={({ isSubmitting, errors, submitCount }) => (
+				render={({ isSubmitting, submitForm }) => (
 					<Form>
 						<StatusMessage>{formError}</StatusMessage>
 						<FastField
-							name='employee_number'
+							name="employee_number"
 							inputProps={{ maxLength: 6 }}
 							component={FormField}
 						/>
 						<FastField
-							name='confirm_employee_number'
+							name="confirm_employee_number"
 							inputProps={{ maxLength: 6 }}
 							component={FormField}
 						/>
-						<FastField name='password' component={FormField} />
-						<FastField name='confirm_password' component={FormField} />
-						<FastField name='first_name' component={FormField} />
-						<FastField name='last_name' component={FormField} />
-						<FastField name='email' component={FormField} />
-						<FastField name='phone' component={FormField} />
+						<FastField name="password" component={FormField} type="password" />
 						<FastField
-							name='leave'
+							name="confirm_password"
 							component={FormField}
-							type='number'
-							label='Stored Days of Leave'
+							type="password"
 						/>
-						<FormButton type='submit' disabled={isSubmitting}>
+						<FastField name="first_name" component={FormField} />
+						<FastField name="last_name" component={FormField} />
+						<FastField name="email" component={FormField} />
+						<FastField name="phone" component={FormField} />
+						<FastField
+							name="leave"
+							component={FormField}
+							type="number"
+							label="Stored Days of Leave"
+						/>
+						<FormButton type="submit" disabled={isSubmitting}>
 							submit
 						</FormButton>
+
+						<Dialog
+							open={openVerificationInstructions}
+							className="register-verification-instructions"
+						>
+							<StatusMessage tone="neutral">
+								<h3>Verify your email</h3>
+								<BodyText>
+									Thank you for registering. We have sent an email containing a
+									verification link to your provided email address.
+								</BodyText>
+								<div className="action-buttons-wrapper">
+									<ActionButton
+										onClick={() => {
+											window.location = "/login";
+										}}
+									>
+										Close
+									</ActionButton>
+									<ActionButton onClick={submitForm}>Resend Email</ActionButton>
+								</div>
+								<div className="resend-msg">
+									{resentEmail === true && (
+										<BodyText>We have sent you another email</BodyText>
+									)}
+									{resentEmail === "loading" && (
+										<LinearProgress
+											color="primary"
+											className="resend-loading"
+										/>
+									)}
+								</div>
+							</StatusMessage>
+						</Dialog>
 					</Form>
 				)}
 			></Formik>
 		</div>
 	);
-	//TODO: Add a "confirm employee number" field
-	//TODO: Implement status message
 	//TODO: add a question mark hover to explain the leave field
 }
+
+const ActionButton = ({ children, ...props }) => (
+	<Button variant="outlined" {...props}>
+		{children}
+	</Button>
+);
 
 export default RegForm;

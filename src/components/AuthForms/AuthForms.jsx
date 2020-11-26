@@ -18,7 +18,7 @@ function AuthForms({ history, form, ...props }) {
 		register: 1,
 	};
 	const [tabValue, setTabValue] = useState(tabIndexes[form] || 0);
-	const { user, setUser } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
 	function handleTabChange(event, tab) {
 		setTabValue(tab);

@@ -19,8 +19,19 @@ import { login } from "../../../services/api";
 
 const redirectedMsg = "An error occurred, please login to proceed";
 
-const getStartingStatus = () =>
-	window.location.search === "?redir" ? redirectedMsg : null;
+const getStartingStatus = () => {
+	switch (window.location.search) {
+		case "?redir":
+			return { message: redirectedMsg, tone: "negative" };
+		case "?verified":
+			return {
+				message: "Your account has been verified and you can now sign in",
+				tone: "positive",
+			};
+		default:
+			return null;
+	}
+};
 
 function LoginForm(props) {
 	const { setUser } = useContext(UserContext);
@@ -29,7 +40,7 @@ function LoginForm(props) {
 
 	const history = useHistory();
 
-	async function onSubmit(data, { setSubmitting }) {
+	function onSubmit(data, { setSubmitting }) {
 		setSubmitting(true);
 
 		login(data)
@@ -38,7 +49,7 @@ function LoginForm(props) {
 				history.push("/profile");
 			})
 			.catch((error) => {
-				setFormError(error.response.data.error);
+				setFormError({ message: error.response.data.error });
 			})
 			.finally(() => {
 				setSubmitting(false);
@@ -57,7 +68,9 @@ function LoginForm(props) {
 				{({ isSubmitting }) => (
 					<Form>
 						<SectionTitle>Login</SectionTitle>
-						<StatusMessage className="form-item">{formError}</StatusMessage>
+						<StatusMessage tone={formError?.tone || "negative"}>
+							{formError?.message}
+						</StatusMessage>
 						<Field
 							name="employee_number"
 							inputProps={{ maxLength: 6 }}
@@ -67,6 +80,7 @@ function LoginForm(props) {
 							name="password"
 							inputProps={{ maxLength: 24 }}
 							component={FormField}
+							type="password"
 						/>
 						<FormButton
 							variant="contained"

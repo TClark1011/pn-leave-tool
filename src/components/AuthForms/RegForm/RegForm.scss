@@ -1,1 +1,20 @@
-/* your css code */
+@import "../../../styles/config/variables";
+
+.register-verification-instructions {
+	.action-buttons-wrapper {
+		display: flex;
+		justify-content: space-around;
+	}
+
+	.resend-msg:not(:empty) {
+		margin-top: $spacing-4;
+		height: 1em;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.resend-loading {
+			width: 40%;
+		}
+	}
+}
