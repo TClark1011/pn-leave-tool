@@ -15,7 +15,7 @@ import FormButton from "../../utility/Forms/FormButton";
 
 import loginVal from "../../../validation/loginVal";
 
-import { login } from "../../../services/api";
+import { login } from "../../../services/auth";
 
 const redirectedMsg = "An error occurred, please login to proceed";
 

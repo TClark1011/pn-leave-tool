@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 
 import classNames from "classnames";
 
-import formatLabel from "../../../../services/formatLabel";
+import formatLabel from "../../../../utils/formatLabel";
 
 function FormField({ field, form, className, ...props }) {
 	const errorText =

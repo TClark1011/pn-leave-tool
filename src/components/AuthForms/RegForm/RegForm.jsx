@@ -13,7 +13,7 @@ import SectionTitle from "../../utility/SectionTitle";
 import StatusMessage from "../../utility/StatusMessage";
 import BodyText from "../../utility/BodyText";
 
-import { register, resendVerification } from "../../../services/api";
+import { register, resendVerification } from "../../../services/auth";
 
 import { Button, Dialog, LinearProgress } from "@material-ui/core";
 

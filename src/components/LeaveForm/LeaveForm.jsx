@@ -4,6 +4,8 @@ import React, { useState, useContext } from "react";
 
 import axios from "axios";
 
+import { submitLeave } from "../../services/leave";
+
 import { Formik, Form, Field } from "formik";
 
 import Button from "@material-ui/core/Button";
@@ -27,8 +29,6 @@ import {
 	format as formatDate,
 	isValid as isValidDate,
 	max as maxDate,
-	parse as parseDate,
-	format,
 } from "date-fns";
 
 import UserContext from "../utility/UserContext";
@@ -50,11 +50,6 @@ function LeaveForm(props) {
 	const [endDate, setEndDate] = useState(addDays(startDate, 1));
 	const [length, setLength] = useState(1);
 	const [response, setResponse] = useState(null);
-
-	function testDateString(dateString) {
-		const dateFormatRegex = /\d\d\/\d\d\/\d\d/g;
-		return dateFormatRegex.test(dateString);
-	}
 
 	function updateStartDate(date, string, setFieldValue) {
 		if (isValidDate(date)) {
@@ -88,9 +83,9 @@ function LeaveForm(props) {
 	function onSubmit(data, { setSubmitting }) {
 		setSubmitting(true);
 		console.log("Submitting: ", data);
-		axios
-			.post("/api/leave/request", data)
+		submitLeave(data)
 			.then((result) => {
+				console.log("leave result: ", result);
 				setResponse(result.data);
 				setUser(result.data.updatedUser);
 			})

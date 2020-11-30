@@ -1,8 +1,8 @@
-import './styles/base.scss';
+import "./styles/base.scss";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import axios from 'axios';
+import { tokenAdder, errorCatcher } from "./services/interceptors";
 
 import {
 	BrowserRouter as Router,
@@ -10,7 +10,7 @@ import {
 	Route,
 	Link,
 	Redirect,
-} from 'react-router-dom';
+} from "react-router-dom";
 
 import {
 	Card,
@@ -18,30 +18,30 @@ import {
 	BottomNavigation,
 	BottomNavigationAction,
 	Icon,
-} from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/core/styles';
+} from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/core/styles";
 
-import UserContext from './components/utility/UserContext';
+import UserContext from "./components/utility/UserContext";
 
-import theme from './Theme'; //* Pulls theme data from 'Theme.jsx'
+import theme from "./Theme"; //* Pulls theme data from 'Theme.jsx'
 
-import AuthForms from './components/AuthForms';
+import AuthForms from "./components/AuthForms";
 
-import LeaveForm from './components/LeaveForm';
-import LeaveList from './components/LeaveList';
-import Profile from './components/Profile';
+import LeaveForm from "./components/LeaveForm";
+import LeaveList from "./components/LeaveList";
+import Profile from "./components/Profile";
 
-import AuthenticatedRoute from './components/utility/AuthenticatedRoute';
+import AuthenticatedRoute from "./components/utility/AuthenticatedRoute";
 
 const checkNav = () => {
 	switch (window.location.pathname) {
-		case '/profile':
-		case '/login':
-			return 'account';
-		case '/leave':
-			return 'leave';
-		case '/request':
-			return 'request';
+		case "/profile":
+		case "/login":
+			return "account";
+		case "/leave":
+			return "leave";
+		case "/request":
+			return "request";
 		default:
 			return null;
 	}
@@ -52,35 +52,18 @@ function App() {
 	const [navStatus, setNavStatus] = useState(checkNav());
 	//* The initial value of 'bottomNav' needs to correspond to the BottomNavigationAction value of the homepage
 
-	const accountLabel = user ? 'Profile' : 'Login';
-	const accountIcon = user ? 'account_box' : 'login';
+	const accountLabel = user ? "Profile" : "Login";
+	const accountIcon = user ? "account_box" : "login";
 
 	function getAuthLink() {
-		return user ? '/profile' : '/login';
+		return user ? "/profile" : "/login";
 	}
 
 	useEffect(() => {
-		window.addEventListener('popstate', () => setNavStatus(checkNav()));
+		window.addEventListener("popstate", () => setNavStatus(checkNav()));
 
-		axios.interceptors.request.use((request) => {
-			//? Adds authentication headers to all requests made when a user is signed in
-			if (user) {
-				request.headers.authorisation = user.token;
-			}
-			return request;
-		});
-
-		axios.interceptors.response.use(
-			//? If an error response has a redirect key, redirect user to that page
-			(response) => response,
-			(error) => {
-				if (error.response.data.redirect) {
-					window.location = error.response.data.redirect;
-					//* This is a shoddy way of redirecting, should find a way to do it properly with react router dom
-				}
-				return Promise.reject(error);
-			}
-		);
+		tokenAdder(user);
+		errorCatcher();
 		//TODO: Handle timeout response
 	}, [user]);
 
@@ -90,38 +73,38 @@ function App() {
 				{/** Theme provider component passes 'theme' down to all child components*/}
 				<CssBaseline />
 				{/** Initialises a standard 'default' css sheet to avoid visual discrepancies caused by different browser default stylesheets*/}
-				<div id='App'>
+				<div id="App">
 					<Router>
-						<div id='Content'>
+						<div id="Content">
 							<Switch>
-								<Route path='/login'>
-									<Card className='centerV centerH card'>
-										<AuthForms form='login' />
+								<Route path="/login">
+									<Card className="centerV centerH card">
+										<AuthForms form="login" />
 									</Card>
 								</Route>
-								<Route path='/register'>
-									<Card className='centerV centerH card'>
-										<AuthForms form='register' />
+								<Route path="/register">
+									<Card className="centerV centerH card">
+										<AuthForms form="register" />
 									</Card>
 								</Route>
-								<AuthenticatedRoute path='/request'>
+								<AuthenticatedRoute path="/request">
 									<Card
-										className='centerV centerH card'
-										style={{ width: '400px' }}
+										className="centerV centerH card"
+										style={{ width: "400px" }}
 									>
 										<LeaveForm user={user} />
 									</Card>
 								</AuthenticatedRoute>
-								<AuthenticatedRoute path='/profile'>
-									<Card className='centerV centerH card'>
+								<AuthenticatedRoute path="/profile">
+									<Card className="centerV centerH card">
 										<Profile />
 									</Card>
 								</AuthenticatedRoute>
-								<AuthenticatedRoute path='/leave'>
+								<AuthenticatedRoute path="/leave">
 									<LeaveList user={user} />
 								</AuthenticatedRoute>
-								<Route path='/'>
-									<Redirect to='/login' />
+								<Route path="/">
+									<Redirect to="/login" />
 								</Route>
 							</Switch>
 						</div>
@@ -139,34 +122,34 @@ function App() {
 
 		return (
 			<BottomNavigation
-				id='bottom-navigation'
+				id="bottom-navigation"
 				value={navStatus}
 				onChange={(e, newValue) => setNavStatus(newValue)}
-				className='bottom-navigation-bar'
+				className="bottom-navigation-bar"
 				showLabels
 				style={{ boxShadow: theme.shadows[4] }}
 			>
 				<BottomNavigationAction
 					label={accountLabel}
-					value='account'
+					value="account"
 					icon={<Icon>{accountIcon}</Icon>}
 					component={Link}
 					to={getAuthLink()}
 				/>
 				<BottomNavigationAction
-					label='Submit'
-					value='request'
+					label="Submit"
+					value="request"
 					icon={<Icon>send</Icon>}
 					component={Link}
-					to='/request'
+					to="/request"
 					disabled={!user}
 				/>
 				<BottomNavigationAction
-					label='Requests'
-					value='leave'
+					label="Requests"
+					value="leave"
 					icon={<Icon>event</Icon>}
 					component={Link}
-					to='/leave'
+					to="/leave"
 					disabled={!user}
 				/>
 			</BottomNavigation>
