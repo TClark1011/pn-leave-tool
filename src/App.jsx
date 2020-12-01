@@ -64,7 +64,6 @@ function App() {
 
 		tokenAdder(user);
 		errorCatcher();
-		//TODO: Handle timeout response
 	}, [user]);
 
 	return (

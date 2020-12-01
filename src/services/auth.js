@@ -1,5 +1,4 @@
 import axios from "../utils/axiosInstance";
-// import axios from "axios";
 
 export const login = (data) => axios.post("/api/users/login", data);
 
