@@ -10,6 +10,8 @@ const endOfMonth = require("date-fns/startOfMonth");
 const addDays = require("date-fns/addDays");
 const parse = require("date-fns/parse");
 const startOfDay = require("date-fns/startOfDay");
+const startOfToday = require("date-fns/startOfToday");
+const format = require("date-fns/format");
 
 const leaveVal = require("../../src/validation/leaveVal");
 
@@ -97,6 +99,43 @@ leaveRouter.get("/view", async (request, response) => {
 			"Error: Could not return leave requests to due to invalid provided credentials"
 		);
 	}
+});
+
+leaveRouter.post("/lmsData", async (request, response) => {
+	console.log("Received request to update leave data with data from LMS");
+	const data = request.body;
+	const result = {};
+	for (let i = 1; i < data.length; i++) {
+		const row = data[i];
+		for (let x = 1; x < Object.keys(row).length; x++) {
+			const date = Object.keys(row)[x];
+			const isOff = Number(row[date] !== "");
+			result[date] = (result[date] || 0) + isOff;
+		}
+	}
+	for (let i = 0; i < Object.keys(result).length; i++) {
+		const rawDate = Object.keys(result)[i];
+		const offDrivers = result[rawDate];
+
+		const parsedDate = parse(rawDate, "d/M/yyyy", startOfToday());
+		const formattedDateStr = format(parsedDate, "MM/dd/yyy");
+
+		try {
+			const dayObject = await RosterDay.getDateRecord(formattedDateStr);
+			dayObject.absentDrivers = offDrivers;
+			await dayObject.save();
+		} catch (error) {
+			response
+				.status(401)
+				.json({
+					error:
+						"There was an error processing leave data. Please try entering the data again, making sure no alterations have been made. if the problem persists send an email to 'Thomas_Clark@pacificnational.com.au'.",
+				});
+			throw error;
+		}
+	}
+	response.status(200).send("saved");
+	return console.log("Leave data has been updated with csv data from LMS");
 });
 
 /**

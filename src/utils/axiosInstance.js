@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-	timeout: 3000,
+	timeout: 15000,
 });

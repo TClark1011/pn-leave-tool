@@ -30,6 +30,7 @@ import AuthForms from "./components/AuthForms";
 import LeaveForm from "./components/LeaveForm";
 import LeaveList from "./components/LeaveList";
 import Profile from "./components/Profile";
+import SubmitLmsData from "./components/Admin/SubmitLmsData";
 
 import AuthenticatedRoute from "./components/utility/AuthenticatedRoute";
 
@@ -102,6 +103,9 @@ function App() {
 								<AuthenticatedRoute path="/leave">
 									<LeaveList user={user} />
 								</AuthenticatedRoute>
+								<Route path="/submitLmsData">
+									<SubmitLmsData />
+								</Route>
 								<Route path="/">
 									<Redirect to="/login" />
 								</Route>

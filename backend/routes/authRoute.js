@@ -9,6 +9,14 @@ authRouter.all("/*", async (request, response, next) => {
 	const authHeader = request.headers["authorisation"];
 	const token = authHeader;
 
+	if (
+		request.headers["operator_access_key"] &&
+		request.headers["operator_access_key"] === process.env.OPERATOR_ACCESS_KEY
+	) {
+		console.log(request.originalUrl);
+		next();
+		return console.log("Allowed access to operator");
+	}
 	if (!token) {
 		console.log(
 			"A request was denied due to a lack of an authentication token"

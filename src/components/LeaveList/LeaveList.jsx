@@ -2,7 +2,7 @@ import "./LeaveList.scss";
 
 import React from "react";
 
-import axios from "axios";
+import { getLeave } from "../../services/leave";
 
 import Card from "@material-ui/core/Card";
 import Icon from "@material-ui/core/Icon";
@@ -22,12 +22,9 @@ class LeaveList extends React.Component {
 	}
 
 	componentDidMount() {
-		axios
-			// .get(`/api/leave/?user=${this.props.user.employee_number}`, {
-			.get(`/api/leave/view/?user=${this.props.user.employee_number}`)
-			.then((result) => {
-				this.setState({ leaveItems: result.data.leaveItems });
-			});
+		getLeave(this.props.user.employee_number).then((result) => {
+			this.setState({ leaveItems: result.data.leaveItems });
+		});
 	}
 
 	formatLeaveList() {
