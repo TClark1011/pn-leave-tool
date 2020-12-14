@@ -12,7 +12,6 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { format } from "date-fns";
 
 import LabelledDivider from "../utility/LabelledDivider";
-
 class LeaveList extends React.Component {
 	constructor() {
 		super();
@@ -83,16 +82,18 @@ function LeaveItem(props) {
 			<div className="request-status" status={status}>
 				{statusIconSwitch()}
 			</div>
-			<div className="body card-padding">
-				<LeaveItemBodyRow>
-					{format(new Date(dates.start), dateFormat)}
-				</LeaveItemBodyRow>
-				<LeaveItemBodyRow>
-					<LabelledDivider label="to"></LabelledDivider>
-				</LeaveItemBodyRow>
-				<LeaveItemBodyRow>
-					{format(new Date(dates.end), dateFormat)}
-				</LeaveItemBodyRow>
+			<div className="body">
+				<div className="start-end">
+					<LeaveItemBodyRow>
+						Starts: {format(new Date(dates.start), dateFormat)}
+					</LeaveItemBodyRow>
+					<LeaveItemBodyRow>
+						Ends: {format(new Date(dates.end), dateFormat)}
+					</LeaveItemBodyRow>
+				</div>
+				<div className="request-submit-date" status={status}>
+					{format(new Date(props.submitted), dateFormat)}
+				</div>
 			</div>
 		</Card>
 	);

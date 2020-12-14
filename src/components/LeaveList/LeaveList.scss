@@ -9,7 +9,8 @@
 	.leave-item {
 		@include vertical-spacing($spacing-4);
 
-		$height: 150px !important;
+		$padding: $spacing-2;
+		$height: 50px + $padding * 2 !important;
 		border-radius: 4px; //?Required to format the skeleton loading indicator
 
 		width: 95vw;
@@ -47,19 +48,37 @@
 
 		.body {
 			display: flex;
-			flex-direction: column;
+			flex-direction: row;
 
 			box-sizing: border-box;
 			flex-grow: 1;
+			position: relative;
+			padding: $padding;
 
-			.leave-item-body-row {
-				width: 100%;
-				margin: 0;
+			& > * {
 				flex-grow: 1;
-
+				text-align: center;
 				display: flex;
-				align-items: center;
+				flex-direction: column;
 				justify-content: center;
+			}
+
+			.request-submit-date {
+				&::before {
+					content: "Submitted: ";
+				}
+			}
+			.start-end {
+				border-right: 1px solid darkgrey;
+				.leave-item-body-row {
+					width: 100%;
+					margin: 0;
+					flex-grow: 1;
+
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
 			}
 		}
 	}
