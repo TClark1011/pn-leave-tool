@@ -39,6 +39,10 @@ const leaveSchema = new mongoose.Schema({
 	submitted: { type: Date, default: Date.now() },
 });
 
+leaveSchema.pre("save", () => {
+	console.log("(leave) a leave item was saved at: ", new Date());
+});
+
 leaveSchema.pre("find", async () => {
 	console.log("Deleting old leave request items...");
 	await Leave.deleteMany({

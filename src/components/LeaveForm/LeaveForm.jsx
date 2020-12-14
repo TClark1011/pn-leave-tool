@@ -39,7 +39,6 @@ import StatusMessage from "../utility/StatusMessage";
 import SectionTitle from "../utility/SectionTitle";
 import BodyText from "../utility/BodyText";
 import FormButton from "../utility/Forms/FormButton";
-import { ClassOutlined } from "@material-ui/icons";
 
 function LeaveForm(props) {
 	const { user, setUser } = useContext(UserContext);

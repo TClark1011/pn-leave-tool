@@ -90,7 +90,9 @@ leaveRouter.get("/view", async (request, response) => {
 	const storedUser = await User.getFromEmployeeNumber(employee_number);
 	if (storedUser) {
 		//# if a user record with the provided 'employee_number' exists
-		const result = await Leave.find({ user: employee_number, status: 1 });
+		const result = await Leave.find({ user: employee_number, status: 1 }).sort({
+			submitted: -1,
+		});
 		response.status(200).json({ leaveItems: result });
 		console.log("Leave requests successfully returned");
 	} else {
@@ -125,12 +127,10 @@ leaveRouter.post("/lmsData", async (request, response) => {
 			dayObject.absentDrivers = offDrivers;
 			await dayObject.save();
 		} catch (error) {
-			response
-				.status(401)
-				.json({
-					error:
-						"There was an error processing leave data. Please try entering the data again, making sure no alterations have been made. if the problem persists send an email to 'Thomas_Clark@pacificnational.com.au'.",
-				});
+			response.status(401).json({
+				error:
+					"There was an error processing leave data. Please try entering the data again, making sure no alterations have been made. if the problem persists send an email to 'Thomas_Clark@pacificnational.com.au'.",
+			});
 			throw error;
 		}
 	}

@@ -3,18 +3,14 @@
 .register-verification-instructions {
 	.action-buttons-wrapper {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-around;
-	}
 
-	.resend-msg:not(:empty) {
-		margin-top: $spacing-4;
-		height: 1em;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		& > :first-child {
+		}
 
-		.resend-loading {
-			width: 40%;
+		& > button {
+			flex-grow: 0;
 		}
 	}
 }
