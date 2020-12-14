@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const mongooseConnect = require("../utility/mongooseConnect");
+const deleteDeadlines = require("../constants/leaveDeleteDeadlines");
+const subDays = require("date-fns/subDays");
 
 const User = require("./user");
 
@@ -35,6 +37,41 @@ const leaveSchema = new mongoose.Schema({
 		set: (i) => Math.round(i),
 	},
 	submitted: { type: Date, default: Date.now() },
+});
+
+leaveSchema.pre("find", async () => {
+	console.log("Deleting old leave request items...");
+	await Leave.deleteMany({
+		status: -1,
+		submitted: { $lt: subDays(new Date(), deleteDeadlines.denied) },
+	})
+		.then((result) => {
+			console.log(
+				`${result.deletedCount} old denied leave requests were deleted`
+			);
+		})
+		.catch((error) => {
+			console.log(
+				"There was an error while deleting old denied leave requests: ",
+				error
+			);
+		});
+
+	await Leave.deleteMany({
+		"status": 1,
+		"dates.end": { $lt: subDays(new Date(), deleteDeadlines.allowed) },
+	})
+		.then((result) => {
+			console.log(
+				`${result.deletedCount} old allowed leave requests were deleted`
+			);
+		})
+		.catch((error) => {
+			console.log(
+				"There was an error while deleting old allowed leave requests: ",
+				error
+			);
+		});
 });
 
 const Leave = mongoose.model("leave", leaveSchema);
