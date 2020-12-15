@@ -5,10 +5,12 @@ const express = require("express");
 const userRouter = require("./routes/userRoutes");
 const leaveRouter = require("./routes/leaveRoutes");
 const authRouter = require("./routes/authRoute");
+const depotRouter = require("./routes/depotRoutes");
 
 const app = express();
 app.use(express.json());
 
+app.use("/api/depots", depotRouter);
 app.use("/api/users", userRouter);
 app.use("/api", authRouter);
 app.use("/api/leave", leaveRouter);

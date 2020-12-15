@@ -11,7 +11,8 @@ import Skeleton from "@material-ui/lab/Skeleton";
 
 import { format } from "date-fns";
 
-import LabelledDivider from "../utility/LabelledDivider";
+import SectionTitle from "../utility/SectionTitle";
+
 class LeaveList extends React.Component {
 	constructor() {
 		super();
@@ -48,7 +49,12 @@ class LeaveList extends React.Component {
 	}
 
 	render() {
-		return <div className="leave-list">{this.formatLeaveList()}</div>;
+		return (
+			<div className="leave-list">
+				<SectionTitle>Previously Submitted Requests</SectionTitle>
+				{this.formatLeaveList()}
+			</div>
+		);
 	}
 }
 
