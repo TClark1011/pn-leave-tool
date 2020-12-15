@@ -1,8 +1,8 @@
 import "./RegForm.scss";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
-import { FastField, Formik, Form } from "formik";
+import { FastField, Formik, Form, Field } from "formik";
 
 import registerVal from "../../../validation/registerVal";
 
@@ -15,7 +15,10 @@ import BodyText from "../../utility/BodyText";
 
 import { register, resendVerification } from "../../../services/auth";
 
-import { Button, Dialog, LinearProgress } from "@material-ui/core";
+import { Button, Dialog, LinearProgress, MenuItem } from "@material-ui/core";
+
+import { useQuery } from "react-query";
+import { getDepots } from "../../../services/depots";
 
 function RegForm(props) {
 	const [formError, setFormError] = useState(null);
@@ -25,6 +28,8 @@ function RegForm(props) {
 	] = useState(false);
 
 	const [resentEmail, setResentEmail] = useState(false);
+
+	const { data: depots } = useQuery("depots", getDepots);
 
 	function onSubmit(data, { setSubmitting }) {
 		if (openVerificationInstructions) {
@@ -65,6 +70,7 @@ function RegForm(props) {
 					confirm_password: "",
 					first_name: "",
 					last_name: "",
+					depot: "Loading...",
 					email: "",
 					phone: "",
 					leave: 0,
@@ -72,7 +78,8 @@ function RegForm(props) {
 				onSubmit={onSubmit}
 				validationSchema={registerVal}
 				validateOnChange={false}
-				render={({ isSubmitting, submitForm }) => (
+			>
+				{({ isSubmitting, submitForm }) => (
 					<Form>
 						<StatusMessage>{formError}</StatusMessage>
 						<FastField
@@ -93,6 +100,20 @@ function RegForm(props) {
 						/>
 						<FastField name="first_name" component={FormField} />
 						<FastField name="last_name" component={FormField} />
+
+						<Field name="depot" component={FormField} select>
+							{/* <MenuItem>Item</MenuItem> */}
+							{depots ? (
+								depots.map((item, index) => (
+									<MenuItem key={index} value={item._id}>
+										{item.name}
+									</MenuItem>
+								))
+							) : (
+								<MenuItem>Loading...</MenuItem>
+							)}
+						</Field>
+
 						<FastField name="email" component={FormField} />
 						<FastField name="phone" component={FormField} />
 						<FastField
@@ -140,10 +161,11 @@ function RegForm(props) {
 						</Dialog>
 					</Form>
 				)}
-			></Formik>
+			</Formik>
 		</div>
 	);
 	//TODO: add a question mark hover to explain the leave field
+	//TODO: Scroll to top on form error
 }
 
 const ActionButton = ({ children, ...props }) => (

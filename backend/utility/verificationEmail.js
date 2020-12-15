@@ -7,15 +7,10 @@ const fs = require("fs");
 const streamReplace = require("stream-replace");
 
 const sendMail = async ({ employee_number, email, ...user }) => {
-	// const testAccount = await nodemailer.createTestAccount();
-
 	const transporter = nodemailer.createTransport({
-		name: "example.com",
-		service: "Gmail",
-		port: 587,
-		secure: false,
+		service: "gmail",
 		auth: {
-			user: process.env.EMAIL_ADDRESS,
+			user: process.env.EMAIL_USER,
 			pass: process.env.EMAIL_PASS,
 		},
 	});
@@ -37,7 +32,7 @@ const sendMail = async ({ employee_number, email, ...user }) => {
 	}
 
 	return transporter.sendMail({
-		from: `"PN Annual Leave" <${process.env.EMAIL_ADDRESS}>`,
+		from: `"PN Annual Leave" <${process.env.EMAIL_USER}@gmail.com>`,
 		to: email,
 		subject: "Account Verification",
 		html: htmlStream,

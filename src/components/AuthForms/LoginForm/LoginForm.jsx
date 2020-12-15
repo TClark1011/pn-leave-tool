@@ -45,6 +45,7 @@ function LoginForm(props) {
 
 		login(data)
 			.then((result) => {
+				console.log("(LoginForm) login request result: ", result);
 				setUser(result.data);
 				history.push("/profile");
 			})

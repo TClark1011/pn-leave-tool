@@ -157,8 +157,6 @@ function App() {
 				/>
 			</BottomNavigation>
 		);
-		//FIXME: Authenticated Item bottom nav actions don't light up with navigation
-		//FIXME: Authenticated Item bottom nav actions don't show label when not selected
 	}
 }
 

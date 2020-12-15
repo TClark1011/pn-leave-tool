@@ -12,11 +12,15 @@ module.exports = yup.object({
 	),
 	confirm_employee_number: loginSchema.employee_number
 		.required("You must confirm your Employee Number")
-		.test("Employee Numbers match", "Employee Numbers do not match", function (
-			value
-		) {
-			return value ? value === this.resolve(yup.ref("employee_number")) : true;
-		}),
+		.test(
+			"Employee Numbers match",
+			"Employee Numbers do not match",
+			function (value) {
+				return value
+					? value === this.resolve(yup.ref("employee_number"))
+					: true;
+			}
+		),
 	password: loginSchema.password.required("Password is a required field"),
 	confirm_password: passwordField
 		.required()
@@ -25,6 +29,7 @@ module.exports = yup.object({
 		}),
 	first_name: yup.string().required("Please enter your first name"),
 	last_name: yup.string().required("Please enter your last name"),
+	depot: yup.string().required("You must select your depot"),
 	email: yup
 		.string()
 		.required("Please enter a valid email address")

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const mongooseConnect = require("../utility/mongooseConnect");
-mongooseConnect(mongoose, process.env.MONGO_URI);
+mongooseConnect(mongoose, process.env.MONGO_URI, "rosterDay");
 
 /**
  * Very basic roster day model

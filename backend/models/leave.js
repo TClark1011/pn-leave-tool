@@ -5,7 +5,7 @@ const subDays = require("date-fns/subDays");
 
 const User = require("./user");
 
-mongooseConnect(mongoose, process.env.MONGO_URI);
+mongooseConnect(mongoose, process.env.MONGO_URI, "leave");
 
 const statusRangeMsg =
 	"Request status must one of the following values: -1 (denied), 0(pending), 1(approved)";

@@ -5,6 +5,7 @@ const authRoute = require("../routes/authRoute");
 const depotRouter = express.Router();
 
 depotRouter.get("/", async (request, response) => {
+	console.log("Received request to fetch depot list");
 	response.status(200).json(await Depot.find({}));
 });
 
@@ -16,6 +17,7 @@ depotRouter.post("/", async (request, response) => {
 		const newDepotDocument = await new Depot(request.body);
 		await newDepotDocument.save();
 		response.status(200).json(newDepotDocument);
+		return console.log("Successfully returned depot list");
 	} catch (error) {
 		response
 			.status(500)
