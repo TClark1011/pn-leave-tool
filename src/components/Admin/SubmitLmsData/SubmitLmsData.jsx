@@ -5,6 +5,7 @@ import csv2json from "csvjson-csv2json";
 import { Card, TextField, Button } from "@material-ui/core";
 
 import { submitLmsData } from "../../../services/admin";
+import DepotSelect from "../../DepotSelect/DepotSelect";
 
 const SubmitLmsData = (props) => {
 	const [accessKey, setAccessKey] = useState("");
@@ -34,6 +35,7 @@ const SubmitLmsData = (props) => {
 		<Card className="SubmitLmsDataWrapper">
 			<form onSubmit={onSubmit}>
 				<input type="file" onChange={onUpload} />
+				<DepotSelect />
 				<TextField
 					value={accessKey}
 					onChange={(e) => setAccessKey(e.target.value)}

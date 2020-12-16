@@ -219,11 +219,6 @@ function LeaveForm(props) {
 								/>
 								<BodyText component="span">days long</BodyText>
 							</div>
-							<div className="remaining-leave form-item">
-								<BodyText>
-									You have {getLeaveLength()} days of leave remaining
-								</BodyText>
-							</div>
 						</div>
 						<Field name="user" type="hidden" value={user.employee_number} />
 						<FormButton type="submit" disabled={isSubmitting}>

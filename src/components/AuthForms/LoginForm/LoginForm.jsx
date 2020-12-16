@@ -16,6 +16,7 @@ import FormButton from "../../utility/Forms/FormButton";
 import loginVal from "../../../validation/loginVal";
 
 import { login } from "../../../services/auth";
+import { loginRedir } from "../../../constants/autoNavParams";
 
 const redirectedMsg = "An error occurred, please login to proceed";
 
@@ -45,9 +46,8 @@ function LoginForm(props) {
 
 		login(data)
 			.then((result) => {
-				console.log("(LoginForm) login request result: ", result);
 				setUser(result.data);
-				history.push("/profile");
+				history.push(loginRedir);
 			})
 			.catch((error) => {
 				setFormError({ message: error.response.data.error });

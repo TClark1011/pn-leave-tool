@@ -28,41 +28,16 @@ import theme from "./Theme"; //* Pulls theme data from 'Theme.jsx'
 import AuthForms from "./components/AuthForms";
 
 import LeaveForm from "./components/LeaveForm";
-import LeaveList from "./components/LeaveList";
 import Profile from "./components/Profile";
 import SubmitLmsData from "./components/Admin/SubmitLmsData";
 
 import AuthenticatedRoute from "./components/utility/AuthenticatedRoute";
-
-const checkNav = () => {
-	switch (window.location.pathname) {
-		case "/profile":
-		case "/login":
-			return "account";
-		case "/leave":
-			return "leave";
-		case "/request":
-			return "request";
-		default:
-			return null;
-	}
-};
+import { landingRedir } from "./constants/autoNavParams";
 
 function App() {
 	const [user, setUser] = useState(null);
-	const [navStatus, setNavStatus] = useState(checkNav());
-	//* The initial value of 'bottomNav' needs to correspond to the BottomNavigationAction value of the homepage
-
-	const accountLabel = user ? "Profile" : "Login";
-	const accountIcon = user ? "account_box" : "login";
-
-	function getAuthLink() {
-		return user ? "/profile" : "/login";
-	}
 
 	useEffect(() => {
-		window.addEventListener("popstate", () => setNavStatus(checkNav()));
-
 		tokenAdder(user);
 		errorCatcher();
 	}, [user]);
@@ -100,64 +75,19 @@ function App() {
 										<Profile />
 									</Card>
 								</AuthenticatedRoute>
-								<AuthenticatedRoute path="/leave">
-									<LeaveList user={user} />
-								</AuthenticatedRoute>
 								<Route path="/submitLmsData">
 									<SubmitLmsData />
 								</Route>
 								<Route path="/">
-									<Redirect to="/login" />
+									<Redirect to={landingRedir} />
 								</Route>
 							</Switch>
 						</div>
-						<BottomNavBar />
 					</Router>
 				</div>
 			</ThemeProvider>
 		</UserContext.Provider>
 	);
-
-	function BottomNavBar(props) {
-		useEffect(() => {
-			setNavStatus(checkNav());
-		});
-
-		return (
-			<BottomNavigation
-				id="bottom-navigation"
-				value={navStatus}
-				onChange={(e, newValue) => setNavStatus(newValue)}
-				className="bottom-navigation-bar"
-				showLabels
-				style={{ boxShadow: theme.shadows[4] }}
-			>
-				<BottomNavigationAction
-					label={accountLabel}
-					value="account"
-					icon={<Icon>{accountIcon}</Icon>}
-					component={Link}
-					to={getAuthLink()}
-				/>
-				<BottomNavigationAction
-					label="Submit"
-					value="request"
-					icon={<Icon>send</Icon>}
-					component={Link}
-					to="/request"
-					disabled={!user}
-				/>
-				<BottomNavigationAction
-					label="Requests"
-					value="leave"
-					icon={<Icon>event</Icon>}
-					component={Link}
-					to="/leave"
-					disabled={!user}
-				/>
-			</BottomNavigation>
-		);
-	}
 }
 
 export default App;
