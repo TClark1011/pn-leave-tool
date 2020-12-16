@@ -19,6 +19,7 @@ import { Button, Dialog, LinearProgress, MenuItem } from "@material-ui/core";
 
 import { useQuery } from "react-query";
 import { getDepots } from "../../../services/depots";
+import DepotSelect from "../../DepotSelect/DepotSelect";
 
 function RegForm(props) {
 	const [formError, setFormError] = useState(null);
@@ -28,8 +29,6 @@ function RegForm(props) {
 	] = useState(false);
 
 	const [resentEmail, setResentEmail] = useState(false);
-
-	const { data: depots } = useQuery("depots", getDepots);
 
 	function onSubmit(data, { setSubmitting }) {
 		if (openVerificationInstructions) {
@@ -100,20 +99,7 @@ function RegForm(props) {
 						/>
 						<FastField name="first_name" component={FormField} />
 						<FastField name="last_name" component={FormField} />
-
-						<Field name="depot" component={FormField} select>
-							{/* <MenuItem>Item</MenuItem> */}
-							{depots ? (
-								depots.map((item, index) => (
-									<MenuItem key={index} value={item._id}>
-										{item.name}
-									</MenuItem>
-								))
-							) : (
-								<MenuItem>Loading...</MenuItem>
-							)}
-						</Field>
-
+						<Field name="depot" component={DepotSelect} />
 						<FastField name="email" component={FormField} />
 						<FastField name="phone" component={FormField} />
 						<FastField

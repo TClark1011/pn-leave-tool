@@ -10,6 +10,7 @@ mongooseConnect(mongoose, process.env.MONGO_URI, "rosterDay");
 const daySchema = new mongoose.Schema({
 	date: { type: Date, required: true },
 	absentDrivers: { type: Number, default: 0 },
+	depot: { type: mongoose.Schema.Types.ObjectId, ref: "depot", required: true },
 });
 //TODO: Need to store the (accurate) average number of available drivers
 
@@ -46,7 +47,7 @@ RosterDay.addAbsentDriver = async function (date) {
  * @param {Date} date - the date to retrieve the record for
  * @returns {RosterDay} - The record for the provided date, if no record exists, returns a blank record for that date
  */
-RosterDay.getDateRecord = async function (date) {
+RosterDay.getDateRecord = async function (date, depot) {
 	const dateCopy = new Date(date);
 	const lower = new Date(dateCopy.setHours(0, 0, 0, 0));
 	const upper = new Date(dateCopy.setHours(23, 59, 59, 59));
@@ -55,9 +56,10 @@ RosterDay.getDateRecord = async function (date) {
 			$gte: lower,
 			$lte: upper,
 		},
+		depot,
 	});
 	if (!record) {
-		return new RosterDay({ date: date, absentDrivers: 0 });
+		return new RosterDay({ date: date, absentDrivers: 0, depot });
 	}
 	return record;
 };

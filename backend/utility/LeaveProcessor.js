@@ -29,7 +29,10 @@ class LeaveProcessor {
 			date <= new Date(this.dates.end);
 			date = new Date(date.setDate(date.getDate() + 1))
 		) {
-			const storedDay = await RosterDay.getDateRecord(date);
+			const storedDay = await RosterDay.getDateRecord(
+				date,
+				this.user.depot._id
+			);
 			const newDay = storedDay;
 			newDay.absentDrivers += 1;
 			this.storedUpdates.push(new RosterDay(newDay));
@@ -68,6 +71,7 @@ class LeaveProcessor {
 			dates: this.dates,
 			user: this.user.employee_number,
 			status: this.approved ? 1 : -1,
+			depot: this.user.depot._id,
 		}).save();
 		if (this.approved) {
 			for (let item of this.storedUpdates) {

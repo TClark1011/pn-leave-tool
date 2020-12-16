@@ -47,7 +47,6 @@ function LeaveForm(props) {
 	const minDate = startOfDay(addDays(new Date(), minNoticeDays));
 	const [startDate, setStartDate] = useState(minDate);
 	const [endDate, setEndDate] = useState(addDays(startDate, 1));
-	const [length, setLength] = useState(1);
 	const [response, setResponse] = useState(null);
 
 	function updateStartDate(date, string, setFieldValue) {
@@ -61,7 +60,6 @@ function LeaveForm(props) {
 				setFieldValue("dates.end", newEndDate);
 			}
 			const newLength = differenceInDays(newEndDate, date) || 1;
-			setLength(newLength);
 			lengthFieldRef.current.value = newLength;
 		}
 	}
@@ -70,10 +68,11 @@ function LeaveForm(props) {
 			const newEndDate = startOfDay(date);
 			setEndDate(newEndDate);
 
-			setFieldValue("dates.end", newEndDate);
+			if (setFieldValue) {
+				setFieldValue("dates.end", newEndDate);
+			}
 
 			const newLength = differenceInDays(date, startDate) || 1;
-			setLength(newLength);
 
 			lengthFieldRef.current.value = newLength;
 		}
@@ -162,11 +161,6 @@ function LeaveForm(props) {
 	function getLeaveLength() {
 		return props.user?.leave - differenceInDays(endDate, startDate);
 	}
-
-	function onStartTextFieldChange(data) {
-		console.log("editing starting date text field");
-	}
-
 	const lengthFieldRef = React.createRef();
 	return (
 		<div className="leave-form">

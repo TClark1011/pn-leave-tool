@@ -16,9 +16,9 @@ function Profile(props) {
 			</SectionTitle>
 			<BodyText>Employee Number: {user.employee_number} </BodyText>
 			<BodyText>Depot: {user.depot.name} </BodyText>
-			<BodyText>Stored Leave: {user.leave} </BodyText>
-			<BodyText>Email: {user.email} </BodyText>
-			<BodyText>Phone: {user.phone} </BodyText>
+			<BodyText>Stored Leave: {user.leave} days</BodyText>
+			<BodyText>Email: {user.email}</BodyText>
+			<BodyText>Phone: {user.phone}</BodyText>
 		</div>
 	);
 	//TODO: Styling

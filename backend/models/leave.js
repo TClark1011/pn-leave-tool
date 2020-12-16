@@ -36,6 +36,7 @@ const leaveSchema = new mongoose.Schema({
 		get: (i) => Math.round(i),
 		set: (i) => Math.round(i),
 	},
+	depot: { type: mongoose.Schema.Types.ObjectId, ref: "depot", required: true },
 	submitted: { type: Date, default: Date.now() },
 });
 

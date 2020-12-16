@@ -145,39 +145,22 @@ leaveRouter.post("/lmsData", async (request, response) => {
 leaveRouter.post("/randomgen", async (request, response) => {
 	console.log("Received post request to randomise leave data");
 
-	const validation = validateRequest(request, {
-		expectedFields: ["key"],
-	});
-	if (!validation.valid) {
-		response
-			.status(500)
-			.json({ error: genericError("randomise leave request data") });
-		return console.log(`Error: ${validation.reason} - ${validation.details}`);
+	const start =
+		parse(request.body.start, "dd/MM/yyyy", startOfDay(new Date())) ||
+		startOfMonth(new Date());
+	const end =
+		parse(request.body.end, "dd/MM/yyyy", startOfDay(new Date())) ||
+		endOfMonth(new Date());
+	console.log("Beginning Randomisation...");
+	for (let i = start; i <= end; i = addDays(i, 1)) {
+		console.log("Randomising: ", i);
+		const record = await RosterDay.getDateRecord(i, request.body.depot);
+		record.absentDrivers = Math.floor(Math.random() * 10) + 1;
+		await record.save();
 	}
 
-	if (request.body.key === process.env.ADMIN_FUNC_KEY) {
-		const start =
-			parse(request.body.start, "dd/MM/yyyy", startOfDay(new Date())) ||
-			startOfMonth(new Date());
-		const end =
-			parse(request.body.end, "dd/MM/yyyy", startOfDay(new Date())) ||
-			endOfMonth(new Date());
-		console.log("Beginning Randomisation...");
-		for (let i = start; i <= end; i = addDays(i, 1)) {
-			console.log("Randomising: ", i);
-			const record = await RosterDay.getDateRecord(i);
-			record.absentDrivers = Math.floor(Math.random() * 10) + 1;
-			await record.save();
-		}
-
-		response.status(200).json({ status: "fine" });
-		console.log("Request to randomise leave data was processed successfully");
-	} else {
-		response.status(401).json({ status: "error: authentication failed" });
-		console.log(
-			"There was an authentication error in the request to generate leave data"
-		);
-	}
+	response.status(200).json({ status: "fine" });
+	console.log("Request to randomise leave data was processed successfully");
 });
 
 module.exports = leaveRouter;
