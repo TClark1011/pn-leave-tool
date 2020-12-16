@@ -6,47 +6,80 @@ import { Card, TextField, Button } from "@material-ui/core";
 
 import { submitLmsData } from "../../../services/admin";
 import DepotSelect from "../../DepotSelect/DepotSelect";
+import { Field, Form, Formik } from "formik";
+import FormField from "../../utility/Forms/FormField";
+import FormButton from "../../utility/Forms/FormButton";
+import StatusMessage from "../../utility/StatusMessage";
+import SectionTitle from "../../utility/SectionTitle";
+
+import lmsDataVal from "../../../validation/lmsDataVal";
 
 const SubmitLmsData = (props) => {
-	const [accessKey, setAccessKey] = useState("");
-	const [data, setData] = useState(null);
-	function onUpload(event) {
+	const [response, setResponse] = useState(null);
+	function onFileUpload(file, setFieldValue) {
 		const reader = new FileReader();
 		reader.onload = () => {
 			const json = csv2json(reader.result, { parseNumbers: true });
-			setData(json);
+			setFieldValue("file", json);
 		};
-		console.log(event.target.files);
-		reader.readAsBinaryString(event.target.files[0]);
+		reader.readAsBinaryString(file);
 	}
 
-	function onSubmit(event) {
-		event.preventDefault();
+	function onSubmit(data, { setSubmitting }) {
+		setSubmitting(true);
+		const accessKey = data.accessKey || "_";
+		delete data.accessKey;
 		submitLmsData(data, accessKey)
 			.then((result) => {
 				console.log("lms data submitted");
+				setResponse({ message: result.data.message, tone: "positive" });
 			})
 			.catch((err) => {
-				console.log(err);
+				console.log(err.response);
+				setResponse({ message: err.response.data.message, tone: "negative" });
+			})
+			.finally(() => {
+				setSubmitting(false);
 			});
 	}
 
 	return (
 		<Card className="SubmitLmsDataWrapper">
-			<form onSubmit={onSubmit}>
-				<input type="file" onChange={onUpload} />
-				<DepotSelect />
-				<TextField
-					value={accessKey}
-					onChange={(e) => setAccessKey(e.target.value)}
-					fullWidth
-					variant="filled"
-					label="Access Key"
-				/>
-				<Button type="submit" variant="contained">
-					submit
-				</Button>
-			</form>
+			<SectionTitle>Submit LMS Data</SectionTitle>
+			<Formik
+				initialValues={{ depot: "", accessKey: "", file: "" }}
+				onSubmit={onSubmit}
+				validateOnChange={false}
+				validateOnBlur={false}
+				validationSchema={lmsDataVal}
+			>
+				{({ isSubmitting, setFieldValue }) => (
+					<Form>
+						<StatusMessage tone={response?.tone}>
+							{response?.message}
+						</StatusMessage>
+						<Field
+							type="file"
+							name="file-upload"
+							label=""
+							fullWidth
+							onChange={(e) =>
+								onFileUpload(e.currentTarget.files[0], setFieldValue)
+							}
+							component={FormField}
+						/>
+						<Field name="depot" component={DepotSelect} />
+						<Field name="accessKey" component={FormField} />
+						<FormButton
+							type="submit"
+							variant="contained"
+							disabled={isSubmitting}
+						>
+							submit
+						</FormButton>
+					</Form>
+				)}
+			</Formik>
 		</Card>
 	);
 };

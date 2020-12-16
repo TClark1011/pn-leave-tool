@@ -14,10 +14,9 @@ const startOfToday = require("date-fns/startOfToday");
 const format = require("date-fns/format");
 
 const leaveVal = require("../../src/validation/leaveVal");
+const lmsDataVal = require("../../src/validation/lmsDataVal");
 
 const newLeaveProcessor = require("../utility/LeaveProcessor");
-const validateRequest = require("../utility/validateRequest");
-const genericError = require("../utility/genericError");
 const sanitiseUser = require("../utility/sanitiseUser");
 
 const sampleLeaveData = {
@@ -105,6 +104,17 @@ leaveRouter.get("/view", async (request, response) => {
 
 leaveRouter.post("/lmsData", async (request, response) => {
 	console.log("Received request to update leave data with data from LMS");
+
+	try {
+		await lmsDataVal.validate({
+			...request.body,
+			accessKey: request.headers["operator_access_key"],
+		});
+	} catch (error) {
+		response.status(400).json({ error: error.errors[0] });
+		return console.log("yup validation failed: ", error.errors[0]);
+	}
+
 	const data = request.body;
 	const result = {};
 	for (let i = 1; i < data.length; i++) {
@@ -134,7 +144,9 @@ leaveRouter.post("/lmsData", async (request, response) => {
 			throw error;
 		}
 	}
-	response.status(200).send("saved");
+	response
+		.status(200)
+		.json({ message: "The LMS data has been processed successfully" });
 	return console.log("Leave data has been updated with csv data from LMS");
 });
 

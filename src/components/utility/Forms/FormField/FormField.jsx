@@ -8,7 +8,7 @@ import classNames from "classnames";
 
 import formatLabel from "../../../../utils/formatLabel";
 
-function FormField({ field, form, className, ...props }) {
+function FormField({ field, form, label, className, ...props }) {
 	const errorText =
 		getIn(form.touched, field.name) && getIn(form.errors, field.name);
 
@@ -17,6 +17,7 @@ function FormField({ field, form, className, ...props }) {
 			? errorText.replace(new RegExp(field.name, "g"), formatLabel(field.name))
 			: "";
 	}
+	field = field || {};
 	return (
 		<TextField
 			fullWidth
@@ -24,7 +25,7 @@ function FormField({ field, form, className, ...props }) {
 			helperText={formatErrorText()}
 			error={!!errorText}
 			variant="outlined"
-			label={formatLabel(field.name)}
+			label={label || label === "" ? label : formatLabel(field.name)}
 			className={classNames("form-item", className)}
 			{...field}
 			{...props}

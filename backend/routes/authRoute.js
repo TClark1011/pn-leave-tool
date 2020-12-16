@@ -9,13 +9,23 @@ authRouter.all("/*", async (request, response, next) => {
 	const authHeader = request.headers["authorisation"];
 	const token = authHeader;
 
-	if (
-		request.headers["operator_access_key"] &&
-		request.headers["operator_access_key"] === process.env.OPERATOR_ACCESS_KEY
-	) {
-		console.log(request.originalUrl);
-		next();
-		return console.log("Allowed access to operator");
+	if (request.headers["operator_access_key"]) {
+		//# Received a request with an 'operator_access_key' header
+		if (
+			request.headers["operator_access_key"] === process.env.OPERATOR_ACCESS_KEY
+		) {
+			//# Provided 'operator_access_key' is correct
+			next();
+			return console.log("Allowed access to operator");
+		}
+		//# Provided 'operator_access_key' is incorrect
+		response.status(401).json({
+			error: "Invalid Access Key",
+			message: "The Access Key is incorrect",
+		});
+		return console.log(
+			"Authentication via operator access key was denied due to invalid key"
+		);
 	}
 	if (!token) {
 		console.log(

@@ -157,10 +157,6 @@ function LeaveForm(props) {
 			e.target.value = differenceInDays(endDate, startDate);
 		}
 	}
-
-	function getLeaveLength() {
-		return props.user?.leave - differenceInDays(endDate, startDate);
-	}
 	const lengthFieldRef = React.createRef();
 	return (
 		<div className="leave-form">

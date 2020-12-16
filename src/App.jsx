@@ -67,7 +67,7 @@ function App() {
 										className="centerV centerH card"
 										style={{ width: "400px" }}
 									>
-										<LeaveForm user={user} />
+										<LeaveForm />
 									</Card>
 								</AuthenticatedRoute>
 								<AuthenticatedRoute path="/profile">
@@ -78,6 +78,7 @@ function App() {
 								<Route path="/submitLmsData">
 									<SubmitLmsData />
 								</Route>
+								{/* <Route path="/submitLmsData" component={SubmitLmsData}/> */}
 								<Route path="/">
 									<Redirect to={landingRedir} />
 								</Route>
