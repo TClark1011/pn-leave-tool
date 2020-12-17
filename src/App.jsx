@@ -4,35 +4,16 @@ import React, { useState, useEffect } from "react";
 
 import { tokenAdder, errorCatcher } from "./services/interceptors";
 
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	Link,
-	Redirect,
-} from "react-router-dom";
-
-import {
-	Card,
-	CssBaseline,
-	BottomNavigation,
-	BottomNavigationAction,
-	Icon,
-} from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
 
 import UserContext from "./components/utility/UserContext";
 
 import theme from "./Theme"; //* Pulls theme data from 'Theme.jsx'
+import MainRouter from "./components/utility/MainRouter";
+import ProfileButton from "./components/ProfileButton/ProfileButton";
 
-import AuthForms from "./components/AuthForms";
-
-import LeaveForm from "./components/LeaveForm";
-import Profile from "./components/Profile";
-import SubmitLmsData from "./components/Admin/SubmitLmsData";
-
-import AuthenticatedRoute from "./components/utility/AuthenticatedRoute";
-import { landingRedir } from "./constants/autoNavParams";
+import { StylesProvider } from "@material-ui/core";
 
 function App() {
 	const [user, setUser] = useState(null);
@@ -44,49 +25,20 @@ function App() {
 
 	return (
 		<UserContext.Provider value={{ user, setUser }}>
-			<ThemeProvider theme={theme}>
-				{/** Theme provider component passes 'theme' down to all child components*/}
-				<CssBaseline />
-				{/** Initialises a standard 'default' css sheet to avoid visual discrepancies caused by different browser default stylesheets*/}
-				<div id="App">
-					<Router>
+			<StylesProvider injectFirst>
+				<ThemeProvider theme={theme}>
+					{/** Theme provider component passes 'theme' down to all child components*/}
+					<CssBaseline />
+					{/** Initialises a standard 'default' css sheet to avoid visual discrepancies caused by different browser default stylesheets*/}
+					<div id="App">
 						<div id="Content">
-							<Switch>
-								<Route path="/login">
-									<Card className="centerV centerH card">
-										<AuthForms form="login" />
-									</Card>
-								</Route>
-								<Route path="/register">
-									<Card className="centerV centerH card">
-										<AuthForms form="register" />
-									</Card>
-								</Route>
-								<AuthenticatedRoute path="/request">
-									<Card
-										className="centerV centerH card"
-										style={{ width: "400px" }}
-									>
-										<LeaveForm />
-									</Card>
-								</AuthenticatedRoute>
-								<AuthenticatedRoute path="/profile">
-									<Card className="centerV centerH card">
-										<Profile />
-									</Card>
-								</AuthenticatedRoute>
-								<Route path="/submitLmsData">
-									<SubmitLmsData />
-								</Route>
-								{/* <Route path="/submitLmsData" component={SubmitLmsData}/> */}
-								<Route path="/">
-									<Redirect to={landingRedir} />
-								</Route>
-							</Switch>
+							<MainRouter>
+								<ProfileButton />
+							</MainRouter>
 						</div>
-					</Router>
-				</div>
-			</ThemeProvider>
+					</div>
+				</ThemeProvider>
+			</StylesProvider>
 		</UserContext.Provider>
 	);
 }

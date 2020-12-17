@@ -2,7 +2,7 @@ import "./LoginForm.scss";
 
 import React, { useContext, useState } from "react";
 
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { Formik, Field, Form } from "formik";
 
@@ -35,7 +35,7 @@ const getStartingStatus = () => {
 };
 
 function LoginForm(props) {
-	const { setUser } = useContext(UserContext);
+	const { user, setUser } = useContext(UserContext);
 
 	const [formError, setFormError] = useState(getStartingStatus());
 
@@ -50,7 +50,7 @@ function LoginForm(props) {
 				history.push(loginRedir);
 			})
 			.catch((error) => {
-				setFormError({ message: error.response.data.error });
+				setFormError({ message: error.response.data });
 			})
 			.finally(() => {
 				setSubmitting(false);
