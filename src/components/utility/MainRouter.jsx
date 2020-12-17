@@ -39,14 +39,6 @@ const MainRouter = ({ children }) => (
 				</Card>
 			</AuthenticatedRoute>
 			<AuthenticatedRoute path="/profile">
-				<Fab
-					variant="extended"
-					component={Link}
-					to="/request"
-					style={{ width: "100%" }}
-				>
-					return
-				</Fab>
 				<Card className="centerV centerH card">
 					<Profile />
 				</Card>

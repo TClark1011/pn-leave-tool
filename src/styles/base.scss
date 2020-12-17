@@ -48,7 +48,7 @@
 .MuiCard-root,
 .MuiPaper-root,
 .card-padding {
-	&:not(.MuiPopover-paper) {
+	&:not(.MuiPopover-paper):not(.MuiDialog-paper) {
 		padding: $spacing-5;
 
 		@media (max-width: 600px) {
@@ -56,6 +56,8 @@
 		}
 
 		max-width: 95vw;
+
+		overflow: visible;
 	}
 }
 

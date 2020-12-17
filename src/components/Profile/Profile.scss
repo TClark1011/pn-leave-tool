@@ -1,1 +1,13 @@
-/* your css code */
+@import "../../styles/config/variables";
+.ProfilePage {
+	position: relative;
+	.backToRequestsButton {
+		width: 100%;
+		position: absolute;
+		bottom: ($spacing-7 + $spacing-3) * -1;
+
+		label {
+			margin-left: $spacing-4;
+		}
+	}
+}

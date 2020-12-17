@@ -28,6 +28,7 @@ function App() {
 	return (
 		<UserContext.Provider value={{ user, setUser }}>
 			<StylesProvider injectFirst>
+				{/*? 'StylesProvider' with 'injectFirst' prop makes sure material UI styles are injected at the top of the document so that they are overridden by custom styles */}
 				<ThemeProvider theme={theme}>
 					{/** Theme provider component passes 'theme' down to all child components*/}
 					<CssBaseline />
