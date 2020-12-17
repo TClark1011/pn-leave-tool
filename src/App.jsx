@@ -15,6 +15,8 @@ import ProfileButton from "./components/ProfileButton/ProfileButton";
 
 import { StylesProvider } from "@material-ui/core";
 
+import { hot } from "react-hot-loader/root";
+
 function App() {
 	const [user, setUser] = useState(null);
 
@@ -43,4 +45,4 @@ function App() {
 	);
 }
 
-export default App;
+export default hot(App);

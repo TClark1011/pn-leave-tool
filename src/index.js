@@ -1,14 +1,13 @@
-import 'react-app-polyfill/ie11'; //* These imports allow IE compatibility
-import 'react-app-polyfill/stable';
+import "react-hot-loader";
 
-import './index.css';
+import "react-app-polyfill/ie11"; //* These imports allow IE compatibility
+import "react-app-polyfill/stable";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import "./index.css";
 
-import App from './App';
+import React from "react";
+import ReactDOM from "@hot-loader/react-dom";
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+import App from "./App";
+
+ReactDOM.render(<App />, document.getElementById("root"));
