@@ -4,10 +4,16 @@
 	.backToRequestsButton {
 		width: 100%;
 		position: absolute;
-		bottom: ($spacing-7 + $spacing-3) * -1;
+		bottom: ($spacing-8) * -1;
 
 		label {
 			margin-left: $spacing-4;
 		}
+	}
+
+	.profile-fields {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
 	}
 }

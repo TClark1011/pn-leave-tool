@@ -51,10 +51,6 @@
 	&:not(.MuiPopover-paper):not(.MuiDialog-paper) {
 		padding: $spacing-5;
 
-		@media (max-width: 600px) {
-			padding: $spacing-4;
-		}
-
 		max-width: 95vw;
 
 		overflow: visible;
