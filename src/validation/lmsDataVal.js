@@ -5,7 +5,7 @@ module.exports = yup.object({
 		.array()
 		.of(
 			yup.object({
-				Name: yup.string().required(),
+				Name: yup.string().required("Invalid CSV file"),
 			})
 		)
 		.required("Please upload a file"),

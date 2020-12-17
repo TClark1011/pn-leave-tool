@@ -16,11 +16,12 @@ import lmsDataVal from "../../../validation/lmsDataVal";
 
 const SubmitLmsData = (props) => {
 	const [response, setResponse] = useState(null);
-	function onFileUpload(file, setFieldValue) {
+	function onFileUpload(file, setFieldValue, validateField) {
 		const reader = new FileReader();
 		reader.onload = () => {
 			const json = csv2json(reader.result, { parseNumbers: true });
 			setFieldValue("file", json);
+			validateField("file");
 		};
 		reader.readAsBinaryString(file);
 	}
@@ -31,11 +32,9 @@ const SubmitLmsData = (props) => {
 		delete data.accessKey;
 		submitLmsData(data, accessKey)
 			.then((result) => {
-				console.log("lms data submitted");
 				setResponse({ message: result.data.message, tone: "positive" });
 			})
 			.catch((err) => {
-				console.log(err.response);
 				setResponse({ message: err.response.data.message, tone: "negative" });
 			})
 			.finally(() => {
@@ -53,7 +52,7 @@ const SubmitLmsData = (props) => {
 				validateOnBlur={false}
 				validationSchema={lmsDataVal}
 			>
-				{({ isSubmitting, setFieldValue }) => (
+				{({ isSubmitting, setFieldValue, errors, validateField }) => (
 					<Form>
 						<StatusMessage tone={response?.tone}>
 							{response?.message}
@@ -63,10 +62,17 @@ const SubmitLmsData = (props) => {
 							name="file-upload"
 							label=""
 							fullWidth
-							onChange={(e) =>
-								onFileUpload(e.currentTarget.files[0], setFieldValue)
-							}
+							onChange={(e) => {
+								onFileUpload(
+									e.currentTarget.files[0],
+									setFieldValue,
+									validateField
+								);
+							}}
 							component={FormField}
+							inputProps={{ accept: ".csv" }}
+							error={!!errors.file}
+							helperText={errors.file ? "Invalid CSV file" : ""}
 						/>
 						<Field name="depot" component={DepotSelect} />
 						<Field name="accessKey" component={FormField} />

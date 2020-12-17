@@ -102,12 +102,6 @@ function RegForm(props) {
 						<Field name="depot" component={DepotSelect} />
 						<FastField name="email" component={FormField} />
 						<FastField name="phone" component={FormField} />
-						<FastField
-							name="leave"
-							component={FormField}
-							type="number"
-							label="Stored Days of Leave"
-						/>
 						<FormButton type="submit" disabled={isSubmitting}>
 							submit
 						</FormButton>

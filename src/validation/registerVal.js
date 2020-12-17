@@ -38,5 +38,4 @@ module.exports = yup.object({
 		.string()
 		.required("Please enter a valid Phone Number")
 		.matches(phoneRegex, "Phone Number is invalid"),
-	leave: yup.number().required().min(0, "Amount of leave must be positive"),
 });

@@ -39,7 +39,6 @@ const userSchema = new mongoose.Schema({
 			message: "phone number invalid",
 		},
 	},
-	leave: { type: Number, min: [0, "user leave must be positive"] },
 	date_created: { type: Date, default: Date.now() },
 	verified: { type: Boolean, default: false },
 });

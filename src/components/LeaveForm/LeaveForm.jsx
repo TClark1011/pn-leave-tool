@@ -88,7 +88,10 @@ function LeaveForm(props) {
 				setUser(result.data.updatedUser);
 			})
 			.catch((error) => {
-				setResponse(error.response?.data);
+				setResponse(
+					error.response?.data?.message ||
+						"There was an error, please try again later"
+				);
 			})
 			.finally(() => {
 				setSubmitting(false);
@@ -195,7 +198,6 @@ function LeaveForm(props) {
 									updateEndDate(value, string, setFieldValue);
 								}}
 								minDate={addDays(startDate, 1)}
-								maxDate={addDays(startDate, user.leave)}
 							></DateField>
 						</MuiPickersUtilsProvider>
 						<div className="form-item extra-data">
