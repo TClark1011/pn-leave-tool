@@ -13,7 +13,9 @@ const verificationEmail = require("../utility/verificationEmail");
 
 const registerVal = require("../../src/validation/registerVal");
 const loginVal = require("../../src/validation/loginVal");
+const authRouter = require("./authRoute");
 
+const userController = require("../controllers/user.controller");
 const userRouter = express.Router();
 
 //# USER LOGIN
@@ -228,6 +230,14 @@ userRouter.get("/:employee_number", async (request, response) => {
 		response.status(404).json({ error });
 		return console.log("Error: " + error);
 	}
+});
+
+userRouter.use("/*", authRouter);
+
+//#User updates data
+userRouter.put("/update", async (request, response) => {
+	console.log("Received request to update user");
+	await userController.update(request.body, response);
 });
 
 module.exports = userRouter;

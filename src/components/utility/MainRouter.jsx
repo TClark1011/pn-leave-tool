@@ -6,7 +6,6 @@ import {
 	Route,
 	Switch,
 	BrowserRouter as Router,
-	Link,
 } from "react-router-dom";
 import { landingRedir } from "../../constants/autoNavParams";
 import SubmitLmsData from "../Admin/SubmitLmsData";
@@ -39,9 +38,7 @@ const MainRouter = ({ children }) => (
 				</Card>
 			</AuthenticatedRoute>
 			<AuthenticatedRoute path="/profile">
-				<Card className="centerV centerH card">
-					<Profile />
-				</Card>
+				<Profile />
 			</AuthenticatedRoute>
 			<Route path="/submitLmsData" component={SubmitLmsData} />
 			<Route path="/">

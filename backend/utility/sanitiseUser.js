@@ -8,7 +8,6 @@ function sanitiseUser(user) {
 	const frontendUser = JSON.parse(JSON.stringify(user)); //# Create a shallow copy to allow field deletion
 	delete frontendUser.password;
 	delete frontendUser.__v;
-	delete frontendUser._id;
 	return frontendUser;
 }
 
