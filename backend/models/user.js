@@ -15,8 +15,7 @@ const userSchema = new mongoose.Schema({
 		minlength: [6, enLengthMessage],
 	},
 	password: { type: String, required: true, minLength: 6, maxLength: 24 },
-	first_name: { type: String, required: true },
-	last_name: { type: String, required: true },
+	name: { type: String, required: true },
 	depot: { type: mongoose.Schema.Types.ObjectId, ref: "depot", required: true },
 	email: {
 		type: String,
@@ -31,7 +30,7 @@ const userSchema = new mongoose.Schema({
 	},
 	phone: {
 		type: String,
-		required: true,
+		required: false,
 		validate: {
 			validator: function () {
 				return phoneRegex.test(this.phone);
@@ -39,15 +38,10 @@ const userSchema = new mongoose.Schema({
 			message: "phone number invalid",
 		},
 	},
+	//phone field is not currently in use
 	date_created: { type: Date, default: Date.now() },
 	verified: { type: Boolean, default: false },
 });
-
-const autoPopulateDepot = function () {
-	this.populate("depot", "name");
-};
-
-// userSchema.pre("find", autoPopulateDepot).pre("findOne", autoPopulateDepot);
 
 const User = mongoose.model("User", userSchema);
 

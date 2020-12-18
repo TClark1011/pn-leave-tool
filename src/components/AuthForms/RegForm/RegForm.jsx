@@ -67,12 +67,9 @@ function RegForm(props) {
 					confirm_employee_number: "",
 					password: "",
 					confirm_password: "",
-					first_name: "",
-					last_name: "",
+					name: "",
 					depot: "Loading...",
 					email: "",
-					phone: "",
-					leave: 0,
 				}}
 				onSubmit={onSubmit}
 				validationSchema={registerVal}
@@ -97,11 +94,9 @@ function RegForm(props) {
 							component={FormField}
 							type="password"
 						/>
-						<FastField name="first_name" component={FormField} />
-						<FastField name="last_name" component={FormField} />
+						<FastField name="name" component={FormField} />
 						<Field name="depot" component={DepotSelect} />
 						<FastField name="email" component={FormField} />
-						<FastField name="phone" component={FormField} />
 						<FormButton type="submit" disabled={isSubmitting}>
 							submit
 						</FormButton>

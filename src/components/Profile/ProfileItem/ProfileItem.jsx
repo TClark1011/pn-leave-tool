@@ -37,7 +37,7 @@ const ProfileItem = ({
 				InputProps={{
 					startAdornment: <ProfileItemIcon Icon={Icon} color={color} />,
 				}}
-				inputProps={{ disabled: !editMode }}
+				inputProps={{ disabled: props.disabled || !editMode }}
 				SelectProps={{ IconComponent: editMode ? ArrowDropDown : () => null }}
 				{...props}
 			/>

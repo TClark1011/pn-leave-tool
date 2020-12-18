@@ -10,9 +10,11 @@ import { Button, Card, Fab, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import {
 	ArrowBack,
+	Close,
 	Edit,
 	Email,
 	HomeWork,
+	Person,
 	Phone,
 	Save,
 	Work,
@@ -29,25 +31,15 @@ import FormButton from "../utility/Forms/FormButton";
 import { updateUser } from "../../services/user";
 
 function Profile(props) {
-	const { user } = useContext(UserContext);
+	const { user, setUser } = useContext(UserContext);
 	const [editMode, setEditMode] = useState(false);
 
-	console.log("(Profile) user: ", user);
-
-	function toggleEditMode() {
-		setEditMode(!editMode);
-	}
-
-	async function onSubmit(data, { setSubmitting }) {
+	function onSubmit(data, { setSubmitting }) {
 		const fullData = { _id: user._id, ...data };
-		console.log(
-			"(Profile) pre submission data param (with '_id' added): ",
-			fullData
-		);
 		setSubmitting(true);
 		updateUser(fullData)
 			.then((result) => {
-				console.log("(Profile) profile submission result: ", result);
+				setUser(result.body);
 			})
 			.catch((err) => {
 				console.log("(Profile) There was an error: ", err);
@@ -61,31 +53,36 @@ function Profile(props) {
 		<>
 			<Card className="card">
 				<div className="ProfilePage">
-					<SectionTitle>
-						{user.first_name} {user.last_name}
-						<IconButton className="edit-button" onClick={toggleEditMode}>
-							{editMode ? <Save /> : <Edit />}
-						</IconButton>
-					</SectionTitle>
-
 					<Formik
 						initialValues={{
 							employee_number: user.employee_number,
 							depot: user.depot._id,
 							email: user.email,
-							phone: user.phone,
+							name: user.name,
 						}}
 						validateOnChange={false}
 						onSubmit={onSubmit}
 					>
-						{() => (
+						{({ resetForm }) => (
 							<Form>
+								<SectionTitle>
+									{user.name}
+									<IconButton
+										className="edit-button"
+										onClick={() => {
+											setEditMode(!editMode);
+											resetForm();
+										}}
+									>
+										{editMode ? <Close /> : <Edit />}
+									</IconButton>
+								</SectionTitle>
 								<ProfileContext.Provider value={{ editMode }}>
 									<div className={classnames("profile-fields", { editMode })}>
 										<Field
-											name="employee_number"
-											Icon={Work}
-											label="Employee Number"
+											name="name"
+											Icon={Person}
+											label="Name"
 											component={ProfileItem}
 										/>
 										<Field
@@ -96,19 +93,19 @@ function Profile(props) {
 											ItemComponent={DepotSelect}
 										/>
 										<Field
+											name="employee_number"
+											Icon={Work}
+											label="Employee Number"
+											component={ProfileItem}
+											disabled
+										/>
+										<Field
 											name="email"
 											Icon={Email}
 											label="Email"
 											component={ProfileItem}
+											disabled
 										/>
-										<Field
-											name="phone"
-											Icon={Phone}
-											label="Phone"
-											component={ProfileItem}
-										>
-											{user.phone}
-										</Field>
 									</div>
 								</ProfileContext.Provider>
 								{editMode && <FormButton type="submit">Save</FormButton>}
@@ -129,7 +126,6 @@ function Profile(props) {
 			</Fab>
 		</>
 	);
-	//TODO: Styling
 }
 
 export default Profile;
