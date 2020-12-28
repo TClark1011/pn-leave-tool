@@ -2,8 +2,6 @@ import "./LeaveForm.scss";
 
 import React, { useState, useContext } from "react";
 
-import axios from "axios";
-
 import { submitLeave } from "../../services/leave";
 
 import { Formik, Form, Field } from "formik";
@@ -11,9 +9,7 @@ import { Formik, Form, Field } from "formik";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import Card from "@material-ui/core/Card";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 
 import DateFnsUtils from "@date-io/date-fns";
 

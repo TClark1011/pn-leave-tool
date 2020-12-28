@@ -1,6 +1,6 @@
 import "./RegForm.scss";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 import { FastField, Formik, Form, Field } from "formik";
 
@@ -15,10 +15,8 @@ import BodyText from "../../utility/BodyText";
 
 import { register, resendVerification } from "../../../services/auth";
 
-import { Button, Dialog, LinearProgress, MenuItem } from "@material-ui/core";
+import { Button, Dialog, LinearProgress } from "@material-ui/core";
 
-import { useQuery } from "react-query";
-import { getDepots } from "../../../services/depots";
 import DepotSelect from "../../DepotSelect/DepotSelect";
 
 function RegForm(props) {

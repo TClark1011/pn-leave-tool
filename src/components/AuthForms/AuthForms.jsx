@@ -20,7 +20,7 @@ function AuthForms({ history, form, ...props }) {
 	const [tabValue, setTabValue] = useState(tabIndexes[form] || 0);
 	const { user } = useContext(UserContext);
 
-	function handleTabChange(event, tab) {
+	function handleTabChange(_, tab) {
 		setTabValue(tab);
 		history.push(
 			Object.keys(tabIndexes).find((key) => tabIndexes[key] === tab)
@@ -46,7 +46,7 @@ function AuthForms({ history, form, ...props }) {
 				<AuthTab label="Register" />
 			</Tabs>
 			<TabPanel value={tabValue} index={tabIndexes.login}>
-				<LoginForm setTab={setTabValue} setTab={setTab} />
+				<LoginForm setTab={setTab} />
 			</TabPanel>
 			<TabPanel value={tabValue} index={tabIndexes.register}>
 				<RegForm />

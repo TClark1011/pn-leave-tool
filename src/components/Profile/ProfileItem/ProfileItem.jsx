@@ -1,11 +1,9 @@
 import "./ProfileItem.scss";
 
 import React, { useContext } from "react";
-import { TextField } from "@material-ui/core";
 import { ArrowDropDown } from "@material-ui/icons";
 
 import ProfileContext from "../../utility/ProfileContext";
-import { Field } from "formik";
 import FormField from "../../utility/Forms/FormField";
 
 const ProfileItem = ({
@@ -20,19 +18,6 @@ const ProfileItem = ({
 	ItemComponent = ItemComponent || FormField;
 	return (
 		<div className="ProfileItem">
-			{/* <Component
-				InputProps={{
-					startAdornment: <ProfileItemIcon Icon={Icon} color={color} />,
-				}}
-				inputProps={{ disabled: !editMode }}
-				SelectProps={{ IconComponent: editMode ? ArrowDropDown : () => null }}
-				variant="outlined"
-				label={label}
-				value={props.field.value}
-				onChange={props.field.onChange}
-				fullWidth
-				{...props}
-			/> */}
 			<ItemComponent
 				InputProps={{
 					startAdornment: <ProfileItemIcon Icon={Icon} color={color} />,

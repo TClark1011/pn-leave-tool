@@ -17,8 +17,9 @@ const DepotSelect = (props) => {
 					</MenuItem>
 				))
 			) : (
-				<MenuItem value="a">Loading...</MenuItem>
+				<MenuItem>Loading...</MenuItem>
 			)}
+			{error && <MenuItem>Error</MenuItem>}
 		</FormField>
 	);
 };

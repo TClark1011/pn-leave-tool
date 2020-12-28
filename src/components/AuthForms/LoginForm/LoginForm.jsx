@@ -35,7 +35,7 @@ const getStartingStatus = () => {
 };
 
 function LoginForm(props) {
-	const { user, setUser } = useContext(UserContext);
+	const { setUser } = useContext(UserContext);
 
 	const [formError, setFormError] = useState(getStartingStatus());
 

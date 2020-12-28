@@ -5,8 +5,7 @@ import React, { useContext, useState } from "react";
 import UserContext from "../utility/UserContext";
 
 import SectionTitle from "../utility/SectionTitle";
-import BodyText from "../utility/BodyText";
-import { Button, Card, Fab, IconButton } from "@material-ui/core";
+import { Card, Fab, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import {
 	ArrowBack,
@@ -15,8 +14,6 @@ import {
 	Email,
 	HomeWork,
 	Person,
-	Phone,
-	Save,
 	Work,
 } from "@material-ui/icons";
 import ProfileItem from "./ProfileItem/ProfileItem";
@@ -97,14 +94,14 @@ function Profile(props) {
 											Icon={Work}
 											label="Employee Number"
 											component={ProfileItem}
-											disabled
+											disabled={editMode}
 										/>
 										<Field
 											name="email"
 											Icon={Email}
 											label="Email"
 											component={ProfileItem}
-											disabled
+											disabled={editMode}
 										/>
 									</div>
 								</ProfileContext.Provider>
