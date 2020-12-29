@@ -85,8 +85,7 @@ function LeaveForm(props) {
 			})
 			.catch((error) => {
 				setResponse(
-					error.response?.data?.message ||
-						"There was an error, please try again later"
+					error.response?.data || "There was an error, please try again later"
 				);
 			})
 			.finally(() => {
@@ -95,6 +94,7 @@ function LeaveForm(props) {
 	}
 
 	function getMessage() {
+		console.log("(LeaveForm) getMessage, response state: ", response);
 		if (response) {
 			if (response.approved) {
 				return response.message;
@@ -109,7 +109,7 @@ function LeaveForm(props) {
 			<>
 				{result.message}
 				<ul className="invalid-days">
-					{result.invalidDays.map((item, index) => (
+					{result.invalidDays?.map((item, index) => (
 						<li key={index}>{formatDate(new Date(item), "MMMM do yyyy")}</li>
 					))}
 				</ul>
