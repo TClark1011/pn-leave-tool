@@ -1,4 +1,5 @@
 const express = require("express");
+const { deleteDepot } = require("../controllers/depot.controllers");
 const Depot = require("../models/depot");
 const authRoute = require("../routes/authRoute");
 
@@ -10,6 +11,18 @@ depotRouter.get("/", async (request, response) => {
 });
 
 depotRouter.use("/", authRoute);
+
+depotRouter.delete("/:id", (request, response) => {
+	const { id } = request.params;
+	try {
+		deleteDepot(id);
+		response.status(200).json();
+		return console.log("Successfully deleted depot");
+	} catch (err) {
+		response.status(500).json(err);
+		return console.log("(depotRoutes) failed to delete depot. Error: ", err);
+	}
+});
 
 depotRouter.post("/", async (request, response) => {
 	console.log("Received request to add a new depot");

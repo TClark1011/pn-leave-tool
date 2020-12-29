@@ -51,7 +51,10 @@ class LeaveProcessor {
 		for (let item of this.storedUpdates) {
 			const rosteredDrivers =
 				sampleLeaveData.averageDrivers - item.absentDrivers;
-			if (rosteredDrivers < sampleLeaveData.minimumDrivers) {
+			// if (rosteredDrivers < sampleLeaveData.minimumDrivers) {
+			// 	invalidDays.push(item.date);
+			// }
+			if (rosteredDrivers / sampleLeaveData.averageDrivers < 0.5) {
 				invalidDays.push(item.date);
 			}
 		}

@@ -24,6 +24,8 @@ const sampleLeaveData = {
 	averageDrivers: 35,
 };
 
+//DEPLOYMENT: replace sample leave data
+
 //# ANNUAL LEAVE REQUEST SUBMISSION
 /**
  * Route handling user submission of annual leave request
