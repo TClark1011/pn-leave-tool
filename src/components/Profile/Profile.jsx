@@ -29,19 +29,26 @@ import { updateUser } from "../../services/user";
 import profileVal from "../../validation/profileVal";
 import { getDepots } from "../../services/depots";
 import { object as yupObject } from "yup";
+import StatusMessage from "../utility/StatusMessage";
 
 function Profile(props) {
 	const { user, setUser } = useContext(UserContext);
 	const [editMode, setEditMode] = useState(false);
 	const [validation, setValidation] = useState(yupObject());
+	const [formMessage, setFormMessage] = useState(null);
 
 	useEffect(() => {
 		getDepots().then((result) => setValidation(profileVal(result)));
 	}, []);
 
+	useEffect(() => {
+		if (editMode) setFormMessage(null);
+	}, [editMode]);
+
 	function onSubmit(data, { setSubmitting }) {
 		const fullData = { _id: user._id, ...data };
 		setSubmitting(true);
+		var newMessage = {};
 		updateUser(fullData)
 			.then((result) => {
 				setUser({
@@ -51,13 +58,22 @@ function Profile(props) {
 					name: result.data.name,
 					email: result.data.email,
 				});
-				setEditMode(false);
+				newMessage = {
+					tone: "positive",
+					message: "Your details have been saved",
+				};
 			})
 			.catch((err) => {
 				console.log("(Profile) There was an error: ", err);
+				newMessage = {
+					tone: "negative",
+					message: "There was an error. Please try again later.",
+				};
 			})
 			.finally(() => {
 				setSubmitting(false);
+				setEditMode(false);
+				setFormMessage(newMessage);
 			});
 	}
 
@@ -90,6 +106,9 @@ function Profile(props) {
 										{editMode ? <Close /> : <Edit />}
 									</IconButton>
 								</SectionTitle>
+								<StatusMessage tone={formMessage?.tone}>
+									{formMessage?.message}
+								</StatusMessage>
 								<ProfileContext.Provider value={{ editMode }}>
 									<div
 										className={classnames("profile-fields", {
@@ -115,6 +134,10 @@ function Profile(props) {
 											label="Employee Number"
 											component={ProfileItem}
 											disabled={editMode}
+											helperText={
+												editMode &&
+												"Changing your employee number is not currently supported."
+											}
 										/>
 										<Field
 											name="email"
@@ -122,6 +145,10 @@ function Profile(props) {
 											label="Email"
 											component={ProfileItem}
 											disabled={editMode}
+											helperText={
+												editMode &&
+												"Changing your email address is not currently supported."
+											}
 										/>
 									</div>
 								</ProfileContext.Provider>
