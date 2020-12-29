@@ -1,8 +1,10 @@
-const { Mongoose } = require("mongoose");
 const UserModel = require("../models/user");
+const profileVal = require("../../src/validation/profileVal");
+const DepotModel = require("../models/depot");
 
 async function updateUser({ _id, ...data }, response) {
 	try {
+		await profileVal(await DepotModel.find({})).isValid(data);
 		await UserModel.updateOne({ _id }, { name: data.name, depot: data.depot });
 		const updatedUser = await UserModel.getFromEmployeeNumber(
 			data.employee_number

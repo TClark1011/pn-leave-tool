@@ -1,6 +1,6 @@
 import "./Profile.scss";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import UserContext from "../utility/UserContext";
 
@@ -26,17 +26,32 @@ import { Field, Form, Formik } from "formik";
 import FormButton from "../utility/Forms/FormButton";
 
 import { updateUser } from "../../services/user";
+import profileVal from "../../validation/profileVal";
+import { getDepots } from "../../services/depots";
+import { object as yupObject } from "yup";
 
 function Profile(props) {
 	const { user, setUser } = useContext(UserContext);
 	const [editMode, setEditMode] = useState(false);
+	const [validation, setValidation] = useState(yupObject());
+
+	useEffect(() => {
+		getDepots().then((result) => setValidation(profileVal(result)));
+	}, []);
 
 	function onSubmit(data, { setSubmitting }) {
 		const fullData = { _id: user._id, ...data };
 		setSubmitting(true);
 		updateUser(fullData)
 			.then((result) => {
-				setUser(result.body);
+				setUser({
+					...user,
+					employee_number: result.data.employee_number,
+					depot: result.data.depot,
+					name: result.data.name,
+					email: result.data.email,
+				});
+				setEditMode(false);
 			})
 			.catch((err) => {
 				console.log("(Profile) There was an error: ", err);
@@ -58,6 +73,7 @@ function Profile(props) {
 							name: user.name,
 						}}
 						validateOnChange={false}
+						validationSchema={validation}
 						onSubmit={onSubmit}
 					>
 						{({ resetForm }) => (
@@ -75,7 +91,11 @@ function Profile(props) {
 									</IconButton>
 								</SectionTitle>
 								<ProfileContext.Provider value={{ editMode }}>
-									<div className={classnames("profile-fields", { editMode })}>
+									<div
+										className={classnames("profile-fields", {
+											editMode: editMode,
+										})}
+									>
 										<Field
 											name="name"
 											Icon={Person}
