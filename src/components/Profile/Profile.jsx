@@ -152,7 +152,30 @@ function Profile(props) {
 										/>
 									</div>
 								</ProfileContext.Provider>
-								{editMode && <FormButton type="submit">Save</FormButton>}
+								{editMode && (
+									<>
+										<FormButton type="submit">Save</FormButton>
+										<FormButton
+											variant="outlined"
+											onClick={() => {
+												setEditMode(false);
+												resetForm();
+											}}
+										>
+											Cancel
+										</FormButton>
+									</>
+								)}
+								{!editMode && (
+									<FormButton
+										onClick={() => {
+											setEditMode(true);
+											resetForm();
+										}}
+									>
+										edit
+									</FormButton>
+								)}
 							</Form>
 						)}
 					</Formik>
