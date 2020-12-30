@@ -4,17 +4,15 @@ const random = require("random");
 //? Also returns function that will delete the depot when executed
 module.exports = async (
 	api,
-	depotName = `Temp Depot - ${random.int(0, 100000)}`,
-	depotDrivers = 3,
-	depotHidden = true
+	{ name = `Temp Depot - ${random.int(0, 100000)}`, drivers = 3, hidden = true }
 ) => {
 	let tempDepotId;
 	await api
 		.post("/api/depots")
 		.send({
-			name: depotName,
-			drivers: depotDrivers,
-			hidden: depotHidden,
+			name,
+			drivers,
+			hidden,
 		})
 		.set("operator_access_key", process.env.OPERATOR_ACCESS_KEY)
 		.then((response) => {

@@ -44,7 +44,8 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"test": "cross-env NODE_ENV=test jest --verbose --runInBand ---testPathPattern backend",
+		"test-backend": "cross-env NODE_ENV=test jest --verbose --runInBand ---testPathPattern backend",
+		"test-backend-persist-depot": "cross-env NODE_ENV=test jest --verbose --runInBand ---testPathPattern backend",
 		"test-react": "react-scripts test",
 		"eject": "react-scripts eject",
 		"server": "node backend/server.js",

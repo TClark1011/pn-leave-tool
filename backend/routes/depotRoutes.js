@@ -12,10 +12,25 @@ depotRouter.get("/", async (request, response) => {
 
 depotRouter.use("/", authRoute);
 
-depotRouter.delete("/:id", (request, response) => {
+//# Delete all temp depots
+depotRouter.delete("/temp", async (request, response) => {
+	console.log("Received request to delete temp depots");
+	try {
+		const result = await Depot.deleteMany({
+			name: { $regex: "Temp Depot", $options: "i" },
+		});
+		response.status(200).json({ deleted: result.deletedCount });
+		return console.log("All Temp depots have been successfully deleted");
+	} catch (err) {
+		response.status(500).json(err);
+		return console.log("Request to delete all temp depots has failed: ", err);
+	}
+});
+
+depotRouter.delete("/:id", async (request, response) => {
 	const { id } = request.params;
 	try {
-		deleteDepot(id);
+		await deleteDepot(id);
 		response.status(200).json();
 		return console.log("Successfully deleted depot");
 	} catch (err) {

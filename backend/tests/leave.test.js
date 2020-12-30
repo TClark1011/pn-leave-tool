@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const mongoose = require("mongoose");
 const supertest = require("supertest");
 
@@ -7,6 +9,7 @@ const testCredentials = require("./resources/testCredentials");
 
 let app = require("../app");
 const makeTempDepot = require("./resources/makeTempDepot");
+const { addDays } = require("date-fns");
 let api = supertest(app);
 
 var token = null;
@@ -15,6 +18,8 @@ let depot;
 /**
  * Return promise for standard post request for annual leave
  * @param {Object} dates - The dates for the leave request
+ * @param {Date} dates.start - Start date
+ * @param {Date} dates.end - End date
  */
 function sendLeaveRequest(dates) {
 	return api
@@ -35,7 +40,7 @@ beforeAll(async (done) => {
 		.then((response) => {
 			token = response.body.token;
 		});
-	depot = await makeTempDepot(api);
+	depot = await makeTempDepot(api, { drivers: 10 });
 	done();
 });
 beforeEach(() => {
@@ -50,15 +55,21 @@ afterEach((done) => {
 });
 
 afterAll(async () => {
-	await depot.delete();
 	mongoose.connection.close();
+	// await depot.delete();
 });
 
 test("can submit leave", async (done) => {
-	await sendLeaveRequest(randomDates()).expect((response) => {
-		if (!("approved" in response.body))
-			throw new Error("incorrect response format");
-	});
+	await sendLeaveRequest(randomDates())
+		.expect((response) => {
+			const { approved } = response.body;
+			response.body = {
+				approved,
+			};
+		})
+		.expect(200, {
+			approved: true,
+		});
 	done();
 });
 
@@ -72,5 +83,24 @@ test("start date too early throws error", async (done) => {
 	await sendLeaveRequest({ start: new Date(), end: randomDates().end }).expect(
 		400
 	);
+	done();
+});
+
+test("Percentage based leave evaluation is working correctly", async (done) => {
+	//# This is written to test a requiredWorkforce of 0.9
+	const startDate = randomDates().start;
+	// const startDate = addDays(new Date(), 100);
+	const endDate = addDays(startDate, 2);
+
+	const sendAndExpect = async (status, approval) =>
+		await sendLeaveRequest({ start: startDate, end: endDate })
+			.expect((response) => {
+				response.body = { approved: response.body.approved };
+			})
+			.expect(status, {
+				approved: approval,
+			});
+	await sendAndExpect(200, true);
+	await sendAndExpect(500, false);
 	done();
 });

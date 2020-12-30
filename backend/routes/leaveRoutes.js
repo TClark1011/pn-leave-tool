@@ -18,13 +18,7 @@ const lmsDataVal = require("../../src/validation/lmsDataVal");
 
 const newLeaveProcessor = require("../utility/LeaveProcessor");
 const sanitiseUser = require("../utility/sanitiseUser");
-
-const sampleLeaveData = {
-	minimumDrivers: 25,
-	averageDrivers: 35,
-};
-
-//DEPLOYMENT: replace sample leave data
+const Depot = require("../models/depot");
 
 //# ANNUAL LEAVE REQUEST SUBMISSION
 /**
@@ -46,14 +40,18 @@ leaveRouter.post("/request", async (request, response) => {
 		return console.log("yup validation failed: ", error.errors[0]);
 	}
 
-	const dates = request.body.dates;
+	const { dates, depot } = request.body;
 	const user = await User.getFromEmployeeNumber(request.body.user);
 
-	const leaveRequest = await newLeaveProcessor(dates, user);
+	const leaveRequest = await newLeaveProcessor(
+		dates,
+		user,
+		depot || user.depot._id
+	);
+	const depotData = await Depot.findById(depot || user.depot);
+	const evaluation = await leaveRequest.evaluate(depotData);
 
-	const evaluation = await leaveRequest.evaluate(sampleLeaveData);
-
-	await leaveRequest.commit(Leave);
+	await leaveRequest.commit(Leave, depotData._id);
 
 	if (evaluation.approved) {
 		const updatedUser = sanitiseUser(
@@ -64,7 +62,7 @@ leaveRouter.post("/request", async (request, response) => {
 			message: "Request for annual leave approved",
 			updatedUser: updatedUser,
 		});
-		console.log("Leave request approved");
+		return console.log("Leave request approved");
 	}
 	response.status(500).json({
 		approved: false,
@@ -175,5 +173,4 @@ leaveRouter.post("/randomgen", async (request, response) => {
 	response.status(200).json({ status: "fine" });
 	console.log("Request to randomise leave data was processed successfully");
 });
-
 module.exports = leaveRouter;

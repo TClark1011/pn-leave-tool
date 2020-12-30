@@ -1,10 +1,11 @@
 const RosterDay = require("../models/rosterDay");
 const User = require("../models/user");
 const differenceInDays = require("date-fns/differenceInDays");
+const { requiredWorkforce } = require("../constants/systemParameters");
 
-async function newLeaveProcessor(dates, user) {
+async function newLeaveProcessor(dates, user, depotId) {
 	const result = new LeaveProcessor(dates, user);
-	await result.init();
+	await result.init(depotId);
 	return result;
 }
 
@@ -23,16 +24,13 @@ class LeaveProcessor {
 	/**
 	 * Initialise 'stored' updates field with date records
 	 */
-	init = async function () {
+	init = async function (depotId = this.user.depot._id) {
 		for (
 			let date = new Date(this.dates.start);
 			date <= new Date(this.dates.end);
 			date = new Date(date.setDate(date.getDate() + 1))
 		) {
-			const storedDay = await RosterDay.getDateRecord(
-				date,
-				this.user.depot._id
-			);
+			const storedDay = await RosterDay.getDateRecord(date, depotId);
 			const newDay = storedDay;
 			newDay.absentDrivers += 1;
 			this.storedUpdates.push(new RosterDay(newDay));
@@ -46,15 +44,11 @@ class LeaveProcessor {
 	 * @param {Number} sampleLeaveData.averageDrivers - The number of drivers we assume are rostered
 	 * @returns {Object} - Information about validity of the request for annual leave
 	 */
-	evaluate = function (sampleLeaveData) {
+	evaluate = function (depotData) {
 		const invalidDays = [];
 		for (let item of this.storedUpdates) {
-			const rosteredDrivers =
-				sampleLeaveData.averageDrivers - item.absentDrivers;
-			// if (rosteredDrivers < sampleLeaveData.minimumDrivers) {
-			// 	invalidDays.push(item.date);
-			// }
-			if (rosteredDrivers / sampleLeaveData.averageDrivers < 0.5) {
+			const rosteredDrivers = depotData.drivers - item.absentDrivers;
+			if (rosteredDrivers / depotData.drivers < requiredWorkforce) {
 				invalidDays.push(item.date);
 			}
 		}
@@ -69,12 +63,12 @@ class LeaveProcessor {
 	 * Save new 'Leave' record and update rosterDay records if request was approved
 	 * @param {Object} Leave - The mongodb model for leave requests
 	 */
-	commit = async function (Leave) {
+	commit = async function (Leave, depotId = this.user.depot._id) {
 		await new Leave({
 			dates: this.dates,
 			user: this.user.employee_number,
 			status: this.approved ? 1 : -1,
-			depot: this.user.depot._id,
+			depot: depotId,
 		}).save();
 		if (this.approved) {
 			for (let item of this.storedUpdates) {
