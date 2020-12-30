@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const mongooseConnect = require("../utility/mongooseConnect");
-const deleteDeadlines = require("../constants/leaveDeleteDeadlines");
+const {
+	leaveDeleteDeadlines: deleteDeadlines,
+} = require("../constants/systemParameters");
 const subDays = require("date-fns/subDays");
 
 const User = require("./user");

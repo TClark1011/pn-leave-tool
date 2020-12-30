@@ -5,7 +5,7 @@ const supertest = require("supertest");
 const random = require("random");
 
 let app = require("../app");
-const deleteUnpredictableFields = require("./resources/deleteUnpredictableFields");
+const Depot = require("../models/depot");
 let api = supertest(app);
 
 let newDepotId;
@@ -27,17 +27,14 @@ afterAll(() => {
 });
 
 test("can fetch depots", async (done) => {
-	await supertest(app)
-		.get("/api/depots")
-		.expect("Content-Type", /json/)
-		.expect(200);
+	await api.get("/api/depots").expect("Content-Type", /json/).expect(200);
 	done();
 });
 
 test("can add a new depot", async (done) => {
-	const name = `${random.int(1, 10000000)}`;
+	const name = `Temp Depot - add depot test - ${random.int(1, 10000000)}`;
 	const drivers = random.int(10, 100);
-	await supertest(app)
+	await api
 		.post("/api/depots")
 		.send({
 			name,
@@ -47,7 +44,11 @@ test("can add a new depot", async (done) => {
 		.set("operator_access_key", process.env.OPERATOR_ACCESS_KEY)
 		.expect((response) => {
 			newDepotId = response.body._id;
-			deleteUnpredictableFields(response);
+			response.body = {
+				drivers: response.body.drivers,
+				name: response.body.name,
+			};
+			//? We set the response body to only contain the fields we want to check
 		})
 		.expect(200, {
 			name,
@@ -58,7 +59,7 @@ test("can add a new depot", async (done) => {
 
 test("can delete depot", async (done) => {
 	const url = `/api/depots/${newDepotId}`;
-	await supertest(app)
+	await api
 		.delete(url)
 		.set("operator_access_key", process.env.OPERATOR_ACCESS_KEY)
 		.expect(200);

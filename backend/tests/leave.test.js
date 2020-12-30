@@ -1,19 +1,16 @@
 const mongoose = require("mongoose");
 const supertest = require("supertest");
 
-const addDays = require("date-fns/addDays");
-const addWeeks = require("date-fns/addWeeks");
-const addYears = require("date-fns/addYears");
-const startOfToday = require("date-fns/startOfToday");
-
-const randomInt = require("random-int");
+const randomDates = require("./resources/randomDates");
 
 const testCredentials = require("./resources/testCredentials");
 
 let app = require("../app");
+const makeTempDepot = require("./resources/makeTempDepot");
 let api = supertest(app);
 
 var token = null;
+let depot;
 
 /**
  * Return promise for standard post request for annual leave
@@ -25,36 +22,21 @@ function sendLeaveRequest(dates) {
 		.send({
 			user: testCredentials.employee_number,
 			dates,
+			depot: depot.id,
 		})
 		.set("authorisation", token)
 		.expect("Content-Type", /json/);
 }
 
-/**
- * Generate an object with random dates to use for annual leave submission
- * @param {boolean} [swap=false] - Whether or not to swap the start and end dates
- */
-const randomDates = (swap) => {
-	swap = swap || false;
-	const start = addWeeks(
-		addYears(addDays(startOfToday(), randomInt(0, 6)), randomInt(2, 10)),
-		randomInt(3, 5)
-	);
-	const end = addWeeks(addDays(start, randomInt(0, 6)), randomInt(0, 4));
-	return {
-		start: swap ? end : start,
-		end: swap ? start : end,
-	};
-};
-
-beforeAll((done) => {
-	api
+beforeAll(async (done) => {
+	await api
 		.post("/api/users/login")
 		.send(testCredentials)
-		.end((err, res) => {
-			token = res.body.token;
-			done();
+		.then((response) => {
+			token = response.body.token;
 		});
+	depot = await makeTempDepot(api);
+	done();
 });
 beforeEach(() => {
 	app = require("../app");
@@ -67,8 +49,8 @@ afterEach((done) => {
 	//? 'done()' is a function provided by jest that signals that the current test is over
 });
 
-//# Close mongoose connection at end of tests
-afterAll(() => {
+afterAll(async () => {
+	await depot.delete();
 	mongoose.connection.close();
 });
 
