@@ -55,8 +55,8 @@ afterEach((done) => {
 });
 
 afterAll(async () => {
+	await depot.delete();
 	mongoose.connection.close();
-	// await depot.delete();
 });
 
 test("can submit leave", async (done) => {
