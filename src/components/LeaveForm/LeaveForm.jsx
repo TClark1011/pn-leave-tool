@@ -141,7 +141,7 @@ function LeaveForm(props) {
 	 */
 	function validateLengthField(value, allowBlank) {
 		allowBlank = allowBlank || false;
-		return (value.length > 0 || allowBlank) && value > 0 && value <= user.leave;
+		return (value.length > 0 || allowBlank) && value > 0;
 	}
 
 	function onLengthFieldChange(e, setFieldValue) {
@@ -203,9 +203,7 @@ function LeaveForm(props) {
 								<TextField
 									className="leave-length-field"
 									onInput={limitLength}
-									onChange={(value) =>
-										onLengthFieldChange(value, setFieldValue)
-									}
+									onChange={(e) => onLengthFieldChange(e, setFieldValue)}
 									inputRef={lengthFieldRef}
 									type="number"
 									variant="outlined"
