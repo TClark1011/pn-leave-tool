@@ -75,6 +75,7 @@ function LeaveForm(props) {
 	}
 
 	function onSubmit(data, { setSubmitting }) {
+		console.log("(LeaveForm) onSubmit - data: ", data);
 		setSubmitting(true);
 		console.log("Submitting: ", data);
 		submitLeave(data)
@@ -186,7 +187,7 @@ function LeaveForm(props) {
 									updateStartDate(value, string, setFieldValue);
 								}}
 								minDate={startDate}
-							></DateField>
+							/>
 							<BodyText className="date-field-divider form-item">To</BodyText>
 							<DateField
 								value={endDate}
@@ -194,7 +195,7 @@ function LeaveForm(props) {
 									updateEndDate(value, string, setFieldValue);
 								}}
 								minDate={addDays(startDate, 1)}
-							></DateField>
+							/>
 						</MuiPickersUtilsProvider>
 						<div className="form-item extra-data">
 							<div className="length form-item">
@@ -212,6 +213,7 @@ function LeaveForm(props) {
 									defaultValue="1"
 								/>
 								<BodyText component="span">days long</BodyText>
+								{/* FIXME: Editin the length field does not adjust the end date*/}
 							</div>
 						</div>
 						<Field name="user" type="hidden" value={user.employee_number} />
