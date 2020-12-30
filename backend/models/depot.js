@@ -6,6 +6,7 @@ mongooseConnect(mongoose, process.env.MONGO_URI, "depot");
 const depotSchema = new mongoose.Schema({
 	name: { type: String, required: true, unique: true },
 	drivers: { type: Number, required: true },
+	hidden: { type: Boolean, default: false },
 });
 
 const Depot = mongoose.model("depot", depotSchema);

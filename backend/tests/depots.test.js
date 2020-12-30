@@ -42,6 +42,7 @@ test("can add a new depot", async (done) => {
 		.send({
 			name,
 			drivers,
+			hidden: true,
 		})
 		.set("operator_access_key", process.env.OPERATOR_ACCESS_KEY)
 		.expect((response) => {
