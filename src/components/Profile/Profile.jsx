@@ -48,34 +48,27 @@ function Profile(props) {
 	function onSubmit(data, { setSubmitting }) {
 		const fullData = { _id: user._id, ...data };
 		setSubmitting(true);
-		var newMessage = {};
 		updateUser(fullData)
 			.then((result) => {
+				const { depot, name } = result.data.extraData;
 				setUser({
 					...user,
-					employee_number: result.data.employee_number,
-					depot: result.data.depot,
-					name: result.data.name,
-					email: result.data.email,
+					employee_number: result.data.extraData.employee_number,
+					depot,
+					name,
 				});
-				newMessage = {
-					tone: "positive",
-					message: "Your details have been saved",
-				};
-			})
-			.catch((err) => {
-				console.log("(Profile) There was an error: ", err);
-				newMessage = {
-					tone: "negative",
-					message: "There was an error. Please try again later.",
-				};
+				const { tone, message } = result.data;
+				setFormMessage({
+					tone,
+					message,
+				});
 			})
 			.finally(() => {
 				setSubmitting(false);
 				setEditMode(false);
-				setFormMessage(newMessage);
 			});
 	}
+	//FIXME If you go to edit mode, close it (doesn't matter if you save or just cancel the edit), leave the profile then come back, the depot field is empty.
 
 	return (
 		<>

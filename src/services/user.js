@@ -1,3 +1,3 @@
 import axios from "../utils/axiosInstance";
 
-export const updateUser = (data) => axios.put("/api/users/update", data);
+export const updateUser = (data) => axios.put("/users/update", data);
