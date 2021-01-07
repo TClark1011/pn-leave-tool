@@ -82,11 +82,10 @@ function LeaveForm(props) {
 			.then((result) => {
 				console.log("leave result: ", result);
 				setResponse(result.data);
-				setUser(result.data.updatedUser);
 			})
 			.catch((error) => {
 				setResponse(
-					error.response?.data || "There was an error, please try again later"
+					error.response?.data || "There was an error, please try again later",
 				);
 			})
 			.finally(() => {
@@ -224,8 +223,8 @@ function LeaveForm(props) {
 			<Modal open={!!response}>
 				<div className="inner-modal">
 					<Card className="request-result-card">
-						<StatusMessage tone={responseStatusTone()}>
-							{getMessage()}
+						<StatusMessage tone={response?.tone || "negative"}>
+							{response?.message || null}
 						</StatusMessage>
 						<Button
 							variant="outlined"
