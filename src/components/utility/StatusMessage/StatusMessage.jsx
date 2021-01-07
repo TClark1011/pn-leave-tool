@@ -4,17 +4,21 @@ import React from "react";
 
 import classnames from "classnames";
 
-function StatusMessage(props) {
+function StatusMessage({ tone, className, border, children, ...props }) {
 	const classes = classnames(
 		"status-message",
-		props.tone || "negative",
-		{ border: props.border !== "none" },
-		{ [`border-${props.border || "left"}`]: props.border !== "none" },
-		props.className
+		tone || "negative",
+		{ border: border !== "none" },
+		{ [`border-${border || "left"}`]: border !== "none" },
+		className,
 	);
 
-	if (props.children) {
-		return <div className={classes}>{props.children}</div>;
+	if (children) {
+		return (
+			<div className={classes} {...props}>
+				{children}
+			</div>
+		);
 	} else {
 		return "";
 	}
