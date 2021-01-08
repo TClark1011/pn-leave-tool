@@ -40,7 +40,7 @@ import { List, ListItem } from "@material-ui/core";
 function LeaveForm(props) {
 	const { user } = useContext(UserContext);
 
-	const minNoticeDays = 14;
+	const minNoticeDays = 15;
 	const minDate = startOfDay(addDays(new Date(), minNoticeDays));
 	const [startDate, setStartDate] = useState(minDate);
 	const [endDate, setEndDate] = useState(addDays(startDate, 1));

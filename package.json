@@ -71,7 +71,6 @@
 			"IE 11"
 		]
 	},
-	"proxy": "https://pn-leave-tool-backend.herokuapp.com/",
 	"devDependencies": {
 		"@babel/preset-env": "^7.12.1",
 		"@babel/preset-react": "^7.12.5",
