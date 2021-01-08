@@ -72,6 +72,10 @@
 			margin-top: $spacing-1;
 			font-weight: bold;
 
+			li {
+				padding: 0;
+			}
+
 			li::before {
 				padding-right: $spacing-2;
 				content: "-";

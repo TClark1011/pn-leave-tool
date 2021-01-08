@@ -35,6 +35,7 @@ import StatusMessage from "../utility/StatusMessage";
 import SectionTitle from "../utility/SectionTitle";
 import BodyText from "../utility/BodyText";
 import FormButton from "../utility/Forms/FormButton";
+import { List, ListItem } from "@material-ui/core";
 
 function LeaveForm(props) {
 	const { user, setUser } = useContext(UserContext);
@@ -91,40 +92,6 @@ function LeaveForm(props) {
 			.finally(() => {
 				setSubmitting(false);
 			});
-	}
-
-	function getMessage() {
-		console.log("(LeaveForm) getMessage, response state: ", response);
-		if (response) {
-			if (response.approved) {
-				return response.message;
-			}
-			return formatDenied(response);
-		}
-		return null;
-	}
-
-	function formatDenied(result) {
-		return (
-			<>
-				{result.message}
-				<ul className="invalid-days">
-					{result.invalidDays?.map((item, index) => (
-						<li key={index}>{formatDate(new Date(item), "MMMM do yyyy")}</li>
-					))}
-				</ul>
-				<p className="try-again-msg">
-					You can go back to select new dates and try again
-				</p>
-			</>
-		);
-	}
-
-	/**
-	 * Convert the boolean 'approved' value of the response to a string value accepted by the 'StatusMessage' component's 'tone' prop
-	 */
-	function responseStatusTone() {
-		return response?.approved ? "positive" : "negative";
 	}
 
 	/**
@@ -210,7 +177,6 @@ function LeaveForm(props) {
 									defaultValue="1"
 								/>
 								<BodyText component="span">days long</BodyText>
-								{/* FIXME: Editin the length field does not adjust the end date*/}
 							</div>
 						</div>
 						<Field name="user" type="hidden" value={user.employee_number} />
@@ -224,7 +190,20 @@ function LeaveForm(props) {
 				<div className="inner-modal">
 					<Card className="request-result-card">
 						<StatusMessage tone={response?.tone || "negative"}>
-							{response?.message || null}
+							{response && (
+								<>
+									{response?.message.split("@break@")[0]}{" "}
+									<List className="invalid-days">
+										{response?.extraData?.map((item) => (
+											<ListItem>
+												{formatDate(new Date(item.date), "MMMM do yyyy")}
+											</ListItem>
+										))}
+									</List>
+									{response?.message.split("@break@")[1]}{" "}
+								</>
+							)}
+							{/* TODO: Paginate invalid days */}
 						</StatusMessage>
 						<Button
 							variant="outlined"
