@@ -1,4 +1,3 @@
-import url from "../constants/url";
 import axios from "../utils/axiosInstance";
 
 const rootUrl = "/users";
