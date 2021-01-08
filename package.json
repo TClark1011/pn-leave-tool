@@ -37,12 +37,14 @@
 		"react-query": "^2.14.1",
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "3.4.3",
+		"serve": "^11.3.2",
 		"stream-replace": "^1.0.0",
 		"supertest": "^5.0.0",
 		"yup": "^0.29.3"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"start": "serve -s build",
+		"start:dev": "react-scripts start",
 		"build": "react-scripts build",
 		"test-backend": "cross-env NODE_ENV=test jest --verbose --runInBand ---testPathPattern backend",
 		"test-backend-persist-depot": "cross-env NODE_ENV=test jest --verbose --runInBand ---testPathPattern backend",
