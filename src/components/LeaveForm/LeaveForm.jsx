@@ -38,7 +38,7 @@ import FormButton from "../utility/Forms/FormButton";
 import { List, ListItem } from "@material-ui/core";
 
 function LeaveForm(props) {
-	const { user, setUser } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
 	const minNoticeDays = 14;
 	const minDate = startOfDay(addDays(new Date(), minNoticeDays));
