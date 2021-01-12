@@ -28,10 +28,7 @@ const SubmitLmsData = (props) => {
 
 	function onSubmit(data, { setSubmitting }) {
 		setSubmitting(true);
-		const accessKey = data.accessKey || "_";
-		const submitData = { data: data.file, depot: data.depot };
-		console.log("(SubmitLmsData) submitData: ", submitData);
-		submitLmsData(submitData, accessKey)
+		submitLmsData({ file: data.file, depot: data.depot }, data.accessKey)
 			.then((result) => {
 				setResponse({ message: result.data.message, tone: "positive" });
 			})
