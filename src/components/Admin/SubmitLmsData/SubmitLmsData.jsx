@@ -29,8 +29,9 @@ const SubmitLmsData = (props) => {
 	function onSubmit(data, { setSubmitting }) {
 		setSubmitting(true);
 		const accessKey = data.accessKey || "_";
-		delete data.accessKey;
-		submitLmsData(data, accessKey)
+		const submitData = { data: data.file, depot: data.depot };
+		console.log("(SubmitLmsData) submitData: ", submitData);
+		submitLmsData(submitData, accessKey)
 			.then((result) => {
 				setResponse({ message: result.data.message, tone: "positive" });
 			})
@@ -66,7 +67,7 @@ const SubmitLmsData = (props) => {
 								onFileUpload(
 									e.currentTarget.files[0],
 									setFieldValue,
-									validateField
+									validateField,
 								);
 							}}
 							component={FormField}
