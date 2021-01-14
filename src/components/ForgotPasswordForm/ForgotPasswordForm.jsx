@@ -1,4 +1,3 @@
-import "./ForgotPasswordForm.scss";
 import { Card } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
@@ -22,15 +21,12 @@ function ForgotPasswordForm({ ...props }) {
 	}
 
 	return (
-		<Card className="ForgotPasswordForm__root-card">
+		<Card className="Form__root-card">
 			<SectionTitle>Forgot Password</SectionTitle>
-			<BodyText className="ForgotPasswordForm__above-content">
+			<BodyText className="Form__above-content">
 				Enter your employee number below to reset your password.
 			</BodyText>
-			<StatusMessage
-				className="ForgotPasswordForm__above-content"
-				tone={response.tone}
-			>
+			<StatusMessage className="Form__above-content" tone={response.tone}>
 				{response.message}
 			</StatusMessage>
 			<Formik

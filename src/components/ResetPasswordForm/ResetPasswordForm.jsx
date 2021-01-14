@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { resetPassword } from "../../services/user";
 import resetPasswordVal from "../../validation/resetPasswordVal";
+import BodyText from "../utility/BodyText";
 import FormButton from "../utility/Forms/FormButton";
 import FormField from "../utility/Forms/FormField";
 import SectionTitle from "../utility/SectionTitle";
@@ -17,15 +18,20 @@ function ResetPasswordForm({ resetKey, ...props }) {
 	function onSubmit(data, { setSubmitting }) {
 		setSubmitting(false);
 		resetPassword(data, resetKey)
-			.then((result) => history.push("/login"))
+			.then((result) => history.push("/login?passwordUpdated"))
 			.catch((err) => setResponse(err.response.data))
 			.finally(() => setSubmitting(false));
 	}
 
 	return (
-		<Card>
+		<Card className="Form__root-card">
 			<SectionTitle>Reset Password</SectionTitle>
-			<StatusMessage tone={response.tone}>{response.message}</StatusMessage>
+			<BodyText className="Form__above-content">
+				Enter your new password
+			</BodyText>
+			<StatusMessage className="Form__above-content" tone={response.tone}>
+				{response.message}
+			</StatusMessage>
 			<Formik
 				initialValues={{ password: "", confirm_password: "" }}
 				validationSchema={resetPasswordVal}

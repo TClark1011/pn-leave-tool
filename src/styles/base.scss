@@ -74,6 +74,14 @@ div {
 	}
 }
 
+.Form__above-content {
+	margin: $spacing-4 0;
+}
+
+.Form__root-card {
+	max-width: 600px !important;
+}
+
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 	//? IE Only
 	.MuiButtonBase-root.MuiBottomNavigationAction-root {
