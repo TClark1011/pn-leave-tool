@@ -13,7 +13,7 @@ import StatusMessage from "../../utility/StatusMessage";
 import FormField from "../../utility/Forms/FormField";
 import FormButton from "../../utility/Forms/FormButton";
 
-import loginVal from "../../../validation/loginVal";
+import { loginVal } from "pn-leave-tool-validation";
 
 import { login } from "../../../services/auth";
 import { loginRedir } from "../../../constants/autoNavParams";
