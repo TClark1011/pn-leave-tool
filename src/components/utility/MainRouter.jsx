@@ -10,6 +10,7 @@ import {
 import { landingRedir } from "../../constants/autoNavParams";
 import SubmitLmsData from "../Admin/SubmitLmsData";
 import AuthForms from "../AuthForms";
+import ForgotPasswordForm from "../ForgotPasswordForm";
 import LeaveForm from "../LeaveForm";
 import Profile from "../Profile";
 import AuthenticatedRoute from "./AuthenticatedRoute";
@@ -41,6 +42,7 @@ const MainRouter = ({ children }) => (
 				<Profile />
 			</AuthenticatedRoute>
 			<Route path="/submitLmsData" component={SubmitLmsData} />
+			<Route path="/forgotPassword" component={ForgotPasswordForm} />
 			<Route path="/">
 				<Redirect to={landingRedir} />
 			</Route>
