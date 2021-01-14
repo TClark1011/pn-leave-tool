@@ -2,7 +2,7 @@ import "./LoginForm.scss";
 
 import React, { useContext, useState } from "react";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import { Formik, Field, Form } from "formik";
 
@@ -27,6 +27,11 @@ const getStartingStatus = () => {
 		case "?verified":
 			return {
 				message: "Your account has been verified and you can now sign in",
+				tone: "positive",
+			};
+		case "?passwordUpdated":
+			return {
+				message: "Your password was updated successfully",
 				tone: "positive",
 			};
 		default:
@@ -95,6 +100,14 @@ function LoginForm(props) {
 							onClick={() => props.setTab("register")}
 						>
 							register
+						</FormButton>
+						<FormButton
+							variant="text"
+							onClick={() => props.setTab("register")}
+							component={Link}
+							to="/forgotPassword"
+						>
+							forgot password
 						</FormButton>
 					</Form>
 				)}
