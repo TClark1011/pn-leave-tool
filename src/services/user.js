@@ -6,3 +6,6 @@ export const updateUser = (data) => axios.put(rootUrl + "/update", data);
 
 export const forgotPassword = (employee_number) =>
 	axios.post(rootUrl + "/forgotPassword/" + employee_number);
+
+export const resetPassword = (data, resetKey) =>
+	axios.post(rootUrl + "/resetPassword/" + resetKey, data);

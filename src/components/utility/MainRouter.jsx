@@ -13,6 +13,7 @@ import AuthForms from "../AuthForms";
 import ForgotPasswordForm from "../ForgotPasswordForm";
 import LeaveForm from "../LeaveForm";
 import Profile from "../Profile";
+import ResetPasswordForm from "../ResetPasswordForm/ResetPasswordForm";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 
 const MainRouter = ({ children }) => (
@@ -43,6 +44,12 @@ const MainRouter = ({ children }) => (
 			</AuthenticatedRoute>
 			<Route path="/submitLmsData" component={SubmitLmsData} />
 			<Route path="/forgotPassword" component={ForgotPasswordForm} />
+			<Route
+				path="/resetPassword/:resetKey"
+				component={({ match }) => (
+					<ResetPasswordForm resetKey={match.params.resetKey} />
+				)}
+			/>
 			<Route path="/">
 				<Redirect to={landingRedir} />
 			</Route>
