@@ -50,7 +50,7 @@ function LoginForm(props) {
 				history.push(loginRedir);
 			})
 			.catch((error) => {
-				setFormError({ message: error.response.data });
+				setFormError({ message: error.response.data.message });
 			})
 			.finally(() => {
 				setSubmitting(false);
