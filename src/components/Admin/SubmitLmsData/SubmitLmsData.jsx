@@ -12,7 +12,7 @@ import FormButton from "../../utility/Forms/FormButton";
 import StatusMessage from "../../utility/StatusMessage";
 import SectionTitle from "../../utility/SectionTitle";
 
-import lmsDataVal from "../../../validation/lmsDataVal";
+import { lmsDataValFrontend } from "pn-leave-tool-validation";
 
 const SubmitLmsData = (props) => {
 	const [response, setResponse] = useState(null);
@@ -28,7 +28,7 @@ const SubmitLmsData = (props) => {
 
 	function onSubmit(data, { setSubmitting }) {
 		setSubmitting(true);
-		submitLmsData({ file: data.file, depot: data.depot }, data.accessKey)
+		submitLmsData({ file: data.file, depot: data.depot }, data.access_key)
 			.then((result) => {
 				setResponse({ message: result.data.message, tone: "positive" });
 			})
@@ -44,11 +44,11 @@ const SubmitLmsData = (props) => {
 		<Card className="SubmitLmsDataWrapper">
 			<SectionTitle>Submit LMS Data</SectionTitle>
 			<Formik
-				initialValues={{ depot: "", accessKey: "", file: "" }}
+				initialValues={{ depot: "", access_key: "", file: "" }}
 				onSubmit={onSubmit}
 				validateOnChange={false}
 				validateOnBlur={false}
-				validationSchema={lmsDataVal}
+				validationSchema={lmsDataValFrontend}
 			>
 				{({ isSubmitting, setFieldValue, errors, validateField }) => (
 					<Form>
@@ -57,7 +57,7 @@ const SubmitLmsData = (props) => {
 						</StatusMessage>
 						<Field
 							type="file"
-							name="file-upload"
+							name="file"
 							label=""
 							fullWidth
 							onChange={(e) => {
@@ -73,7 +73,7 @@ const SubmitLmsData = (props) => {
 							helperText={errors.file ? "Invalid CSV file" : ""}
 						/>
 						<Field name="depot" component={DepotSelect} />
-						<Field name="accessKey" component={FormField} />
+						<Field name="access_key" component={FormField} />
 						<FormButton
 							type="submit"
 							variant="contained"

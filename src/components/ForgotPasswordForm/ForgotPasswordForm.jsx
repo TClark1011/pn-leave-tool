@@ -7,7 +7,7 @@ import FormField from "../utility/Forms/FormField";
 import SectionTitle from "../utility/SectionTitle";
 import { forgotPassword } from "../../services/user";
 import StatusMessage from "../utility/StatusMessage";
-import forgotPasswordVal from "../../validation/forgotPasswordVal";
+import { forgotPasswordVal } from "pn-leave-tool-validation";
 
 function ForgotPasswordForm({ ...props }) {
 	const [response, setResponse] = useState({});

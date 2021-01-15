@@ -26,7 +26,7 @@ import { Field, Form, Formik } from "formik";
 import FormButton from "../utility/Forms/FormButton";
 
 import { updateUser } from "../../services/user";
-import profileVal from "../../validation/profileVal";
+import { getProfileVal } from "pn-leave-tool-validation";
 import { getDepots } from "../../services/depots";
 import { object as yupObject } from "yup";
 import StatusMessage from "../utility/StatusMessage";
@@ -38,7 +38,7 @@ function Profile(props) {
 	const [formMessage, setFormMessage] = useState(null);
 
 	useEffect(() => {
-		getDepots().then((result) => setValidation(profileVal(result)));
+		getDepots().then((result) => setValidation(getProfileVal(result)));
 	}, []);
 
 	useEffect(() => {
