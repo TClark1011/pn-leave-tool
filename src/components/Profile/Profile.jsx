@@ -75,7 +75,6 @@ function Profile(props) {
 				setEditMode(false);
 			});
 	}
-	//FIXME If you go to edit mode, close it (doesn't matter if you save or just cancel the edit), leave the profile then come back, the depot field is empty.
 
 	return (
 		<>
@@ -92,7 +91,7 @@ function Profile(props) {
 						validationSchema={validation}
 						onSubmit={onSubmit}
 					>
-						{({ resetForm }) => (
+						{({ resetForm, isSubmitting }) => (
 							<Form>
 								<SectionTitle>
 									{user.name}
@@ -154,7 +153,9 @@ function Profile(props) {
 								</ProfileContext.Provider>
 								{editMode && (
 									<>
-										<FormButton type="submit">Save</FormButton>
+										<FormButton type="submit" disabled={isSubmitting}>
+											{isSubmitting ? "loading" : "save"}
+										</FormButton>
 										<FormButton
 											variant="outlined"
 											onClick={() => {

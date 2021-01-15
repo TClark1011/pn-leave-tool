@@ -93,7 +93,7 @@ function LoginForm(props) {
 							type="submit"
 							disabled={isSubmitting}
 						>
-							submit
+							{isSubmitting ? "loading" : "submit"}
 						</FormButton>
 						<FormButton
 							variant="outlined"

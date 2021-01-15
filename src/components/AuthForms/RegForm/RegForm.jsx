@@ -96,7 +96,7 @@ function RegForm(props) {
 						<Field name="depot" component={DepotSelect} />
 						<FastField name="email" component={FormField} />
 						<FormButton type="submit" disabled={isSubmitting}>
-							submit
+							{isSubmitting ? "loading" : "submit"}
 						</FormButton>
 
 						<Dialog

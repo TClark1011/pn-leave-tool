@@ -181,7 +181,7 @@ function LeaveForm(props) {
 						</div>
 						<Field name="user" type="hidden" value={user.employee_number} />
 						<FormButton type="submit" disabled={isSubmitting}>
-							submit
+							{isSubmitting ? "loading" : "submit"}
 						</FormButton>
 					</Form>
 				)}
