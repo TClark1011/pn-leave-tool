@@ -13,6 +13,7 @@ import AuthForms from "../AuthForms";
 import ForgotPasswordForm from "../ForgotPasswordForm";
 import LeaveForm from "../LeaveForm";
 import Profile from "../Profile";
+import RegistrationConfirmation from "../RegistrationConfirmation";
 import ResetPasswordForm from "../ResetPasswordForm/ResetPasswordForm";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 
@@ -24,11 +25,21 @@ const MainRouter = ({ children }) => (
 					<AuthForms form="login" />
 				</Card>
 			</Route>
-			<Route path="/register">
+			<Route path="/register" exact>
 				<Card className="centerV centerH card">
 					<AuthForms form="register" />
 				</Card>
 			</Route>
+			<Route
+				path="/register/confirm/:employee_number"
+				component={({ match }) => (
+					<Card className="centerV centerH card">
+						<RegistrationConfirmation
+							employee_number={match.params.employee_number}
+						/>
+					</Card>
+				)}
+			></Route>
 			<AuthenticatedRoute path="/request">
 				<Card
 					className="centerV centerH card"

@@ -1,16 +1,14 @@
 @import "../../../styles/config/variables";
 
-.register-verification-instructions {
-	.action-buttons-wrapper {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-around;
+.action-buttons-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
 
-		& > :first-child {
-		}
+	& > :first-child {
+	}
 
-		& > button {
-			flex-grow: 0;
-		}
+	& > button {
+		flex-grow: 0;
 	}
 }

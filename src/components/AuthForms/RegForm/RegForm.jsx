@@ -11,54 +11,31 @@ import FormButton from "../../utility/Forms/FormButton";
 
 import SectionTitle from "../../utility/SectionTitle";
 import StatusMessage from "../../utility/StatusMessage";
-import BodyText from "../../utility/BodyText";
 
-import { register, resendVerification } from "../../../services/auth";
-
-import { Button, Dialog, LinearProgress } from "@material-ui/core";
+import { register } from "../../../services/auth";
 
 import DepotSelect from "../../DepotSelect/DepotSelect";
+import { useHistory } from "react-router-dom";
 
 function RegForm(props) {
 	const [formError, setFormError] = useState(null);
-	const [
-		openVerificationInstructions,
-		setOpenVerificationInstructions,
-	] = useState(false);
 
-	const [resentEmail, setResentEmail] = useState(false);
+	const history = useHistory();
 
 	function onSubmit(data, { setSubmitting }) {
-		if (openVerificationInstructions) {
-			setResentEmail("loading");
-			resendVerification(data.employee_number)
-				.then(() => {
-					console.log("email has been resent");
-					setResentEmail(true);
-				})
-				.catch((error) => {
-					setResentEmail(false);
-					setOpenVerificationInstructions(false);
-					setFormError(error.response.body.data.error);
-				});
-		} else {
-			setSubmitting(true);
-			register(data)
-				.then((result) => {
-					setOpenVerificationInstructions(true);
-				})
-				.catch((error) => {
-					setFormError(error.response.data.error);
-				})
-				.finally(() => {
-					setSubmitting(false);
-				});
-		}
+		setSubmitting(true);
+		register(data)
+			.then((result) => {
+				history.push(`/register/confirm/${data.employee_number}`);
+			})
+			.catch((error) => {
+				setFormError(error.response.data.error);
+				setSubmitting(false);
+			});
 	}
 
 	return (
 		<div className="reg-form">
-			<SectionTitle>Register New Account</SectionTitle>
 			<Formik
 				initialValues={{
 					employee_number: "",
@@ -75,6 +52,7 @@ function RegForm(props) {
 			>
 				{({ isSubmitting, submitForm }) => (
 					<Form>
+						<SectionTitle>Register New Account</SectionTitle>
 						<StatusMessage>{formError}</StatusMessage>
 						<FastField
 							name="employee_number"
@@ -98,40 +76,6 @@ function RegForm(props) {
 						<FormButton type="submit" disabled={isSubmitting}>
 							{isSubmitting ? "loading" : "submit"}
 						</FormButton>
-
-						<Dialog
-							open={openVerificationInstructions}
-							className="register-verification-instructions"
-						>
-							<StatusMessage tone="neutral">
-								<h3>Verify your email</h3>
-								<BodyText>
-									Thank you for registering. We have sent an email containing a
-									verification link to your provided email address.
-								</BodyText>
-								<div className="action-buttons-wrapper">
-									<ActionButton
-										onClick={() => {
-											window.location = "/login";
-										}}
-									>
-										Close
-									</ActionButton>
-									<ActionButton onClick={submitForm}>Resend Email</ActionButton>
-								</div>
-								<div className="resend-msg">
-									{resentEmail === true && (
-										<BodyText>We have sent you another email</BodyText>
-									)}
-									{resentEmail === "loading" && (
-										<LinearProgress
-											color="primary"
-											className="resend-loading"
-										/>
-									)}
-								</div>
-							</StatusMessage>
-						</Dialog>
 					</Form>
 				)}
 			</Formik>
@@ -140,11 +84,4 @@ function RegForm(props) {
 	//TODO: add a question mark hover to explain the leave field
 	//TODO: Scroll to top on form error
 }
-
-const ActionButton = ({ children, ...props }) => (
-	<Button variant="outlined" {...props}>
-		{children}
-	</Button>
-);
-
 export default RegForm;
