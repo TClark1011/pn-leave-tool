@@ -30,15 +30,21 @@ import { getProfileVal } from "pn-leave-tool-validation";
 import { getDepots } from "../../services/depots";
 import { object as yupObject } from "yup";
 import StatusMessage from "../utility/StatusMessage";
+import findObjectInArray from "../../utils/findObjectInArray";
 
 function Profile(props) {
 	const { user, setUser } = useContext(UserContext);
 	const [editMode, setEditMode] = useState(false);
 	const [validation, setValidation] = useState(yupObject());
 	const [formMessage, setFormMessage] = useState(null);
+	const [depots, setDepots] = useState([]);
 
 	useEffect(() => {
-		getDepots().then((result) => setValidation(getProfileVal(result)));
+		getDepots().then((result) => {
+			setValidation(getProfileVal(result));
+			setDepots(result);
+			console.log("(Profile) result: ", result);
+		});
 	}, []);
 
 	useEffect(() => {
@@ -47,6 +53,7 @@ function Profile(props) {
 
 	function onSubmit(data, { setSubmitting }) {
 		const fullData = { _id: user._id, ...data };
+		console.log("(Profile) fullData: ", fullData);
 		setSubmitting(true);
 		updateUser(fullData)
 			.then((result) => {
@@ -54,7 +61,7 @@ function Profile(props) {
 				setUser({
 					...user,
 					employee_number: result.data.extraData.employee_number,
-					depot,
+					depot: findObjectInArray(depots, { _id: depot }),
 					name,
 				});
 				const { tone, message } = result.data;
