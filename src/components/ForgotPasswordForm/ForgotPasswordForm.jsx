@@ -8,8 +8,10 @@ import SectionTitle from "../utility/SectionTitle";
 import { forgotPassword } from "../../services/user";
 import StatusMessage from "../utility/StatusMessage";
 import { forgotPasswordVal } from "pn-leave-tool-validation";
+import setDocTitle from "../../utils/setDocTitle";
 
 function ForgotPasswordForm({ ...props }) {
+	setDocTitle("Forgot Password");
 	const [response, setResponse] = useState({});
 
 	function onSubmit(data, { setSubmitting }) {

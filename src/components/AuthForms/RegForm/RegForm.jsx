@@ -17,7 +17,10 @@ import { register } from "../../../services/auth";
 import DepotSelect from "../../DepotSelect/DepotSelect";
 import { useHistory } from "react-router-dom";
 
+import setDocTitle from "../../../utils/setDocTitle";
+
 function RegForm(props) {
+	setDocTitle("Register");
 	const [formError, setFormError] = useState(null);
 
 	const history = useHistory();

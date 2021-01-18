@@ -9,8 +9,10 @@ import FormButton from "../utility/Forms/FormButton";
 import FormField from "../utility/Forms/FormField";
 import SectionTitle from "../utility/SectionTitle";
 import StatusMessage from "../utility/StatusMessage";
+import setDocTitle from "../../utils/setDocTitle";
 
 function ResetPasswordForm({ resetKey, ...props }) {
+	setDocTitle("Reset Password");
 	const [response, setResponse] = useState({});
 
 	const history = useHistory();

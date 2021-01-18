@@ -31,8 +31,10 @@ import { getDepots } from "../../services/depots";
 import { object as yupObject } from "yup";
 import StatusMessage from "../utility/StatusMessage";
 import findObjectInArray from "../../utils/findObjectInArray";
+import setDocTitle from "../../utils/setDocTitle";
 
 function Profile(props) {
+	setDocTitle("Profile");
 	const { user, setUser } = useContext(UserContext);
 	const [editMode, setEditMode] = useState(false);
 	const [validation, setValidation] = useState(yupObject());

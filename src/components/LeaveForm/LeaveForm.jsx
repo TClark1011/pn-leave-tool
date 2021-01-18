@@ -36,8 +36,10 @@ import SectionTitle from "../utility/SectionTitle";
 import BodyText from "../utility/BodyText";
 import FormButton from "../utility/Forms/FormButton";
 import { List, ListItem } from "@material-ui/core";
+import setDocTitle from "../../utils/setDocTitle";
 
 function LeaveForm(props) {
+	setDocTitle("Submit");
 	const { user } = useContext(UserContext);
 
 	const minNoticeDays = 15;

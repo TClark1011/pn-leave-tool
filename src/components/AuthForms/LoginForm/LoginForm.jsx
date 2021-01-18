@@ -18,6 +18,8 @@ import { loginVal } from "pn-leave-tool-validation";
 import { login } from "../../../services/auth";
 import { loginRedir } from "../../../constants/autoNavParams";
 
+import setDocTitle from "../../../utils/setDocTitle";
+
 const redirectedMsg = "An error occurred, please login to proceed";
 
 const getStartingStatus = () => {
@@ -40,6 +42,7 @@ const getStartingStatus = () => {
 };
 
 function LoginForm(props) {
+	setDocTitle("Login");
 	const { setUser } = useContext(UserContext);
 
 	const [formError, setFormError] = useState(getStartingStatus());
