@@ -32,8 +32,9 @@ function RegForm(props) {
 				history.push(`/register/confirm/${data.employee_number}`);
 			})
 			.catch((error) => {
-				setFormError(error.response.data.error);
+				setFormError(error.response.data.message);
 				setSubmitting(false);
+				window.scrollTo(0, 0);
 			});
 	}
 
