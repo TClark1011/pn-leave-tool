@@ -5,7 +5,15 @@
  * @returns {object | null} Return the matching object, null if no matching object is found
  */
 const findObjectInArray = (array, find) => {
-	const key = Object.keys(find)[0];
+	const targetPairKeys = Object.keys(find);
+
+	if (array.every((item) => typeof item !== typeof {})) {
+		throw TypeError("'array' parameter must consist of an array of objects");
+	} else if (targetPairKeys.length > 1) {
+		throw TypeError("'find' parameter must consist of a single key/value pair");
+	}
+
+	const key = targetPairKeys[0];
 	const value = find[key];
 	for (const item of array) {
 		if (item[key] === value) {
