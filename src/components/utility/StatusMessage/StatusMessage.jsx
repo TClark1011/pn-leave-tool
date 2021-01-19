@@ -3,6 +3,8 @@ import "./StatusMessage.scss";
 import React from "react";
 
 import classnames from "classnames";
+import { Box, Link } from "@material-ui/core";
+import BodyText from "../BodyText";
 
 function StatusMessage({ tone, className, border, children, ...props }) {
 	const classes = classnames(
@@ -15,9 +17,19 @@ function StatusMessage({ tone, className, border, children, ...props }) {
 
 	if (children) {
 		return (
-			<div className={classes} {...props}>
+			<Box className={classes} {...props}>
 				{children}
-			</div>
+				{tone === "negative" && (
+					<>
+						<br />
+						<br />
+						You can contact us at{" "}
+						<Link href={`mailto:${process.env.REACT_APP_SUPPORT_EMAIL}`}>
+							{process.env.REACT_APP_SUPPORT_EMAIL}
+						</Link>
+					</>
+				)}
+			</Box>
 		);
 	} else {
 		return "";
