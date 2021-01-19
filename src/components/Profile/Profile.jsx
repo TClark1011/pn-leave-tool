@@ -45,7 +45,6 @@ function Profile(props) {
 		getDepots().then((result) => {
 			setValidation(getProfileVal(result));
 			setDepots(result);
-			console.log("(Profile) result: ", result);
 		});
 	}, []);
 
@@ -55,7 +54,6 @@ function Profile(props) {
 
 	function onSubmit(data, { setSubmitting }) {
 		const fullData = { _id: user._id, ...data };
-		console.log("(Profile) fullData: ", fullData);
 		setSubmitting(true);
 		updateUser(fullData)
 			.then((result) => {

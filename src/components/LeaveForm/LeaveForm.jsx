@@ -78,12 +78,9 @@ function LeaveForm(props) {
 	}
 
 	function onSubmit(data, { setSubmitting }) {
-		console.log("(LeaveForm) onSubmit - data: ", data);
 		setSubmitting(true);
-		console.log("Submitting: ", data);
 		submitLeave(data)
 			.then((result) => {
-				console.log("leave result: ", result);
 				setResponse(result.data);
 			})
 			.catch((error) => {
