@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import csv2json from "csvjson-csv2json";
 
-import { Card } from "@material-ui/core";
+import {
+	Button,
+	Card,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Grid,
+} from "@material-ui/core";
 
 import { submitLmsData } from "../../../services/admin";
 import DepotSelect from "../../DepotSelect/DepotSelect";
@@ -13,9 +21,21 @@ import StatusMessage from "../../utility/StatusMessage";
 import SectionTitle from "../../utility/SectionTitle";
 
 import { lmsDataValFrontend } from "pn-leave-tool-validation";
+import { getDepots } from "../../../services/depots";
+import findObjectInArray from "../../../utils/findObjectInArray";
 
 const SubmitLmsData = (props) => {
+	const [depots, setDepots] = useState(null);
+	useEffect(() => {
+		getDepots()
+			.then((result) => {
+				setDepots(result);
+			})
+			.catch((err) => setDepots("error"));
+	}, []);
+	const [confirmationIsOpen, setConfirmationIsOpen] = useState(false);
 	const [response, setResponse] = useState(null);
+
 	function onFileUpload(file, setFieldValue, validateField) {
 		const reader = new FileReader();
 		reader.onload = () => {
@@ -40,24 +60,74 @@ const SubmitLmsData = (props) => {
 			});
 	}
 
+	function preSubmit(validateForm) {
+		validateForm().then((errors) => {
+			if (!Object.keys(errors).length) {
+				setConfirmationIsOpen(true);
+			}
+		});
+	}
+
+	const ConfirmationDialog = ({ submitForm, depot, ...props }) => (
+		<Dialog open={confirmationIsOpen && depots && depots !== "error"}>
+			<DialogTitle>Confirm Submission</DialogTitle>
+			<DialogContent>
+				Are you sure you want to submit roster data for the{" "}
+				<b>
+					{depots &&
+						depots !== "error" &&
+						findObjectInArray(depots, { _id: depot })?.name}
+				</b>{" "}
+				depot?
+			</DialogContent>
+			<DialogActions>
+				<Grid justify="space-around" container>
+					<Button
+						onClick={() => {
+							submitForm();
+							setConfirmationIsOpen(false);
+						}}
+					>
+						yes
+					</Button>
+					<Button onClick={() => setConfirmationIsOpen(false)}>no</Button>
+				</Grid>
+			</DialogActions>
+		</Dialog>
+	);
+
 	return (
 		<Card className="SubmitLmsDataWrapper">
 			<SectionTitle>Submit LMS Data</SectionTitle>
 			<Formik
-				initialValues={{ depot: "", access_key: "", file: "" }}
+				initialValues={{
+					depot: "",
+					access_key: "",
+					file_input: null,
+					file: null,
+				}}
 				onSubmit={onSubmit}
 				validateOnChange={false}
 				validateOnBlur={false}
 				validationSchema={lmsDataValFrontend}
 			>
-				{({ isSubmitting, setFieldValue, errors, validateField }) => (
+				{({
+					isSubmitting,
+					submitForm,
+					setFieldValue,
+					errors,
+					validateField,
+					validateForm,
+					values,
+				}) => (
 					<Form>
 						<StatusMessage tone={response?.tone}>
 							{response?.message}
 						</StatusMessage>
+						<Field type="hidden" name="file" />
 						<Field
 							type="file"
-							name="file"
+							name="file_input"
 							label=""
 							fullWidth
 							onChange={(e) => {
@@ -75,12 +145,13 @@ const SubmitLmsData = (props) => {
 						<Field name="depot" component={DepotSelect} />
 						<Field name="access_key" component={FormField} />
 						<FormButton
-							type="submit"
-							variant="contained"
 							disabled={isSubmitting}
+							variant="contained"
+							onClick={() => preSubmit(validateForm)}
 						>
 							submit
 						</FormButton>
+						<ConfirmationDialog depot={values.depot} submitForm={submitForm} />
 					</Form>
 				)}
 			</Formik>
