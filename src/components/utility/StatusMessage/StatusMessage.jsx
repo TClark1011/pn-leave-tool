@@ -4,7 +4,6 @@ import React from "react";
 
 import classnames from "classnames";
 import { Box, Link } from "@material-ui/core";
-import BodyText from "../BodyText";
 
 function StatusMessage({ tone, className, border, children, ...props }) {
 	const classes = classnames(

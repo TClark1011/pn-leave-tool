@@ -11,7 +11,6 @@ import UserContext from "./components/utility/UserContext";
 
 import theme from "./Theme"; //* Pulls theme data from 'Theme.jsx'
 import MainRouter from "./components/utility/MainRouter";
-import ProfileButton from "./components/FloatingButtons/ProfileButton/ProfileButton";
 
 import { StylesProvider } from "@material-ui/core";
 
