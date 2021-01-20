@@ -9,7 +9,7 @@ const HelpButton = (props) => {
 			className="FloatingHelpButton"
 			color="primary"
 			component={Link}
-			to={"/help"}
+			to="/help"
 			{...props}
 		>
 			<Typography style={{ fontSize: 28 }}>?</Typography>
