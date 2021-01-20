@@ -11,11 +11,12 @@ import UserContext from "./components/utility/UserContext";
 
 import theme from "./Theme"; //* Pulls theme data from 'Theme.jsx'
 import MainRouter from "./components/utility/MainRouter";
-import ProfileButton from "./components/ProfileButton/ProfileButton";
+import ProfileButton from "./components/FloatingButtons/ProfileButton/ProfileButton";
 
 import { StylesProvider } from "@material-ui/core";
 
 import { hot } from "react-hot-loader/root";
+import FloatingButtons from "./components/FloatingButtons";
 
 function App() {
 	const [user, setUser] = useState(null);
@@ -36,7 +37,7 @@ function App() {
 					<div id="App">
 						<div id="Content">
 							<MainRouter>
-								<ProfileButton />
+								<FloatingButtons />
 							</MainRouter>
 						</div>
 					</div>

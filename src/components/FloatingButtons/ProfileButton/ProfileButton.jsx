@@ -1,9 +1,8 @@
-import "./ProfileButton.scss";
 import { Fab } from "@material-ui/core";
 import { Person } from "@material-ui/icons";
 
 import React, { useContext } from "react";
-import UserContext from "../utility/UserContext";
+import UserContext from "../../utility/UserContext";
 import { Link } from "react-router-dom";
 
 const ProfileButton = (props) => {
@@ -17,6 +16,7 @@ const ProfileButton = (props) => {
 			color="primary"
 			component={Link}
 			to={"/profile"}
+			{...props}
 		>
 			<Person />
 		</Fab>
