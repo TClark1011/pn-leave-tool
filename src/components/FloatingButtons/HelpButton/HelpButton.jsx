@@ -12,7 +12,7 @@ const HelpButton = (props) => {
 			to={"/help"}
 			{...props}
 		>
-			<Typography style={{ fontSize: 32 }}>?</Typography>
+			<Typography style={{ fontSize: 28 }}>?</Typography>
 		</Fab>
 	);
 };
