@@ -11,6 +11,7 @@ import { landingRedir } from "../../constants/autoNavParams";
 import SubmitLmsData from "../Admin/SubmitLmsData";
 import AuthForms from "../AuthForms";
 import ForgotPasswordForm from "../ForgotPasswordForm";
+import HelpScreen from "../HelpScreen/HelpScreen";
 import LeaveForm from "../LeaveForm";
 import Profile from "../Profile";
 import RegistrationConfirmation from "../RegistrationConfirmation";
@@ -61,6 +62,7 @@ const MainRouter = ({ children }) => (
 					<ResetPasswordForm resetKey={match.params.resetKey} />
 				)}
 			/>
+			<Route path="/help" component={HelpScreen} />
 			<Route path="/">
 				<Redirect to={landingRedir} />
 			</Route>
