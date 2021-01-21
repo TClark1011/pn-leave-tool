@@ -1,4 +1,4 @@
-import { Box, Button, LinearProgress } from "@material-ui/core";
+import { Box, Button, Grid, LinearProgress } from "@material-ui/core";
 import React, { useState } from "react";
 import { resendVerification } from "../../services/auth";
 import BodyText from "../utility/BodyText";
@@ -29,24 +29,28 @@ function RegistrationConfirmation({ employee_number, ...props }) {
 				Thank you for registering. We have sent an email containing a
 				verification link to your provided email address.
 			</BodyText>
-			<div className="action-buttons-wrapper">
-				<ActionButton
-					onClick={() => {
-						window.location = "/login";
-					}}
-				>
-					return to login
-				</ActionButton>
-				<ActionButton onClick={resendEmail}>Resend Email</ActionButton>
-			</div>
-			<div className="resend-msg">
+			<Grid container justify="space-around">
+				<Grid item>
+					<ActionButton
+						onClick={() => {
+							window.location = "/login";
+						}}
+					>
+						return to login
+					</ActionButton>
+				</Grid>
+				<Grid item>
+					<ActionButton onClick={resendEmail}>Resend Email</ActionButton>
+				</Grid>
+			</Grid>
+			<Box>
 				{resentEmail === true && (
 					<BodyText>We have sent you another email</BodyText>
 				)}
 				{resentEmail === "loading" && (
 					<LinearProgress color="primary" className="resend-loading" />
 				)}
-			</div>
+			</Box>
 		</Box>
 	);
 }
