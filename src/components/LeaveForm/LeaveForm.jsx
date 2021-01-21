@@ -29,7 +29,11 @@ import {
 
 import UserContext from "../utility/UserContext";
 
-import { leaveVal } from "pn-leave-tool-common";
+import {
+	leaveLength,
+	leaveStartMinOffset,
+	leaveVal,
+} from "pn-leave-tool-common";
 
 import StatusMessage from "../utility/StatusMessage";
 import SectionTitle from "../utility/SectionTitle";
@@ -42,11 +46,15 @@ function LeaveForm(props) {
 	setDocTitle("Submit");
 	const { user } = useContext(UserContext);
 
-	const minNoticeDays = 15;
-	const minDate = startOfDay(addDays(new Date(), minNoticeDays));
+	const minDate = startOfDay(addDays(new Date(), leaveStartMinOffset + 1));
+	//?For whatever reason, if you don't add one to 'leaveStartMinOffset' then the date will be 1 behind
 	const [startDate, setStartDate] = useState(minDate);
 	const [endDate, setEndDate] = useState(addDays(startDate, 1));
 	const [response, setResponse] = useState(null);
+
+	function updateLengthField(date1, date2) {
+		lengthFieldRef.current.value = differenceInDays(date1, date2) + 1 || 1;
+	}
 
 	function updateStartDate(date, string, setFieldValue) {
 		if (isValidDate(date)) {
@@ -58,8 +66,8 @@ function LeaveForm(props) {
 				setFieldValue("dates.start", newStartDate);
 				setFieldValue("dates.end", newEndDate);
 			}
-			const newLength = differenceInDays(newEndDate, date) || 1;
-			lengthFieldRef.current.value = newLength;
+
+			updateLengthField(newEndDate, date);
 		}
 	}
 	function updateEndDate(date, string, setFieldValue) {
@@ -71,9 +79,7 @@ function LeaveForm(props) {
 				setFieldValue("dates.end", newEndDate);
 			}
 
-			const newLength = differenceInDays(date, startDate) || 1;
-
-			lengthFieldRef.current.value = newLength;
+			updateLengthField(date, startDate);
 		}
 	}
 
@@ -160,7 +166,8 @@ function LeaveForm(props) {
 								onChange={(value, string) => {
 									updateEndDate(value, string, setFieldValue);
 								}}
-								minDate={addDays(startDate, 1)}
+								minDate={addDays(startDate, leaveLength.min)}
+								maxDate={addDays(startDate, leaveLength.max)}
 							/>
 						</MuiPickersUtilsProvider>
 						<div className="form-item extra-data">
@@ -174,7 +181,7 @@ function LeaveForm(props) {
 									type="number"
 									variant="outlined"
 									onBlur={lengthFieldFocusOut}
-									defaultValue="1"
+									defaultValue={`${leaveLength.min + 1}`}
 								/>
 								<BodyText component="span">days long</BodyText>
 							</div>
