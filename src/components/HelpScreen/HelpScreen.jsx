@@ -52,7 +52,7 @@ function HelpScreen({ ...props }) {
 				Please note the verdict of this tool is only an estimate and is not a
 				guarantee, just because this tool estimates a certain period of time is
 				available for leave does not mean you can be certain that your official
-				request for leave will also be approved.
+				request for leave will be approved.
 			</BodyText>
 
 			<Subheader>Why do I have to make a new account?</Subheader>
