@@ -6,8 +6,11 @@ import SectionTitle from "../utility/SectionTitle";
 import ContentCard from "../utility/ContentCard/ContentCard";
 import classnames from "classnames";
 import SupportEmailLink from "../utility/SupportEmailLink";
+import setDocTitle from "../../utils/setDocTitle";
 
 function HelpScreen({ ...props }) {
+	setDocTitle("Help");
+
 	function Subheader({ children, className, ...props }) {
 		return (
 			<Typography
@@ -18,6 +21,7 @@ function HelpScreen({ ...props }) {
 			</Typography>
 		);
 	}
+
 	return (
 		<ContentCard {...props}>
 			<SectionTitle>Help</SectionTitle>
