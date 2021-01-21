@@ -5,8 +5,8 @@
 	padding: $spacing-5;
 
 	@at-root form > & {
-		margin-bottom: $spacing-5 !important;
-		margin-top: $spacing-5 !important;
+		margin-bottom: $spacing-5;
+		margin-top: $spacing-5;
 	}
 
 	&.positive {

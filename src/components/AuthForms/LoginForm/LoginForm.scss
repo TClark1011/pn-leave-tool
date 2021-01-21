@@ -1,7 +1,5 @@
 @import "../../../styles/config/export";
 
-.login-form {
-	& > .form-item:not(:last-child) {
-		// margin-bottom: $form-item-spacing;
-	}
+.LoginForm__ExplanationText {
+	margin-bottom: $spacing-3;
 }

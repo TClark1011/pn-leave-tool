@@ -5,7 +5,14 @@ import React from "react";
 import classnames from "classnames";
 import { Box, Link } from "@material-ui/core";
 
-function StatusMessage({ tone, className, border, children, ...props }) {
+function StatusMessage({
+	hideSupportMsg = false,
+	tone,
+	className,
+	border,
+	children,
+	...props
+}) {
 	const classes = classnames(
 		"status-message",
 		tone || "negative",
@@ -18,7 +25,7 @@ function StatusMessage({ tone, className, border, children, ...props }) {
 		return (
 			<Box className={classes} {...props}>
 				{children}
-				{tone === "negative" && (
+				{tone === "negative" && !hideSupportMsg && (
 					<>
 						<br />
 						<br />
