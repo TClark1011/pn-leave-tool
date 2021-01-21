@@ -1,5 +1,3 @@
-import "./LoginForm.scss";
-
 import React, { useContext, useState } from "react";
 
 import { useHistory, Link } from "react-router-dom";
@@ -19,7 +17,7 @@ import { login } from "../../../services/auth";
 import { loginRedir } from "../../../constants/autoNavParams";
 
 import setDocTitle from "../../../utils/setDocTitle";
-import BodyText from "../../utility/BodyText";
+import AuthHelperText from "../AuthHelperText";
 
 const redirectedMsg = "An error occurred, please login to proceed";
 
@@ -78,11 +76,7 @@ function LoginForm(props) {
 				{({ isSubmitting }) => (
 					<Form>
 						<SectionTitle>Login</SectionTitle>
-						<BodyText className="LoginForm__ExplanationText">
-							If you have never used this tool before, you must register an
-							account. You cannot sign in to the tool with any existing Pacific
-							National accounts.
-						</BodyText>
+						<AuthHelperText />
 						<StatusMessage
 							tone={formError?.tone || "negative"}
 							hideSupportMsg={

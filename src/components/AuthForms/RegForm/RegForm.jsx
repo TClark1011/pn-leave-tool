@@ -1,5 +1,3 @@
-import "./RegForm.scss";
-
 import React, { useState } from "react";
 
 import { FastField, Formik, Form, Field } from "formik";
@@ -18,6 +16,7 @@ import DepotSelect from "../../DepotSelect/DepotSelect";
 import { useHistory } from "react-router-dom";
 
 import setDocTitle from "../../../utils/setDocTitle";
+import AuthHelperText from "../AuthHelperText";
 
 function RegForm(props) {
 	setDocTitle("Register");
@@ -39,7 +38,7 @@ function RegForm(props) {
 	}
 
 	return (
-		<div className="reg-form">
+		<div className="RegForm__root">
 			<Formik
 				initialValues={{
 					employee_number: "",
@@ -54,9 +53,10 @@ function RegForm(props) {
 				validationSchema={registerVal}
 				validateOnChange={false}
 			>
-				{({ isSubmitting, submitForm }) => (
+				{({ isSubmitting }) => (
 					<Form>
 						<SectionTitle>Register New Account</SectionTitle>
+						<AuthHelperText />
 						<StatusMessage>{formError}</StatusMessage>
 						<FastField
 							name="employee_number"
