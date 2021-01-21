@@ -3,7 +3,7 @@ import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { resetPassword } from "../../services/user";
-import { resetPasswordVal } from "pn-leave-tool-validation";
+import { resetPasswordVal } from "pn-leave-tool-common";
 import BodyText from "../utility/BodyText";
 import FormButton from "../utility/Forms/FormButton";
 import FormField from "../utility/Forms/FormField";

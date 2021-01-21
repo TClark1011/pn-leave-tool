@@ -20,7 +20,7 @@ import FormButton from "../../utility/Forms/FormButton";
 import StatusMessage from "../../utility/StatusMessage";
 import SectionTitle from "../../utility/SectionTitle";
 
-import { lmsDataValFrontend } from "pn-leave-tool-validation";
+import { lmsDataValFrontend } from "pn-leave-tool-common";
 import { getDepots } from "../../../services/depots";
 import findObjectInArray from "../../../utils/findObjectInArray";
 

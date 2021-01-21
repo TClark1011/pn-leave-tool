@@ -29,7 +29,7 @@ import {
 
 import UserContext from "../utility/UserContext";
 
-import { leaveVal } from "pn-leave-tool-validation";
+import { leaveVal } from "pn-leave-tool-common";
 
 import StatusMessage from "../utility/StatusMessage";
 import SectionTitle from "../utility/SectionTitle";

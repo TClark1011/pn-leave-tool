@@ -26,7 +26,7 @@ import { Field, Form, Formik } from "formik";
 import FormButton from "../utility/Forms/FormButton";
 
 import { updateUser } from "../../services/user";
-import { getProfileVal } from "pn-leave-tool-validation";
+import { getProfileVal } from "pn-leave-tool-common";
 import { getDepots } from "../../services/depots";
 import { object as yupObject } from "yup";
 import StatusMessage from "../utility/StatusMessage";

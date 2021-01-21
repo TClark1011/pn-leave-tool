@@ -13,7 +13,7 @@ import StatusMessage from "../../utility/StatusMessage";
 import FormField from "../../utility/Forms/FormField";
 import FormButton from "../../utility/Forms/FormButton";
 
-import { loginVal } from "pn-leave-tool-validation";
+import { loginVal } from "pn-leave-tool-common";
 
 import { login } from "../../../services/auth";
 import { loginRedir } from "../../../constants/autoNavParams";
@@ -72,7 +72,7 @@ function LoginForm(props) {
 				initialValues={{ employee_number: "", password: "" }}
 				onSubmit={onSubmit}
 				validationSchema={loginVal}
-				validateOnChange={false}
+				validateOnChange={true}
 				validateOnBlur={false}
 			>
 				{({ isSubmitting }) => (

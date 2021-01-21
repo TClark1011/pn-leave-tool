@@ -7,7 +7,7 @@ import FormField from "../utility/Forms/FormField";
 import SectionTitle from "../utility/SectionTitle";
 import { forgotPassword } from "../../services/user";
 import StatusMessage from "../utility/StatusMessage";
-import { forgotPasswordVal } from "pn-leave-tool-validation";
+import { forgotPasswordVal } from "pn-leave-tool-common";
 import setDocTitle from "../../utils/setDocTitle";
 
 function ForgotPasswordForm({ ...props }) {

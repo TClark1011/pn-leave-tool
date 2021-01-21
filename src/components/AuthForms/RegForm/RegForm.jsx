@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import { FastField, Formik, Form, Field } from "formik";
 
-import { registerVal } from "pn-leave-tool-validation";
+import { registerVal } from "pn-leave-tool-common";
 
 import FormField from "../../utility/Forms/FormField";
 import FormButton from "../../utility/Forms/FormButton";
