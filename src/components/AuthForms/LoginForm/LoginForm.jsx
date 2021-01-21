@@ -19,6 +19,7 @@ import { login } from "../../../services/auth";
 import { loginRedir } from "../../../constants/autoNavParams";
 
 import setDocTitle from "../../../utils/setDocTitle";
+import BodyText from "../../utility/BodyText";
 
 const redirectedMsg = "An error occurred, please login to proceed";
 
@@ -77,7 +78,12 @@ function LoginForm(props) {
 				{({ isSubmitting }) => (
 					<Form>
 						<SectionTitle>Login</SectionTitle>
-						<StatusMessage tone={formError?.tone || "negative"}>
+						<BodyText>
+							If you have never used this tool before, you must register an
+							account. You cannot sign in to the tool with any existing Pacific
+							National accounts.
+						</BodyText>
+						<StatusMessage tone={formError?.tone || "neutral"}>
 							{formError?.message}
 						</StatusMessage>
 						<Field
