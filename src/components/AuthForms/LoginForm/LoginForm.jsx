@@ -55,6 +55,7 @@ function LoginForm(props) {
 			.then((result) => {
 				setUser(result.data);
 				history.push(loginRedir);
+				localStorage.setItem("userHasLoggedInPreviously", "true");
 			})
 			.catch((error) => {
 				setFormError({ message: error.response.data.message });
