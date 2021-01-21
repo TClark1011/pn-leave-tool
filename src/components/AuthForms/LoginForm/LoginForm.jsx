@@ -83,7 +83,7 @@ function LoginForm(props) {
 							account. You cannot sign in to the tool with any existing Pacific
 							National accounts.
 						</BodyText>
-						<StatusMessage tone={formError?.tone || "neutral"}>
+						<StatusMessage tone={formError?.tone || "negative"}>
 							{formError?.message}
 						</StatusMessage>
 						<Field
