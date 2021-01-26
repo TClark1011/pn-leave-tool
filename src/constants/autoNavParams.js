@@ -16,6 +16,7 @@ export const existingClientLandingRedir = "/login";
  *
  * Redirect user to login if they have ever signed in before, otherwise redirect them to registration
  */
-export const landingRedir = localStorage.getItem(landingRedirCheckKey)
-	? existingClientLandingRedir
-	: newClientLandingRedir;
+export const getLandingRedir = () =>
+	localStorage.getItem(landingRedirCheckKey)
+		? existingClientLandingRedir
+		: newClientLandingRedir;

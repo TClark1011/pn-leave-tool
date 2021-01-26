@@ -7,7 +7,7 @@ import {
 	Switch,
 	BrowserRouter as Router,
 } from "react-router-dom";
-import { landingRedir } from "../../constants/autoNavParams";
+import { getLandingRedir } from "../../constants/autoNavParams";
 import SubmitLmsData from "../Admin/SubmitLmsData";
 import AuthForms from "../AuthForms";
 import ForgotPasswordForm from "../ForgotPasswordForm";
@@ -64,7 +64,7 @@ const MainRouter = ({ children }) => (
 			/>
 			<Route path="/help" component={HelpScreen} />
 			<Route path="/">
-				<Redirect to={landingRedir} />
+				<Redirect to={getLandingRedir()} />
 			</Route>
 		</Switch>
 		{children}
