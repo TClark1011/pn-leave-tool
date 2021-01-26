@@ -46,13 +46,7 @@
 		"start": "serve -s build",
 		"start:dev": "react-scripts start",
 		"build": "react-scripts build",
-		"test-backend": "cross-env NODE_ENV=test jest --verbose --runInBand ---testPathPattern backend",
-		"test-backend-persist-depot": "cross-env NODE_ENV=test jest --verbose --runInBand ---testPathPattern backend",
-		"test-react": "react-scripts test",
-		"eject": "react-scripts eject",
-		"server": "node backend/server.js",
-		"dev-server": "nodemon backend/server.js",
-		"jest-handles": "cross-env NODE_ENV=test jest --verbose --detectOpenHandles"
+		"test": "react-scripts test"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
