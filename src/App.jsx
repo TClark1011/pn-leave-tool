@@ -33,7 +33,7 @@ function App() {
 					{/** Theme provider component passes 'theme' down to all child components*/}
 					<CssBaseline />
 					{/** Initialises a standard 'default' css sheet to avoid visual discrepancies caused by different browser default stylesheets*/}
-					<div id="App">
+					<div id="__App-Root__">
 						<div id="Content">
 							<MainRouter>
 								<FloatingButtons />
