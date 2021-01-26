@@ -167,7 +167,7 @@ function LeaveForm(props) {
 									updateEndDate(value, string, setFieldValue);
 								}}
 								minDate={addDays(startDate, leaveLength.min)}
-								maxDate={addDays(startDate, leaveLength.max)}
+								maxDate={addDays(startDate, leaveLength.max - 1)}
 							/>
 						</MuiPickersUtilsProvider>
 						<div className="form-item extra-data">
