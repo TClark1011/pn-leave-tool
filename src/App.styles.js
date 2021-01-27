@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { FlexWrapperMixin } from "./styles/config/mixins";
+import { flexWrapperMixin } from "./styles/config/mixins";
 import { bottomNavHeight } from "./styles/config/styleVars";
 
 export const AppRoot = styled.div`
-	${FlexWrapperMixin({ justify: "center", align: "center" })}
+	${flexWrapperMixin({ justify: "center", align: "center" })}
 	padding-bottom:${(p) => p.theme.spacing(4) + bottomNavHeight}px;
 `;
 
