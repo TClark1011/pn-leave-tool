@@ -1,4 +1,4 @@
-export const FlexWrapperMixin = ({
+export const flexWrapperMixin = ({
 	isInline = false,
 	justify = "flex-start",
 	align = "flex-start",
