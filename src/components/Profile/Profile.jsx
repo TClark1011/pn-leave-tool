@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../utility/UserContext";
 
 import SectionTitle from "../utility/SectionTitle";
-import { Card, Fab, IconButton } from "@material-ui/core";
+import { Fab, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import {
 	ArrowBack,
@@ -32,6 +32,7 @@ import { object as yupObject } from "yup";
 import StatusMessage from "../utility/StatusMessage";
 import findObjectInArray from "../../utils/findObjectInArray";
 import setDocTitle from "../../utils/setDocTitle";
+import ContentCard from "../utility/ContentCard";
 
 function Profile(props) {
 	setDocTitle("Profile");
@@ -78,7 +79,7 @@ function Profile(props) {
 
 	return (
 		<>
-			<Card className="card">
+			<ContentCard>
 				<div className="ProfilePage">
 					<Formik
 						initialValues={{
@@ -181,7 +182,7 @@ function Profile(props) {
 						)}
 					</Formik>
 				</div>
-			</Card>
+			</ContentCard>
 			<Fab
 				variant="extended"
 				component={Link}
