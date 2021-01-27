@@ -3,7 +3,7 @@ import { Link, Typography } from "@material-ui/core";
 import React from "react";
 import BodyText from "../utility/BodyText";
 import SectionTitle from "../utility/SectionTitle";
-import ContentCard from "../utility/ContentCard/ContentCard";
+import ContentCard from "../utility/ContentCard";
 import classnames from "classnames";
 import SupportEmailLink from "../utility/SupportEmailLink";
 import setDocTitle from "../../utils/setDocTitle";
