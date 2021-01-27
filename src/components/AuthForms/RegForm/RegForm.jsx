@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { FastField, Formik, Form, Field } from "formik";
 
-import { registerVal } from "pn-leave-tool-common";
+import { registerVal, testingRegisterVal } from "pn-leave-tool-common";
 
 import FormField from "../../utility/Forms/FormField";
 import FormButton from "../../utility/Forms/FormButton";
@@ -17,12 +17,19 @@ import { useHistory } from "react-router-dom";
 
 import setDocTitle from "../../../utils/setDocTitle";
 import AuthHelperText from "../AuthHelperText";
+import toBoolean from "to-boolean";
 
 function RegForm(props) {
 	setDocTitle("Register");
 	const [formError, setFormError] = useState(null);
 
 	const history = useHistory();
+
+	const validationSchema =
+		!process.env.REACT_APP_VALIDATE_EMAIL ||
+		toBoolean(process.env.REACT_APP_VALIDATE_EMAIL)
+			? registerVal
+			: testingRegisterVal;
 
 	function onSubmit(data, { setSubmitting }) {
 		setSubmitting(true);
@@ -50,7 +57,7 @@ function RegForm(props) {
 					email: "",
 				}}
 				onSubmit={onSubmit}
-				validationSchema={registerVal}
+				validationSchema={validationSchema}
 				validateOnChange={false}
 			>
 				{({ isSubmitting }) => (
