@@ -1,21 +1,13 @@
 @import "config/export";
 
+html {
+	font-family: Roboto, sans-serif;
+}
 * {
 	box-sizing: border-box;
 }
 
 #App {
-	font-family: Roboto, sans-serif;
-
-	@include flex-wrapper();
-	min-height: 100vh;
-
-	justify-content: center;
-	align-items: center;
-
-	box-sizing: border-box;
-	padding-bottom: $bottom-nav-height + $spacing-3;
-
 	.container > :first-child {
 		margin-top: 0;
 	}
@@ -37,8 +29,6 @@
 	}
 
 	#Content {
-		padding: $spacing-4;
-
 		& > .card {
 			width: 700px;
 		}
