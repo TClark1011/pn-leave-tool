@@ -15,7 +15,7 @@ The following custom re-useable components that appear throughout the project:
 The following environment variables are used to allow for settings in the application to be tweaked during deployment:
 
 - REACT_APP_SUPPORT_EMAIL - The email address that users are told to contact for support
-- REACT_APP_VALIDATE_EMAIL - Whether or not to validate user emails during registration. Expects "true" or "false". Defaults to true if not supplied
+- REACT_APP_VALIDATE_EMAIL - Whether or not to validate user emails during registration. Expects "true" or "false". Defaults to true if not supplied.
 
 ## API REQUESTS
 
