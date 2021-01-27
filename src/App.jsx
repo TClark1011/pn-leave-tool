@@ -9,7 +9,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 
 import UserContext from "./components/utility/UserContext";
 
-import theme from "./styles/Theme"; //* Pulls theme data from 'Theme.jsx'
+import theme from "./styles/theme"; //* Pulls theme data from 'Theme.jsx'
 import MainRouter from "./components/utility/MainRouter";
 
 import { StylesProvider } from "@material-ui/core";
