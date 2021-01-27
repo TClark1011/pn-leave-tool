@@ -1,26 +1,14 @@
-import "./HelpScreen.scss";
-import { Link, Typography } from "@material-ui/core";
+import { Link } from "@material-ui/core";
 import React from "react";
 import BodyText from "../utility/BodyText";
 import SectionTitle from "../utility/SectionTitle";
 import ContentCard from "../utility/ContentCard";
-import classnames from "classnames";
 import SupportEmailLink from "../utility/SupportEmailLink";
 import setDocTitle from "../../utils/setDocTitle";
+import { HelpScreenSubheader } from "./HelpScreen.styles";
 
 function HelpScreen({ ...props }) {
 	setDocTitle("Help");
-
-	function Subheader({ children, className, ...props }) {
-		return (
-			<Typography
-				className={classnames("HelpScreen__Subheader", className)}
-				variant="h3"
-			>
-				{children}
-			</Typography>
-		);
-	}
 
 	return (
 		<ContentCard {...props}>
@@ -40,7 +28,7 @@ function HelpScreen({ ...props }) {
 				this tool.
 			</BodyText>
 			<SectionTitle>FAQ</SectionTitle>
-			<Subheader>What is this?</Subheader>
+			<HelpScreenSubheader>What is this?</HelpScreenSubheader>
 			<BodyText>
 				This is a tool that was developed to allow Pacific National employees to
 				get an estimate as to whether or not annual leave is likely to be
@@ -55,7 +43,9 @@ function HelpScreen({ ...props }) {
 				request for leave will be approved.
 			</BodyText>
 
-			<Subheader>Why do I have to make a new account?</Subheader>
+			<HelpScreenSubheader>
+				Why do I have to make a new account?
+			</HelpScreenSubheader>
 			<BodyText>
 				This tool is not integrated into any official Pacific National systems
 				and as such is unable to to use any other Pacific National accounts in
