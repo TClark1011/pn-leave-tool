@@ -1,4 +1,3 @@
-import "./FloatingButtons.scss";
 import React from "react";
 import HelpButton from "./HelpButton/HelpButton";
 import ProfileButton from "./ProfileButton/ProfileButton";
