@@ -1,4 +1,3 @@
-import { Card } from "@material-ui/core";
 import React from "react";
 
 import {
@@ -17,39 +16,39 @@ import Profile from "../Profile";
 import RegistrationConfirmation from "../RegistrationConfirmation";
 import ResetPasswordForm from "../ResetPasswordForm/ResetPasswordForm";
 import AuthenticatedRoute from "./AuthenticatedRoute";
+import ContentCard from "./ContentCard";
 
 const MainRouter = ({ children }) => (
 	<Router>
 		<Switch>
 			<Route path="/login">
-				<Card className="centerV centerH card">
+				<ContentCard>
 					<AuthForms form="login" />
-				</Card>
+				</ContentCard>
 			</Route>
 			<Route path="/register" exact>
-				<Card className="centerV centerH card">
+				<ContentCard>
 					<AuthForms form="register" />
-				</Card>
+				</ContentCard>
 			</Route>
 			<Route
 				path="/register/confirm/:employee_number"
 				component={({ match }) => (
-					<Card className="centerV centerH card">
+					<ContentCard>
 						<RegistrationConfirmation
 							employee_number={match.params.employee_number}
 						/>
-					</Card>
+					</ContentCard>
 				)}
 			></Route>
 			<AuthenticatedRoute path="/request">
-				<Card
-					className="centerV centerH card"
+				<ContentCard
 					style={{
 						width: "400px",
 					}}
 				>
 					<LeaveForm />
-				</Card>
+				</ContentCard>
 			</AuthenticatedRoute>
 			<AuthenticatedRoute path="/profile">
 				<Profile />
