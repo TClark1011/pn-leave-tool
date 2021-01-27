@@ -16,6 +16,7 @@ import { StylesProvider } from "@material-ui/core";
 
 import { hot } from "react-hot-loader/root";
 import FloatingButtons from "./components/FloatingButtons";
+import { getLandingRedir } from "./constants/autoNavParams";
 
 function App() {
 	const [user, setUser] = useState(null);

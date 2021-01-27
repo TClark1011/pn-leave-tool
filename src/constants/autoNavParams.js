@@ -5,7 +5,7 @@
  */
 export const loginRedir = "/request";
 
-export const landingRedirCheckKey = "userHasLoggedInPreviously";
+export const loggedInCookie = "loggedInPreviously=true";
 
 export const newClientLandingRedir = "/register";
 
@@ -17,6 +17,6 @@ export const existingClientLandingRedir = "/login";
  * Redirect user to login if they have ever signed in before, otherwise redirect them to registration
  */
 export const getLandingRedir = () =>
-	localStorage.getItem(landingRedirCheckKey)
+	document.cookie.includes(loggedInCookie)
 		? existingClientLandingRedir
 		: newClientLandingRedir;

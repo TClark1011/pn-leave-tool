@@ -14,7 +14,7 @@ import FormButton from "../../utility/Forms/FormButton";
 import { loginVal } from "pn-leave-tool-common";
 
 import { login } from "../../../services/auth";
-import { loginRedir } from "../../../constants/autoNavParams";
+import { loggedInCookie, loginRedir } from "../../../constants/autoNavParams";
 
 import setDocTitle from "../../../utils/setDocTitle";
 import AuthHelperText from "../AuthHelperText";
@@ -53,9 +53,9 @@ function LoginForm(props) {
 
 		login(data)
 			.then((result) => {
+				document.cookie = loggedInCookie;
 				setUser(result.data);
 				history.push(loginRedir);
-				localStorage.setItem("userHasLoggedInPreviously", "true");
 			})
 			.catch((error) => {
 				setFormError({ message: error.response.data.message });
