@@ -1,15 +1,18 @@
 import "./FloatingButtons.scss";
-import { Box } from "@material-ui/core";
 import React from "react";
 import HelpButton from "./HelpButton/HelpButton";
 import ProfileButton from "./ProfileButton/ProfileButton";
+import {
+	FloatingButton,
+	FloatingButtonsContainer,
+} from "./FloatingButtons.styles";
 
 function FloatingButtons({ ...props }) {
 	return (
-		<Box className="FloatingButtons__root">
-			<HelpButton className="FloatingButtons__button" />
-			<ProfileButton className="FloatingButtons__button" />
-		</Box>
+		<FloatingButtonsContainer>
+			<FloatingButton as={HelpButton} />
+			<FloatingButton as={ProfileButton} />
+		</FloatingButtonsContainer>
 	);
 }
 
