@@ -1,5 +1,3 @@
-import "./LeaveForm.scss";
-
 import React, { useState, useContext } from "react";
 
 import { submitLeave } from "../../services/leave";
@@ -8,15 +6,10 @@ import { Formik, Form, Field } from "formik";
 
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
-import Card from "@material-ui/core/Card";
-import TextField from "@material-ui/core/TextField";
 
 import DateFnsUtils from "@date-io/date-fns";
 
-import {
-	KeyboardDatePicker,
-	MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 import {
 	addDays,
@@ -39,8 +32,17 @@ import StatusMessage from "../utility/StatusMessage";
 import SectionTitle from "../utility/SectionTitle";
 import BodyText from "../utility/BodyText";
 import FormButton from "../utility/Forms/FormButton";
-import { List, ListItem } from "@material-ui/core";
+import { Box, ListItem } from "@material-ui/core";
 import setDocTitle from "../../utils/setDocTitle";
+import {
+	LeaveFormLeaveLengthField,
+	LeaveFormExtraData,
+	LeaveFormDivider,
+	LeaveFormResponseInnerModal,
+	LeaveFormResponseResultCard,
+	LeaveFormResponseInvalidDaysList,
+	LeaveFormDateField,
+} from "./LeaveForm.styles";
 
 function LeaveForm(props) {
 	setDocTitle("Submit");
@@ -130,7 +132,7 @@ function LeaveForm(props) {
 	}
 	const lengthFieldRef = React.createRef();
 	return (
-		<div className="leave-form">
+		<Box>
 			<SectionTitle>Submit Leave Request</SectionTitle>
 			<Formik
 				initialValues={{
@@ -153,15 +155,15 @@ function LeaveForm(props) {
 							press 'Submit'.
 						</BodyText>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
-							<DateField
+							<LeaveFormDateField
 								value={startDate}
 								onChange={(value, string) => {
 									updateStartDate(value, string, setFieldValue);
 								}}
 								minDate={startDate}
 							/>
-							<BodyText className="date-field-divider form-item">To</BodyText>
-							<DateField
+							<LeaveFormDivider>To</LeaveFormDivider>
+							<LeaveFormDateField
 								value={endDate}
 								onChange={(value, string) => {
 									updateEndDate(value, string, setFieldValue);
@@ -170,73 +172,58 @@ function LeaveForm(props) {
 								maxDate={addDays(startDate, leaveLength.max - 1)}
 							/>
 						</MuiPickersUtilsProvider>
-						<div className="form-item extra-data">
-							<div className="length form-item">
-								<BodyText component="span">Your leave is</BodyText>
-								<TextField
-									className="leave-length-field"
-									onInput={limitLength}
-									onChange={(e) => onLengthFieldChange(e, setFieldValue)}
-									inputRef={lengthFieldRef}
-									type="number"
-									variant="outlined"
-									onBlur={lengthFieldFocusOut}
-									defaultValue={`${leaveLength.min + 1}`}
-								/>
-								<BodyText component="span">days long</BodyText>
-							</div>
-						</div>
+						<LeaveFormExtraData>
+							<BodyText component="span">Your leave is</BodyText>
+							<LeaveFormLeaveLengthField
+								onInput={limitLength}
+								onChange={(e) => onLengthFieldChange(e, setFieldValue)}
+								inputRef={lengthFieldRef}
+								type="number"
+								variant="outlined"
+								onBlur={lengthFieldFocusOut}
+								defaultValue={`${leaveLength.min + 1}`}
+							/>
+							<BodyText component="span">days long</BodyText>
+						</LeaveFormExtraData>
 						<Field name="user" type="hidden" value={user.employee_number} />
 						<FormButton type="submit" disabled={isSubmitting}>
 							{isSubmitting ? "loading" : "submit"}
 						</FormButton>
+						{isSubmitting && (
+							<BodyText component="sup" variant="sup">
+								Leave evaluation may take several seconds
+							</BodyText>
+						)}
 					</Form>
 				)}
 			</Formik>
 			<Modal open={!!response}>
-				<div className="inner-modal">
-					<Card className="request-result-card">
+				<LeaveFormResponseInnerModal>
+					<LeaveFormResponseResultCard>
 						<StatusMessage tone={response?.tone || "negative"}>
 							{response && (
 								<>
 									{response?.message.split("@break@")[0]}{" "}
-									<List className="invalid-days">
+									<LeaveFormResponseInvalidDaysList>
 										{response?.extraData?.map((item) => (
 											<ListItem>
 												{formatDate(new Date(item.date), "MMMM do yyyy")}
 											</ListItem>
 										))}
-									</List>
+									</LeaveFormResponseInvalidDaysList>
 									{response?.message.split("@break@")[1]}{" "}
 								</>
 							)}
 							{/* TODO: Paginate invalid days */}
 						</StatusMessage>
-						<Button
-							variant="outlined"
-							className="return-button"
-							onClick={() => setResponse(null)}
-						>
+						<Button variant="outlined" onClick={() => setResponse(null)}>
 							return
 						</Button>
-					</Card>
-				</div>
+					</LeaveFormResponseResultCard>
+				</LeaveFormResponseInnerModal>
 			</Modal>
-		</div>
+		</Box>
 	);
-
-	function DateField(props) {
-		return (
-			<KeyboardDatePicker
-				autoOk
-				inputVariant="outlined"
-				format="dd/MM/yyyy"
-				className="date-field form-item"
-				disablePast
-				{...props}
-			></KeyboardDatePicker>
-		);
-	}
 }
 
 export default LeaveForm;
