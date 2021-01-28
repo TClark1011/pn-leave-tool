@@ -2,28 +2,20 @@ import "./StatusMessage.scss";
 
 import React from "react";
 
-import classnames from "classnames";
-import { Box, Link } from "@material-ui/core";
+import { Link } from "@material-ui/core";
+import { StatusMessageRoot } from "./StatusMessage.styles";
 
 function StatusMessage({
 	hideSupportMsg = false,
-	tone,
+	tone = "negative",
 	className,
 	border,
 	children,
 	...props
 }) {
-	const classes = classnames(
-		"status-message",
-		tone || "negative",
-		{ border: border !== "none" },
-		{ [`border-${border || "left"}`]: border !== "none" },
-		className,
-	);
-
 	if (children) {
 		return (
-			<Box className={classes} {...props}>
+			<StatusMessageRoot {...props} tone={tone}>
 				{children}
 				{tone === "negative" && !hideSupportMsg && (
 					<>
@@ -35,7 +27,7 @@ function StatusMessage({
 						</Link>
 					</>
 				)}
-			</Box>
+			</StatusMessageRoot>
 		);
 	} else {
 		return "";
