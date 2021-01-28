@@ -15,7 +15,11 @@ function StatusMessage({
 }) {
 	if (children) {
 		return (
-			<StatusMessageRoot {...props} tone={tone}>
+			<StatusMessageRoot
+				{...props}
+				tone={tone}
+				data-testid="StatusMessage__Root"
+			>
 				{children}
 				{tone === "negative" && !hideSupportMsg && (
 					<>
