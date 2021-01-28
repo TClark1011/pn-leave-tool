@@ -1,6 +1,5 @@
-import "./DebugSpan.scss";
 import React from "react";
-import classnames from "classnames";
+import { DebugSpanEl } from "./DebugSpan.styles";
 
 const DebugSpan = ({
 	extraCondition = true,
@@ -10,24 +9,19 @@ const DebugSpan = ({
 	preSpacing = true,
 	postSpacing = false,
 	fallback = null,
-	className,
 	children,
 	...props
 }) =>
 	process.env.NODE_ENV === "development" && extraCondition ? (
-		<span
-			className={classnames(
-				"DebugSpan__root",
-				{ DebugSpan__italic: italics },
-				{ DebugSpan__preSpacing: preSpacing },
-				{ DebugSpan__postSpacing: postSpacing },
-				className
-			)}
+		<DebugSpanEl
+			preSpacing={preSpacing}
+			postSpacing={postSpacing}
+			italics={italics}
 			{...props}
 		>
 			{children}
-			{!noPostfix && postfix}
-		</span>
+			{!noPostfix && " " + postfix}
+		</DebugSpanEl>
 	) : (
 		fallback
 	);
