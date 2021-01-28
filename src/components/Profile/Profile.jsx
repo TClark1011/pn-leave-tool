@@ -1,11 +1,7 @@
-import "./Profile.scss";
-
 import React, { useContext, useEffect, useState } from "react";
 
 import UserContext from "../utility/UserContext";
 
-import SectionTitle from "../utility/SectionTitle";
-import { Fab, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import {
 	ArrowBack,
@@ -20,7 +16,6 @@ import ProfileItem from "./ProfileItem/ProfileItem";
 
 import ProfileContext from "../utility/ProfileContext";
 
-import classnames from "classnames";
 import DepotSelect from "../DepotSelect/DepotSelect";
 import { Field, Form, Formik } from "formik";
 import FormButton from "../utility/Forms/FormButton";
@@ -33,6 +28,14 @@ import StatusMessage from "../utility/StatusMessage";
 import findObjectInArray from "../../utils/findObjectInArray";
 import setDocTitle from "../../utils/setDocTitle";
 import ContentCard from "../utility/ContentCard";
+import {
+	ProfileEditButton,
+	ProfileExitButton,
+	ProfileFieldsContainer,
+	ProfileRoot,
+	ProfileSectionTitle,
+	ProfileTopWrapper,
+} from "./Profile.styles";
 
 function Profile(props) {
 	setDocTitle("Profile");
@@ -80,7 +83,7 @@ function Profile(props) {
 	return (
 		<>
 			<ContentCard>
-				<div className="ProfilePage">
+				<ProfileRoot editMode={editMode}>
 					<Formik
 						initialValues={{
 							employee_number: user.employee_number,
@@ -94,27 +97,22 @@ function Profile(props) {
 					>
 						{({ resetForm, isSubmitting }) => (
 							<Form>
-								<SectionTitle>
-									{user.name}
-									<IconButton
-										className="edit-button"
+								<ProfileTopWrapper>
+									<ProfileSectionTitle>{user.name}</ProfileSectionTitle>
+									<ProfileEditButton
 										onClick={() => {
 											setEditMode(!editMode);
 											resetForm();
 										}}
 									>
 										{editMode ? <Close /> : <Edit />}
-									</IconButton>
-								</SectionTitle>
+									</ProfileEditButton>
+								</ProfileTopWrapper>
 								<StatusMessage tone={formMessage?.tone}>
 									{formMessage?.message}
 								</StatusMessage>
 								<ProfileContext.Provider value={{ editMode }}>
-									<div
-										className={classnames("profile-fields", {
-											editMode: editMode,
-										})}
-									>
+									<ProfileFieldsContainer>
 										<Field
 											name="name"
 											Icon={Person}
@@ -150,7 +148,7 @@ function Profile(props) {
 												"Changing your email address is not currently supported."
 											}
 										/>
-									</div>
+									</ProfileFieldsContainer>
 								</ProfileContext.Provider>
 								{editMode && (
 									<>
@@ -181,18 +179,12 @@ function Profile(props) {
 							</Form>
 						)}
 					</Formik>
-				</div>
+				</ProfileRoot>
 			</ContentCard>
-			<Fab
-				variant="extended"
-				component={Link}
-				to="/request"
-				color="primary"
-				className="backToRequestsButton"
-			>
+			<ProfileExitButton component={Link} to="/request">
 				<ArrowBack />
-				<label htmlFor="">return</label>
-			</Fab>
+				return
+			</ProfileExitButton>
 		</>
 	);
 }
