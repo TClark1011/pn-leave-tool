@@ -1,5 +1,3 @@
-import "./styles/base.scss";
-
 import React, { useState, useEffect } from "react";
 
 import { tokenAdder, errorCatcher } from "./services/interceptors";
@@ -9,7 +7,7 @@ import { ThemeProvider as StyledThemeProvider } from "styled-components";
 
 import UserContext from "./components/utility/UserContext";
 
-import theme from "./styles/theme"; //* Pulls theme data from 'Theme.jsx'
+import theme from "./styles/theme";
 import MainRouter from "./components/utility/MainRouter";
 
 import { StylesProvider } from "@material-ui/core";
@@ -18,6 +16,7 @@ import { hot } from "react-hot-loader/root";
 import FloatingButtons from "./components/FloatingButtons";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { AppRoot, ContentContainer } from "./App.styles";
+import GlobalStyles from "./styles/GlobalStyles";
 
 function App() {
 	const [user, setUser] = useState(null);
@@ -30,6 +29,7 @@ function App() {
 	return (
 		<UserContext.Provider value={{ user, setUser }}>
 			<StylesProvider injectFirst>
+				<GlobalStyles />
 				{/*? 'StylesProvider' with 'injectFirst' prop makes sure material UI styles are injected at the top of the document so that they are overridden by custom styles */}
 				<MuiThemeProvider theme={theme}>
 					<StyledThemeProvider theme={theme}>

@@ -1,4 +1,3 @@
-import { Card } from "@material-ui/core";
 import styled from "styled-components";
 import { spacing } from "../../styles/config/themeSelectors";
 import BodyText from "../utility/BodyText";

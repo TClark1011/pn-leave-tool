@@ -2,19 +2,19 @@ import React from "react";
 
 import Button from "@material-ui/core/Button";
 
-import classNames from "classnames";
+import FormItem from "./FormItem";
 
 const FormButton = ({ children, className, ...props }) => (
-	<Button
+	<FormItem
+		as={Button}
 		variant="contained"
 		fullWidth
 		color="primary"
 		disableElevation={true}
-		className={classNames("form-item", className)}
 		{...props}
 	>
 		{children}
-	</Button>
+	</FormItem>
 );
 
 export default FormButton;
