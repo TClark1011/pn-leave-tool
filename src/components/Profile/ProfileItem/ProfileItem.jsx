@@ -1,10 +1,9 @@
-import "./ProfileItem.scss";
-
 import React, { useContext } from "react";
 import { ArrowDropDown } from "@material-ui/icons";
 
 import ProfileContext from "../../utility/ProfileContext";
 import FormField from "../../utility/Forms/FormField";
+import { ProfileItemRoot } from "./ProfileItem.styles";
 
 const ProfileItem = ({
 	Icon,
@@ -17,7 +16,7 @@ const ProfileItem = ({
 	const { editMode } = useContext(ProfileContext);
 	ItemComponent = ItemComponent || FormField;
 	return (
-		<div className="ProfileItem">
+		<ProfileItemRoot>
 			<ItemComponent
 				InputProps={{
 					startAdornment: <ProfileItemIcon Icon={Icon} color={color} />,
@@ -26,14 +25,12 @@ const ProfileItem = ({
 				SelectProps={{ IconComponent: editMode ? ArrowDropDown : () => null }}
 				{...props}
 			/>
-		</div>
+		</ProfileItemRoot>
 	);
 };
 
 const ProfileItemIcon = ({ Icon, color }) => {
-	return (
-		<Icon className="item-icon" style={{ backgroundColor: color || "white" }} />
-	);
+	return <Icon style={{ backgroundColor: color || "white" }} />;
 };
 
 export default ProfileItem;

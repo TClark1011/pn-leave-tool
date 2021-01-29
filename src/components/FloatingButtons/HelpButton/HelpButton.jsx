@@ -5,13 +5,7 @@ import { Link } from "react-router-dom";
 
 const HelpButton = (props) => {
 	return (
-		<Fab
-			className="FloatingHelpButton"
-			color="primary"
-			component={Link}
-			to="/help"
-			{...props}
-		>
+		<Fab color="primary" component={Link} to="/help" {...props}>
 			<Typography style={{ fontSize: 28 }}>?</Typography>
 		</Fab>
 	);

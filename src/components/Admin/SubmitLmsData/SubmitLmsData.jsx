@@ -97,7 +97,7 @@ const SubmitLmsData = (props) => {
 	);
 
 	return (
-		<Card className="SubmitLmsDataWrapper">
+		<Card>
 			<SectionTitle>Submit LMS Data</SectionTitle>
 			<Formik
 				initialValues={{

@@ -1,16 +1,15 @@
-import "./AuthForms.scss";
-
 import React, { useState, useContext } from "react";
 
 import { withRouter } from "react-router-dom";
 
-import { Tabs, Tab } from "@material-ui/core";
 import TabPanel from "../utility/MuiTabPanel";
 
 import UserContext from "../utility/UserContext";
 
 import LoginForm from "./LoginForm";
 import RegForm from "./RegForm";
+import { AuthFormsTabsContainer, AuthFormTab } from "./AuthForms.styles";
+import { Box } from "@material-ui/core";
 
 function AuthForms({ history, form, ...props }) {
 	const tabIndexes = {
@@ -23,7 +22,7 @@ function AuthForms({ history, form, ...props }) {
 	function handleTabChange(_, tab) {
 		setTabValue(tab);
 		history.push(
-			Object.keys(tabIndexes).find((key) => tabIndexes[key] === tab)
+			Object.keys(tabIndexes).find((key) => tabIndexes[key] === tab),
 		);
 	}
 
@@ -35,36 +34,23 @@ function AuthForms({ history, form, ...props }) {
 		return <h1>Signed in as Employee #{user.employee_number}</h1>;
 	}
 	return (
-		<div className="auth-forms">
-			<Tabs
+		<Box>
+			<AuthFormsTabsContainer
 				value={tabValue}
 				onChange={handleTabChange}
-				className="tabs-bar"
 				TabIndicatorProps={{ color: "primary" }}
 			>
-				<AuthTab label="Login" />
-				<AuthTab label="Register" />
-			</Tabs>
+				<AuthFormTab label="Login" value={0} />
+				<AuthFormTab label="Register" value={1} />
+			</AuthFormsTabsContainer>
 			<TabPanel value={tabValue} index={tabIndexes.login}>
 				<LoginForm setTab={setTab} />
 			</TabPanel>
 			<TabPanel value={tabValue} index={tabIndexes.register}>
 				<RegForm />
 			</TabPanel>
-		</div>
+		</Box>
 	);
-
-	function AuthTab({ label, ...props }) {
-		return (
-			<Tab
-				label={label}
-				className="tab"
-				value={tabIndexes[label.toLowerCase()]}
-				disableRipple
-				{...props}
-			/>
-		);
-	}
 }
 
 export default withRouter(AuthForms);

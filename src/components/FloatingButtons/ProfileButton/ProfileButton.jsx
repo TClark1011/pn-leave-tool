@@ -11,13 +11,7 @@ const ProfileButton = (props) => {
 		return null;
 	}
 	return (
-		<Fab
-			className="FloatingProfileButton"
-			color="primary"
-			component={Link}
-			to={"/profile"}
-			{...props}
-		>
+		<Fab color="primary" component={Link} to={"/profile"} {...props}>
 			<Person />
 		</Fab>
 	);

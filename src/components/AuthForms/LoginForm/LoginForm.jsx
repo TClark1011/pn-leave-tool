@@ -18,6 +18,7 @@ import { loggedInCookie, loginRedir } from "../../../constants/autoNavParams";
 
 import setDocTitle from "../../../utils/setDocTitle";
 import AuthHelperText from "../AuthHelperText";
+import { Box } from "@material-ui/core";
 
 const redirectedMsg = "An error occurred, please login to proceed";
 
@@ -66,7 +67,7 @@ function LoginForm(props) {
 	}
 
 	return (
-		<div className="login-form">
+		<Box>
 			<Formik
 				initialValues={{ employee_number: "", password: "" }}
 				onSubmit={onSubmit}
@@ -83,7 +84,6 @@ function LoginForm(props) {
 							hideSupportMsg={
 								formError?.message === "Incorrect employee number or password"
 							}
-							className="LoginForm__StatusMessage"
 						>
 							{formError?.message}
 						</StatusMessage>
@@ -122,7 +122,7 @@ function LoginForm(props) {
 					</Form>
 				)}
 			</Formik>
-		</div>
+		</Box>
 	);
 	//TODO: Add redirected error message
 }

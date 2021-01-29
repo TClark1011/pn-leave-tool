@@ -18,6 +18,7 @@ import { useHistory } from "react-router-dom";
 import setDocTitle from "../../../utils/setDocTitle";
 import AuthHelperText from "../AuthHelperText";
 import toBoolean from "to-boolean";
+import { Box } from "@material-ui/core";
 
 function RegForm(props) {
 	setDocTitle("Register");
@@ -45,7 +46,7 @@ function RegForm(props) {
 	}
 
 	return (
-		<div className="RegForm__root">
+		<Box>
 			<Formik
 				initialValues={{
 					employee_number: "",
@@ -90,7 +91,7 @@ function RegForm(props) {
 					</Form>
 				)}
 			</Formik>
-		</div>
+		</Box>
 	);
 	//TODO: add a question mark hover to explain the leave field
 	//TODO: Scroll to top on form error

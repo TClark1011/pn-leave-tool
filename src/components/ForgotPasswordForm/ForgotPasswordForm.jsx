@@ -1,14 +1,16 @@
-import { Card } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
-import BodyText from "../utility/BodyText";
 import FormButton from "../utility/Forms/FormButton";
 import FormField from "../utility/Forms/FormField";
 import SectionTitle from "../utility/SectionTitle";
 import { forgotPassword } from "../../services/user";
-import StatusMessage from "../utility/StatusMessage";
 import { forgotPasswordVal } from "pn-leave-tool-common";
 import setDocTitle from "../../utils/setDocTitle";
+import {
+	ForgotPasswordHelpText,
+	ForgotPasswordStatusMessage,
+} from "./ForgotPassword.styles";
+import ContentCard from "../utility/ContentCard";
 
 function ForgotPasswordForm({ ...props }) {
 	setDocTitle("Forgot Password");
@@ -23,14 +25,14 @@ function ForgotPasswordForm({ ...props }) {
 	}
 
 	return (
-		<Card className="Form__root-card">
+		<ContentCard>
 			<SectionTitle>Forgot Password</SectionTitle>
-			<BodyText className="Form__above-content">
+			<ForgotPasswordHelpText>
 				Enter your employee number below to reset your password.
-			</BodyText>
-			<StatusMessage className="Form__above-content" tone={response.tone}>
+			</ForgotPasswordHelpText>
+			<ForgotPasswordStatusMessage tone={response.tone}>
 				{response.message}
-			</StatusMessage>
+			</ForgotPasswordStatusMessage>
 			<Formik
 				initialValues={{ employee_number: "" }}
 				onSubmit={onSubmit}
@@ -55,7 +57,7 @@ function ForgotPasswordForm({ ...props }) {
 					</Form>
 				)}
 			</Formik>
-		</Card>
+		</ContentCard>
 	);
 }
 

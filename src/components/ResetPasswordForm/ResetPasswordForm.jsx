@@ -1,4 +1,3 @@
-import { Card } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -10,6 +9,8 @@ import FormField from "../utility/Forms/FormField";
 import SectionTitle from "../utility/SectionTitle";
 import StatusMessage from "../utility/StatusMessage";
 import setDocTitle from "../../utils/setDocTitle";
+import ContentCard from "../utility/ContentCard";
+import AboveFormContent from "../utility/Forms/AboveFormContent";
 
 function ResetPasswordForm({ resetKey, ...props }) {
 	setDocTitle("Reset Password");
@@ -26,14 +27,12 @@ function ResetPasswordForm({ resetKey, ...props }) {
 	}
 
 	return (
-		<Card className="Form__root-card">
+		<ContentCard>
 			<SectionTitle>Reset Password</SectionTitle>
-			<BodyText className="Form__above-content">
-				Enter your new password
-			</BodyText>
-			<StatusMessage className="Form__above-content" tone={response.tone}>
+			<AboveFormContent as={BodyText}>Enter your new password</AboveFormContent>
+			<AboveFormContent as={StatusMessage} tone={response.tone}>
 				{response.message}
-			</StatusMessage>
+			</AboveFormContent>
 			<Formik
 				initialValues={{ password: "", confirm_password: "" }}
 				validationSchema={resetPasswordVal}
@@ -58,7 +57,7 @@ function ResetPasswordForm({ resetKey, ...props }) {
 					</Form>
 				)}
 			</Formik>
-		</Card>
+		</ContentCard>
 	);
 }
 
