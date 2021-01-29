@@ -47,9 +47,7 @@ function RegistrationConfirmation({ employee_number, ...props }) {
 				{resentEmail === true && (
 					<BodyText>We have sent you another email</BodyText>
 				)}
-				{resentEmail === "loading" && (
-					<LinearProgress color="primary" className="resend-loading" />
-				)}
+				{resentEmail === "loading" && <LinearProgress color="primary" />}
 			</Box>
 		</Box>
 	);

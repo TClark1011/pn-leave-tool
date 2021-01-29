@@ -9,6 +9,7 @@ import UserContext from "../utility/UserContext";
 import LoginForm from "./LoginForm";
 import RegForm from "./RegForm";
 import { AuthFormsTabsContainer, AuthFormTab } from "./AuthForms.styles";
+import { Box } from "@material-ui/core";
 
 function AuthForms({ history, form, ...props }) {
 	const tabIndexes = {
@@ -33,11 +34,10 @@ function AuthForms({ history, form, ...props }) {
 		return <h1>Signed in as Employee #{user.employee_number}</h1>;
 	}
 	return (
-		<div className="auth-forms">
+		<Box>
 			<AuthFormsTabsContainer
 				value={tabValue}
 				onChange={handleTabChange}
-				className="tabs-bar"
 				TabIndicatorProps={{ color: "primary" }}
 			>
 				<AuthFormTab label="Login" value={0} />
@@ -49,7 +49,7 @@ function AuthForms({ history, form, ...props }) {
 			<TabPanel value={tabValue} index={tabIndexes.register}>
 				<RegForm />
 			</TabPanel>
-		</div>
+		</Box>
 	);
 }
 
