@@ -1,5 +1,6 @@
 /**
  * Search an array of objects and return the first item that contains a provided key/value pair
+ *
  * @param {object[]} array The array of objects
  * @param {object} find Key/value pair to be searched for
  * @returns {object | null} Return the matching object, null if no matching object is found

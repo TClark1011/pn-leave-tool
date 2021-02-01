@@ -1,6 +1,12 @@
 //#Formats a code label like "employee_number" or "employeeNumber" into the format "Employee Number"
 
-module.exports = (string) => {
+/**
+ * Formats a string to match the format used in Field Labels
+ *
+ * @param {string} string The string to be formatted
+ * @returns {string} The passed string formatted in title case
+ */
+export default (string) => {
 	string = string.substr(0, 1).toUpperCase() + string.substr(1);
 	string = string.replace(/_/g, " ");
 	var lastCharCap = false;
