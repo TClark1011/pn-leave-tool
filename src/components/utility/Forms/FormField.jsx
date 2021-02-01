@@ -7,7 +7,16 @@ import TextField from "@material-ui/core/TextField";
 import formatLabel from "../../../utils/formatLabel";
 import FormItem from "./FormItem";
 
-function FormField({ field, form, label, className, ...props }) {
+/**
+ * A field to be used in a form
+ *
+ * @param {object} props The component props
+ * @param  {object} [props.field={}] The field props (supplied by Formik)
+ * @param  {object} props.form Form data (supplied by Formik)
+ * @param {string} label The field's label
+ * @returns {ReactNode} A form field
+ */
+const FormField = ({ field = {}, form, label, ...props }) => {
 	const errorText =
 		getIn(form.touched, field.name) && getIn(form.errors, field.name);
 
@@ -16,7 +25,6 @@ function FormField({ field, form, label, className, ...props }) {
 			? errorText.replace(new RegExp(field.name, "g"), formatLabel(field.name))
 			: "";
 	}
-	field = field || {};
 	return (
 		<FormItem
 			as={TextField}
@@ -30,6 +38,6 @@ function FormField({ field, form, label, className, ...props }) {
 			{...props}
 		/>
 	);
-}
+};
 
 export default FormField;

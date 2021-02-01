@@ -4,14 +4,24 @@ import { Link } from "@material-ui/core";
 import { StatusMessageRoot } from "./StatusMessage.styles";
 import { supportEmail } from "../../../constants/env";
 
-function StatusMessage({
+/**
+ * Component for displaying short positive/neutral/negative messages
+ * Intended to be used to display server responses.
+ *
+ * @param {object} props The component props
+ * @param {ReactNode} props.children The message contents
+ * @param {boolean} [props.hideSupportMsg=false] Whether or not to
+ * hide a message indicating users can contact the support email.
+ * @param {string} [tone="negative"] The tone of the status message.
+ * Must be either "negative", "positive" or "neutral".
+ * @returns {ReactNode} The component's rendered elements
+ */
+const StatusMessage = ({
 	hideSupportMsg = false,
 	tone = "negative",
-	className,
-	border,
 	children,
 	...props
-}) {
+}) => {
 	if (children) {
 		return (
 			<StatusMessageRoot
@@ -33,6 +43,6 @@ function StatusMessage({
 	} else {
 		return "";
 	}
-}
+};
 
 export default StatusMessage;

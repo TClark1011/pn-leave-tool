@@ -18,6 +18,13 @@ import ResetPasswordForm from "../ResetPasswordForm/ResetPasswordForm";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import ContentCard from "./ContentCard";
 
+/**
+ * The main router used in the application
+ *
+ * @param {object} props The component props
+ * @param {ReactNode} props.children The component children
+ * @returns {ReactNode} Renders the router as well as children
+ */
 const MainRouter = ({ children }) => (
 	<Router>
 		<Switch>
