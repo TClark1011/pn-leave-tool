@@ -5,7 +5,16 @@ import BodyText from "../utility/BodyText";
 import SectionTitle from "../utility/SectionTitle";
 import StatusMessage from "../utility/StatusMessage";
 
-function RegistrationConfirmation({ employee_number, ...props }) {
+/**
+ * The registration confirmation screen where user
+ * can request validation email resend.
+ *
+ * @param {object} props The component props
+ * @param {string} props.employee_number The employee
+ * number of the user who has registered.
+ * @returns {ReactNode} The registration confirmation screen
+ */
+const RegistrationConfirmation = ({ employee_number, ...props }) => {
 	const [resentEmail, setResentEmail] = useState(false);
 	const [response, setResponse] = useState({});
 
@@ -51,7 +60,7 @@ function RegistrationConfirmation({ employee_number, ...props }) {
 			</Box>
 		</Box>
 	);
-}
+};
 
 const ActionButton = ({ children, ...props }) => (
 	<Button variant="outlined" {...props}>
