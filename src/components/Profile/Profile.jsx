@@ -37,7 +37,12 @@ import {
 	ProfileTopWrapper,
 } from "./Profile.styles";
 
-function Profile(props) {
+/**
+ * The profile screen
+ *
+ * @returns {ReactNode} The profile screen
+ */
+const Profile = () => {
 	setDocTitle("Profile");
 	const { user, setUser } = useContext(UserContext);
 	const [editMode, setEditMode] = useState(false);
@@ -56,7 +61,7 @@ function Profile(props) {
 		if (editMode) setFormMessage(null);
 	}, [editMode]);
 
-	function onSubmit(data, { setSubmitting }) {
+	const onSubmit = (data, { setSubmitting }) => {
 		const fullData = { _id: user._id, ...data };
 		setSubmitting(true);
 		updateUser(fullData)
@@ -78,7 +83,7 @@ function Profile(props) {
 				setSubmitting(false);
 				setEditMode(false);
 			});
-	}
+	};
 
 	return (
 		<>
@@ -187,6 +192,6 @@ function Profile(props) {
 			</ProfileExitButton>
 		</>
 	);
-}
+};
 
 export default Profile;
