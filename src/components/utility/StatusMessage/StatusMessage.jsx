@@ -2,6 +2,7 @@ import React from "react";
 
 import { Link } from "@material-ui/core";
 import { StatusMessageRoot } from "./StatusMessage.styles";
+import { supportEmail } from "../../../constants/env";
 
 function StatusMessage({
 	hideSupportMsg = false,
@@ -24,9 +25,7 @@ function StatusMessage({
 						<br />
 						<br />
 						You can contact us at{" "}
-						<Link href={`mailto:${process.env.REACT_APP_SUPPORT_EMAIL}`}>
-							{process.env.REACT_APP_SUPPORT_EMAIL}
-						</Link>
+						<Link href={`mailto:${supportEmail}`}>{supportEmail}</Link>
 					</>
 				)}
 			</StatusMessageRoot>
