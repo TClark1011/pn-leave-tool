@@ -6,6 +6,8 @@ This is a tool designed to automate the approval of requests to take annual leav
 
 The following custom re-useable components that appear throughout the project:
 
+### General
+
 - ContentCard - A generic card for displaying content on. It has a reasonable width and has a max-width to ensure appropriate scaling to mobile devices
 - StatusMessage - Used to display server responses
 - MuiTabPanel - To be used with Material-UI tabs. Only renders its children if the provided `value` and `index` props are equal.
@@ -36,6 +38,8 @@ The following environment variables are used to allow for settings in the applic
 - NODE_ENV - The stock 'NODE_ENV' environment variable provided by CRA. Is set to 'development' during development, 'test' while testing and 'production' when building.
 - REACT_APP_SUPPORT_EMAIL - The email address that users are told to contact for support
 - REACT_APP_VALIDATE_EMAIL - Whether or not to validate user emails during registration. Expects "true" or "false". Defaults to true if not supplied.
+- REACT_APP_BACKEND_DEV_PORT - The port to be used in localhost for the backend in development environment.
+- REACT_APP_BACKEND_URL - The url for the backend. In development environment, this is overridden by localhost + REACT_APP_BACKEND_DEV_PORT.
 
 ## API REQUESTS
 
