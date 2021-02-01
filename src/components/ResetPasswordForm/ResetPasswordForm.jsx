@@ -12,7 +12,18 @@ import setDocTitle from "../../utils/setDocTitle";
 import ContentCard from "../utility/ContentCard";
 import AboveFormContent from "../utility/Forms/AboveFormContent";
 
-function ResetPasswordForm({ resetKey, ...props }) {
+/**
+ * The form for completing the final step of the password
+ * reset process.
+ *
+ * @param {object} props The component props
+ * @param {string} props.resetKey The resetKey used to
+ * authenticate the request to reset the password. Is
+ * provided in the URL and passed to this component by
+ * the Router.
+ * @returns {ReactNode} The password reset form
+ */
+const ResetPasswordForm = ({ resetKey, ...props }) => {
 	setDocTitle("Reset Password");
 	const [response, setResponse] = useState({});
 
@@ -59,6 +70,6 @@ function ResetPasswordForm({ resetKey, ...props }) {
 			</Formik>
 		</ContentCard>
 	);
-}
+};
 
 export default ResetPasswordForm;
