@@ -4,7 +4,10 @@
  */
 
 export const backendDevPort = process.env.REACT_APP_BACKEND_DEV_PORT;
+//? The port used by the backend during development
 
 export const backendUrl = process.env.REACT_APP_BACKEND_URL;
+//? The backend url, only used in production.
 
 export const supportEmail = process.env.REACT_APP_SUPPORT_EMAIL;
+//? The support email address
