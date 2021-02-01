@@ -18,7 +18,10 @@ const RegistrationConfirmation = ({ employee_number, ...props }) => {
 	const [resentEmail, setResentEmail] = useState(false);
 	const [response, setResponse] = useState({});
 
-	function resendEmail() {
+	/**
+	 * Resend validation email
+	 */
+	const resendEmail = () => {
 		setResponse({});
 		setResentEmail("loading");
 		resendVerification(employee_number)
@@ -29,7 +32,7 @@ const RegistrationConfirmation = ({ employee_number, ...props }) => {
 				setResentEmail(false);
 				setResponse(error.response.data);
 			});
-	}
+	};
 	return (
 		<Box>
 			<SectionTitle>Verify your email</SectionTitle>
