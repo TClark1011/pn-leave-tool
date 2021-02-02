@@ -55,10 +55,10 @@ function LeaveForm(props) {
 	const [response, setResponse] = useState(null);
 
 	function updateLengthField(date1, date2) {
-		lengthFieldRef.current.value = differenceInDays(date1, date2) + 1 || 1;
+		lengthFieldRef.current.value = differenceInDays(date1, date2) || 1;
 	}
 
-	function updateStartDate(date, string, setFieldValue) {
+	function updateStartDate(date, setFieldValue) {
 		if (isValidDate(date)) {
 			const newStartDate = startOfDay(date);
 			const newEndDate = maxDate([endDate, addDays(date, 1)]);
@@ -72,7 +72,7 @@ function LeaveForm(props) {
 			updateLengthField(newEndDate, date);
 		}
 	}
-	function updateEndDate(date, string, setFieldValue) {
+	function updateEndDate(date, setFieldValue) {
 		if (isValidDate(date)) {
 			const newEndDate = startOfDay(date);
 			setEndDate(newEndDate);
@@ -85,7 +85,18 @@ function LeaveForm(props) {
 		}
 	}
 
-	function onSubmit(data, { setSubmitting }) {
+	/**
+	 * Handle form submission
+	 *
+	 * @param {object} data Form data from formik
+	 * @param {object} extraFormProps Extra form data
+	 * provided by formik
+	 * @param {Function} extraFormProps.setSubmitting
+	 * Function to set whether or not the form is currently
+	 * submitting
+	 */
+	const onSubmit = (data, { setSubmitting }) => {
+		console.log("(LeaveForm) data: ", data);
 		setSubmitting(true);
 		submitLeave(data)
 			.then((result) => {
@@ -99,37 +110,59 @@ function LeaveForm(props) {
 			.finally(() => {
 				setSubmitting(false);
 			});
-	}
+	};
 
 	/**
 	 * Limit the length of a 'number' typed input to 3 characters
-	 * @param {Object} e - The 'onInput' event of the field
+	 *
+	 * @param {Event} e - The 'onInput' event of the field
 	 */
-	function limitLength(e) {
+	const limitLength = (e) => {
 		e.target.value = e.target.value.toString().slice(0, 3);
-	}
+	};
 
 	/**
-	 * Check whether or not the passed value would be a valid input into the leave length field
+	 * Check whether or not the passed value would be a
+	 * valid input into the leave length field
+	 *
+	 * @param {string} value The value of the length field
+	 * @param {boolean} [allowBlank=false] Whether or not to
+	 * allow the length field to be blank
+	 * @returns {boolean} Whether or not the new length value
+	 * is valid
 	 */
-	function validateLengthField(value, allowBlank) {
-		allowBlank = allowBlank || false;
+	const validateLengthField = (value, allowBlank = false) => {
 		return (value.length > 0 || allowBlank) && value > 0;
-	}
+	};
 
-	function onLengthFieldChange(e, setFieldValue) {
+	/**
+	 * Handle length field changing
+	 *
+	 * @param {Event} e Event data
+	 * @param {Function} setFieldValue function to set field value
+	 */
+	const onLengthFieldChange = (e, setFieldValue) => {
 		const newValue = e.target.value;
 		if (validateLengthField(newValue)) {
 			const updatedLength = Math.max(1, newValue || 0);
 			updateEndDate(addDays(startDate, updatedLength), setFieldValue);
 		}
-	}
+	};
 
-	function lengthFieldFocusOut(e) {
+	/**
+	 * When the user stops focusing length field. If contents of
+	 * length field are invalid when user exits focus, set its value
+	 * to the difference between the currently selected start and
+	 * end dates.
+	 *
+	 * @param {Event} e The 'onBlur' event fired by
+	 * focusing leaving the length field
+	 */
+	const lengthFieldFocusOut = (e) => {
 		if (!validateLengthField(e.target.value)) {
 			e.target.value = differenceInDays(endDate, startDate);
 		}
-	}
+	};
 	const lengthFieldRef = React.createRef();
 	return (
 		<Box>
@@ -156,20 +189,22 @@ function LeaveForm(props) {
 						</BodyText>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 							<LeaveFormDateField
+								name="dates.start"
 								value={startDate}
-								onChange={(value, string) => {
-									updateStartDate(value, string, setFieldValue);
+								onChange={(value) => {
+									updateStartDate(value, setFieldValue);
 								}}
 								minDate={startDate}
 							/>
 							<LeaveFormDivider>To</LeaveFormDivider>
 							<LeaveFormDateField
+								name="dates.end"
 								value={endDate}
 								onChange={(value, string) => {
-									updateEndDate(value, string, setFieldValue);
+									updateEndDate(value, setFieldValue);
 								}}
 								minDate={addDays(startDate, leaveLength.min)}
-								maxDate={addDays(startDate, leaveLength.max - 1)}
+								maxDate={addDays(startDate, leaveLength.max)}
 							/>
 						</MuiPickersUtilsProvider>
 						<LeaveFormExtraData>
