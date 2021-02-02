@@ -277,13 +277,14 @@ const LeaveForm = () => {
 												</LeaveFormBadDayText>
 											</ListItem>
 										))}
-										{response.extraData.length > showBadDays && (
+										{response?.extraData?.length > showBadDays && (
 											<BodyText>
 												And {response.extraData.length - showBadDays} more
 											</BodyText>
 										)}
 									</LeaveFormResponseInvalidDaysList>
 									<BodyText>{response?.message.split("@break@")[1]} </BodyText>
+									{/* ALWAYS HAVE TO USE '.?' ON RESPONSE EXTRA DATA OTHERWISE THE TOOL CRASHES WHEN IT RECEIVES A RESPONSE */}
 								</>
 							)}
 							{/* TODO: Paginate invalid days */}
