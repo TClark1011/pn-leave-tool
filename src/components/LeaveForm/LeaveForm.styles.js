@@ -1,4 +1,5 @@
-import { Button, Card, List, TextField } from "@material-ui/core";
+import { Button, List, TextField } from "@material-ui/core";
+import ContentCard from "../utility/ContentCard";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import styled from "styled-components";
 import {
@@ -80,7 +81,7 @@ export const LeaveFormResponseInnerModal = styled.div`
 	}
 `;
 
-export const LeaveFormResponseResultCard = styled(Card)`
+export const LeaveFormResponseResultCard = styled(ContentCard)`
 	margin: auto;
 	width: 500px;
 	max-width: 90vw;
