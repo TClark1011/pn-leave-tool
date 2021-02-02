@@ -4,7 +4,6 @@ import csv2json from "csvjson-csv2json";
 
 import {
 	Button,
-	Card,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -23,6 +22,7 @@ import SectionTitle from "../../utility/SectionTitle";
 import { lmsDataValFrontend } from "pn-leave-tool-common";
 import { getDepots } from "../../../services/depots";
 import findObjectInArray from "../../../utils/findObjectInArray";
+import ContentCard from "../../utility/ContentCard";
 
 const SubmitLmsData = (props) => {
 	const [depots, setDepots] = useState(null);
@@ -97,7 +97,7 @@ const SubmitLmsData = (props) => {
 	);
 
 	return (
-		<Card>
+		<ContentCard>
 			<SectionTitle>Submit LMS Data</SectionTitle>
 			<Formik
 				initialValues={{
@@ -155,7 +155,7 @@ const SubmitLmsData = (props) => {
 					</Form>
 				)}
 			</Formik>
-		</Card>
+		</ContentCard>
 	);
 };
 export default SubmitLmsData;
