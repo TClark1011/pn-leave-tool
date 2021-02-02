@@ -102,7 +102,7 @@ const LeaveForm = () => {
 	 */
 	const updateEndDate = (date, setFieldValue) => {
 		if (isValidDate(date)) {
-			const newEndDate = startOfDay(date);
+			const newEndDate = startOfDay(addDays(date, -1));
 			setEndDate(newEndDate);
 
 			if (setFieldValue) {
@@ -160,7 +160,7 @@ const LeaveForm = () => {
 	 * is valid
 	 */
 	const validateLengthField = (value, allowBlank = false) => {
-		return (value.length > 0 || allowBlank) && value > 0;
+		return (value.length > 0 || allowBlank) && value >= 2;
 	};
 
 	/**
@@ -269,20 +269,22 @@ const LeaveForm = () => {
 							{response && (
 								<>
 									<BodyText>{response?.message.split("@break@")[0]} </BodyText>
-									<LeaveFormResponseInvalidDaysList>
-										{response?.extraData?.slice(0, showBadDays).map((item) => (
-											<ListItem>
-												<LeaveFormBadDayText>
-													{formatDate(new Date(item.date), "MMMM do yyyy")}
-												</LeaveFormBadDayText>
-											</ListItem>
-										))}
-										{response?.extraData?.length > showBadDays && (
-											<BodyText>
-												And {response.extraData.length - showBadDays} more
-											</BodyText>
-										)}
-									</LeaveFormResponseInvalidDaysList>
+									{response?.extraData && (
+										<LeaveFormResponseInvalidDaysList>
+											{response.extraData.slice(0, showBadDays).map((item) => (
+												<ListItem>
+													<LeaveFormBadDayText>
+														{formatDate(new Date(item.date), "MMMM do yyyy")}
+													</LeaveFormBadDayText>
+												</ListItem>
+											))}
+											{response.extraData.length > showBadDays && (
+												<BodyText>
+													And {response.extraData.length - showBadDays} more
+												</BodyText>
+											)}
+										</LeaveFormResponseInvalidDaysList>
+									)}
 									<BodyText>{response?.message.split("@break@")[1]} </BodyText>
 									{/* ALWAYS HAVE TO USE '.?' ON RESPONSE EXTRA DATA OTHERWISE THE TOOL CRASHES WHEN IT RECEIVES A RESPONSE */}
 								</>
