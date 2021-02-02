@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import csv2json from "csvjson-csv2json";
 
@@ -11,42 +11,74 @@ import {
 	Grid,
 } from "@material-ui/core";
 
-import { submitLmsData } from "../../../services/admin";
-import DepotSelect from "../../DepotSelect/DepotSelect";
+import { submitLmsData } from "../../services/admin";
+import DepotSelect from "../DepotSelect/DepotSelect";
 import { Field, Form, Formik } from "formik";
-import FormField from "../../utility/Forms/FormField";
-import FormButton from "../../utility/Forms/FormButton";
-import StatusMessage from "../../utility/StatusMessage";
-import SectionTitle from "../../utility/SectionTitle";
+import FormField from "../utility/Forms/FormField";
+import FormButton from "../utility/Forms/FormButton";
+import StatusMessage from "../utility/StatusMessage";
+import SectionTitle from "../utility/SectionTitle";
 
 import { lmsDataValFrontend } from "pn-leave-tool-common";
-import { getDepots } from "../../../services/depots";
-import findObjectInArray from "../../../utils/findObjectInArray";
-import ContentCard from "../../utility/ContentCard";
+import { getDepots } from "../../services/depots";
+import findObjectInArray from "../../utils/findObjectInArray";
+import ContentCard from "../utility/ContentCard";
+import { useMount } from "react-use";
 
-const SubmitLmsData = (props) => {
+/**
+ * Admin form for submitting csv data from LMS.
+ * Includes confirmation dialogue to avoid user
+ * user accidentally submitting data to the wrong
+ * depot.
+ *
+ * @returns {ReactNode} Form to submit lms data
+ */
+const SubmitLmsData = () => {
 	const [depots, setDepots] = useState(null);
-	useEffect(() => {
+	useMount(() => {
 		getDepots()
 			.then((result) => {
 				setDepots(result);
 			})
-			.catch((err) => setDepots("error"));
-	}, []);
+			.catch(() => setDepots("error"));
+		//? Fetch list of depots when component is mounted
+	});
+	//? Depots have to be fetched in addition to their fetching in 'Depot Select'.
+	//? This is required to be able to show the name of the selected depot in the
+	//? confirmation screen in this component
+
 	const [confirmationIsOpen, setConfirmationIsOpen] = useState(false);
 	const [response, setResponse] = useState(null);
 
-	function onFileUpload(file, setFieldValue, validateField) {
+	/**
+	 * Handle a file being uploaded via the 'Choose File' field
+	 * @param {object} file File object. See file input mozilla
+	 * api docs for more information:
+	 * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+	 * @param {Function} setFieldValue Function for setting a Formik field's value
+	 * @param {Function} validateField Callback function to trigger Formik's form
+	 * validation
+	 */
+	const onFileUpload = (file, setFieldValue, validateField) => {
 		const reader = new FileReader();
 		reader.onload = () => {
 			const json = csv2json(reader.result, { parseNumbers: true });
+			//? Use 'csv2json' to convert data from the original 'csv' format into json
 			setFieldValue("file", json);
 			validateField("file");
 		};
 		reader.readAsBinaryString(file);
-	}
+	};
 
-	function onSubmit(data, { setSubmitting }) {
+	/**
+	 * Handle form submission.
+	 *
+	 * @param {Object} data Data from form fields
+	 * @param {Object} formProps Formik form props
+	 * @param {Function} formProps.setSubmitting Set
+	 * whether or not the form is currently submitting.
+	 */
+	const onSubmit = (data, { setSubmitting }) => {
 		setSubmitting(true);
 		submitLmsData({ file: data.file, depot: data.depot }, data.access_key)
 			.then((result) => {
@@ -58,15 +90,22 @@ const SubmitLmsData = (props) => {
 			.finally(() => {
 				setSubmitting(false);
 			});
-	}
+	};
 
-	function preSubmit(validateForm) {
+	/**
+	 * Function run before submitting lms data
+	 *
+	 * @param {Function} validateForm callback to trigger
+	 * Formik's form validation
+	 */
+	const preSubmit = (validateForm) => {
 		validateForm().then((errors) => {
 			if (!Object.keys(errors).length) {
 				setConfirmationIsOpen(true);
+				//? Open confirmation if the form is successfully validated
 			}
 		});
-	}
+	};
 
 	const ConfirmationDialog = ({ submitForm, depot, ...props }) => (
 		<Dialog open={confirmationIsOpen && depots && depots !== "error"}>
