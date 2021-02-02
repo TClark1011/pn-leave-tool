@@ -1,9 +1,9 @@
 import axios from "../utils/axiosInstance";
 
 /**
- * Submit XML lms data
+ * Submit CSV lms data
  *
- * @param {object} data The xml data from lms
+ * @param {object} data The csv data from lms
  * @param {string} operator_access_key The operator access key
  */
 export const submitLmsData = (data, operator_access_key) =>
