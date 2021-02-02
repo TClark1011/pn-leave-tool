@@ -18,7 +18,7 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import { AppRoot, ContentContainer } from "./App.styles";
 import GlobalStyles from "./styles/GlobalStyles";
 
-function App() {
+const App = () => {
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
@@ -48,6 +48,6 @@ function App() {
 			</StylesProvider>
 		</UserContext.Provider>
 	);
-}
+};
 
 export default hot(App);

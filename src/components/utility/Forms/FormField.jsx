@@ -20,11 +20,16 @@ const FormField = ({ field = {}, form, label, ...props }) => {
 	const errorText =
 		getIn(form.touched, field.name) && getIn(form.errors, field.name);
 
-	function formatErrorText() {
+	/**
+	 * Apply visual formatting to error text
+	 *
+	 * @returns {string} Formatted error text
+	 */
+	const formatErrorText = () => {
 		return errorText
 			? errorText.replace(new RegExp(field.name, "g"), formatLabel(field.name))
 			: "";
-	}
+	};
 	return (
 		<FormItem
 			as={TextField}
