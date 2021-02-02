@@ -42,6 +42,7 @@ import {
 	LeaveFormResponseResultCard,
 	LeaveFormResponseInvalidDaysList,
 	LeaveFormDateField,
+	LeaveFormBadDayText,
 } from "./LeaveForm.styles";
 
 /**
@@ -191,6 +192,8 @@ const LeaveForm = () => {
 		}
 	};
 	const lengthFieldRef = React.createRef();
+
+	const showBadDays = 5;
 	return (
 		<Box>
 			<SectionTitle>Submit Leave Request</SectionTitle>
@@ -265,15 +268,22 @@ const LeaveForm = () => {
 						<StatusMessage tone={response?.tone || "negative"}>
 							{response && (
 								<>
-									{response?.message.split("@break@")[0]}{" "}
+									<BodyText>{response?.message.split("@break@")[0]} </BodyText>
 									<LeaveFormResponseInvalidDaysList>
-										{response?.extraData?.map((item) => (
+										{response?.extraData?.slice(0, showBadDays).map((item) => (
 											<ListItem>
-												{formatDate(new Date(item.date), "MMMM do yyyy")}
+												<LeaveFormBadDayText>
+													{formatDate(new Date(item.date), "MMMM do yyyy")}
+												</LeaveFormBadDayText>
 											</ListItem>
 										))}
+										{response.extraData.length > showBadDays && (
+											<BodyText>
+												And {response.extraData.length - showBadDays} more
+											</BodyText>
+										)}
 									</LeaveFormResponseInvalidDaysList>
-									{response?.message.split("@break@")[1]}{" "}
+									<BodyText>{response?.message.split("@break@")[1]} </BodyText>
 								</>
 							)}
 							{/* TODO: Paginate invalid days */}

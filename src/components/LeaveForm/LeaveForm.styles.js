@@ -10,6 +10,7 @@ import {
 import { inputBorderGrey } from "../../styles/config/styleVars";
 import { setMultipleProperties } from "../../styles/config/utilities";
 import BodyText from "../utility/BodyText";
+import { spacing } from "../../styles/config/themeSelectors";
 
 export const LeaveFormDateField = styled(KeyboardDatePicker).attrs({
 	autoOk: true,
@@ -106,4 +107,9 @@ export const LeaveFormResponseInvalidDaysList = styled(List)`
 
 export const LeaveFromResponseButton = styled(Button)`
 	margin-top: ${(p) => p.theme.spacing(1)}px;
+`;
+
+export const LeaveFormBadDayText = styled(BodyText)`
+	padding-left: ${spacing(1)}px;
+	font-weight: bold;
 `;
