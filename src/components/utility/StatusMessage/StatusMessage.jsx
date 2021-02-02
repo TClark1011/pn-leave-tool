@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "@material-ui/core";
 import { StatusMessageRoot } from "./StatusMessage.styles";
 import { supportEmail } from "../../../constants/env";
+import BodyText from "../BodyText";
 
 /**
  * Component for displaying short positive/neutral/negative messages
@@ -29,15 +30,17 @@ const StatusMessage = ({
 				tone={tone}
 				data-testid="StatusMessage__Root"
 			>
-				{children}
-				{tone === "negative" && !hideSupportMsg && (
-					<>
-						<br />
-						<br />
-						You can contact us at{" "}
-						<Link href={`mailto:${supportEmail}`}>{supportEmail}</Link>
-					</>
-				)}
+				<BodyText>
+					{children}
+					{tone === "negative" && !hideSupportMsg && (
+						<>
+							<br />
+							<br />
+							You can contact us at{" "}
+							<Link href={`mailto:${supportEmail}`}>{supportEmail}</Link>
+						</>
+					)}
+				</BodyText>
 			</StatusMessageRoot>
 		);
 	} else {
