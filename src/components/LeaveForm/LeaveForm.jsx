@@ -271,8 +271,8 @@ const LeaveForm = () => {
 							{response && (
 								<>
 									<BodyText>{response?.message.split("@break@")[0]} </BodyText>
-									{/* The '@break@' text is used  in error message to indicate 
-									that the message should be broken when displayed in the frontend.*/}
+									{/* The '@break@' text is used  in error messages to indicate 
+									that the message should be broken up when displayed in the frontend.*/}
 									{response?.extraData && (
 										<LeaveFormResponseInvalidDaysList>
 											{response.extraData.map((item, index) => (
