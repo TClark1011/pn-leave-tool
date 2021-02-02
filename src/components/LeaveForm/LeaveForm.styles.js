@@ -94,6 +94,8 @@ export const LeaveFormResponseInvalidDaysList = styled(List)`
 	margin: 0;
 	margin-top: $spacing-1;
 	font-weight: bold;
+	max-height: 400px;
+	overflow-y: auto;
 
 	li {
 		padding: 0;

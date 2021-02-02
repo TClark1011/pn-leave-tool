@@ -59,6 +59,7 @@ const LeaveForm = () => {
 	const [startDate, setStartDate] = useState(minDate);
 	const [endDate, setEndDate] = useState(addDays(startDate, 1));
 	const [response, setResponse] = useState(null);
+	const [showAllBadDays, setShowAllBadDays] = useState(false);
 
 	/**
 	 * Update leave length field
@@ -194,6 +195,7 @@ const LeaveForm = () => {
 	const lengthFieldRef = React.createRef();
 
 	const showBadDays = 5;
+	//? How many bad days to show if request is denied before paginating them
 	return (
 		<Box>
 			<SectionTitle>Submit Leave Request</SectionTitle>
@@ -265,28 +267,42 @@ const LeaveForm = () => {
 			<Modal open={!!response}>
 				<LeaveFormResponseInnerModal>
 					<LeaveFormResponseResultCard>
-						<StatusMessage tone={response?.tone || "negative"}>
+						<StatusMessage tone={response?.tone || "negative"} hideSupportMsg>
 							{response && (
 								<>
 									<BodyText>{response?.message.split("@break@")[0]} </BodyText>
+									{/* The '@break@' text is used  in error message to indicate 
+									that the message should be broken when displayed in the frontend.*/}
 									{response?.extraData && (
 										<LeaveFormResponseInvalidDaysList>
-											{response.extraData.slice(0, showBadDays).map((item) => (
-												<ListItem>
+											{response.extraData.map((item, index) => (
+												<ListItem
+													style={
+														index >= showBadDays && !showAllBadDays
+															? { display: "none" }
+															: {}
+													}
+													// ? Hide extra bad days unless user has asked to see all of them
+												>
 													<LeaveFormBadDayText>
 														{formatDate(new Date(item.date), "MMMM do yyyy")}
 													</LeaveFormBadDayText>
 												</ListItem>
 											))}
-											{response.extraData.length > showBadDays && (
-												<BodyText>
-													And {response.extraData.length - showBadDays} more
-												</BodyText>
-											)}
+											{response.extraData.length > showBadDays &&
+												!showAllBadDays && (
+													<>
+														<BodyText>
+															And {response.extraData.length - showBadDays} more
+														</BodyText>
+														<Button onClick={() => setShowAllBadDays(true)}>
+															Show All Unavailable Dates
+														</Button>
+													</>
+												)}
 										</LeaveFormResponseInvalidDaysList>
 									)}
 									<BodyText>{response?.message.split("@break@")[1]} </BodyText>
-									{/* ALWAYS HAVE TO USE '.?' ON RESPONSE EXTRA DATA OTHERWISE THE TOOL CRASHES WHEN IT RECEIVES A RESPONSE */}
 								</>
 							)}
 							{/* TODO: Paginate invalid days */}
