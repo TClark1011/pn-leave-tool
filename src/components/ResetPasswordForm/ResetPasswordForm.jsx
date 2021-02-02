@@ -29,13 +29,25 @@ const ResetPasswordForm = ({ resetKey, ...props }) => {
 
 	const history = useHistory();
 
-	function onSubmit(data, { setSubmitting }) {
+	/**
+	 * Handle form submission.
+	 * If password is successfully reset, redirect
+	 * user to login screen.
+	 * If there is an error, display erro info in
+	 * a status message.
+	 *
+	 * @param {Object} data Data from form fields
+	 * @param {Object} formProps Formik form props
+	 * @param {Function} formProps.setSubmitting Set
+	 * whether or not the form is currently submitting.
+	 */
+	const onSubmit = (data, { setSubmitting }) => {
 		setSubmitting(false);
 		resetPassword(data, resetKey)
 			.then((result) => history.push("/login?passwordUpdated"))
 			.catch((err) => setResponse(err.response.data))
 			.finally(() => setSubmitting(false));
-	}
+	};
 
 	return (
 		<ContentCard>
