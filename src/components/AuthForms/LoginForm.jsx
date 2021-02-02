@@ -4,21 +4,21 @@ import { useHistory, Link } from "react-router-dom";
 
 import { Formik, Field, Form } from "formik";
 
-import UserContext from "../../utility/UserContext";
+import UserContext from "../utility/UserContext";
 
-import SectionTitle from "../../utility/SectionTitle";
-import StatusMessage from "../../utility/StatusMessage";
-import FormField from "../../utility/Forms/FormField";
-import FormButton from "../../utility/Forms/FormButton";
+import SectionTitle from "../utility/SectionTitle";
+import StatusMessage from "../utility/StatusMessage";
+import FormField from "../utility/Forms/FormField";
+import FormButton from "../utility/Forms/FormButton";
 
 import { loginVal } from "pn-leave-tool-common";
 
-import { login } from "../../../services/auth";
-import { loggedInCookie, loginRedir } from "../../../constants/autoNavParams";
+import { login } from "../../services/auth";
+import { loggedInCookie, loginRedir } from "../../constants/autoNavParams";
 
-import AuthHelperText from "../AuthHelperText";
+import AuthHelperText from "./AuthHelperText";
 import { Box } from "@material-ui/core";
-import useDocTitle from "../../../utils/useDocTitle";
+import useDocTitle from "../../utils/useDocTitle";
 
 const redirectedMsg = "An error occurred, please login to proceed";
 

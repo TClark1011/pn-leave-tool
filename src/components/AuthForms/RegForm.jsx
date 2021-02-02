@@ -4,21 +4,21 @@ import { FastField, Formik, Form, Field } from "formik";
 
 import { registerVal, testingRegisterVal } from "pn-leave-tool-common";
 
-import FormField from "../../utility/Forms/FormField";
-import FormButton from "../../utility/Forms/FormButton";
+import FormField from "../utility/Forms/FormField";
+import FormButton from "../utility/Forms/FormButton";
 
-import SectionTitle from "../../utility/SectionTitle";
-import StatusMessage from "../../utility/StatusMessage";
+import SectionTitle from "../utility/SectionTitle";
+import StatusMessage from "../utility/StatusMessage";
 
-import { register } from "../../../services/auth";
+import { register } from "../../services/auth";
 
-import DepotSelect from "../../DepotSelect/DepotSelect";
+import DepotSelect from "../DepotSelect/DepotSelect";
 import { useHistory } from "react-router-dom";
 
-import AuthHelperText from "../AuthHelperText";
+import AuthHelperText from "./AuthHelperText";
 import toBoolean from "to-boolean";
 import { Box } from "@material-ui/core";
-import useDocTitle from "../../../utils/useDocTitle";
+import useDocTitle from "../../utils/useDocTitle";
 
 function RegForm(props) {
 	useDocTitle("Register");
