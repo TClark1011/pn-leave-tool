@@ -1,5 +1,5 @@
 import { MenuItem } from "@material-ui/core";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { getDepots } from "../../services/depots";
 import DebugSpan from "../utility/DebugSpan/DebugSpan";
 import FormField from "../utility/Forms/FormField";
