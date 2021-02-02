@@ -12,17 +12,30 @@ import {
 import ContentCard from "../utility/ContentCard";
 import useDocTitle from "../../utils/useDocTitle";
 
-function ForgotPasswordForm({ ...props }) {
+/**
+ * Forgot Password Form
+ *
+ * @returns {ReactNode} Forgot Password form
+ */
+const ForgotPasswordForm = () => {
 	useDocTitle("Forgot Password");
 	const [response, setResponse] = useState({});
 
-	function onSubmit(data, { setSubmitting }) {
+	/**
+	 * Handle form submission.
+	 *
+	 * @param {Object} data Data from form fields
+	 * @param {Object} formProps Formik form props
+	 * @param {Function} formProps.setSubmitting Set
+	 * whether or not the form is currently submitting.
+	 */
+	const onSubmit = (data, { setSubmitting }) => {
 		setSubmitting(true);
 		forgotPassword(data.employee_number)
 			.then((result) => setResponse(result.data))
 			.catch((err) => setResponse(err.response.data))
 			.finally(() => setSubmitting(false));
-	}
+	};
 
 	return (
 		<ContentCard>
@@ -59,6 +72,6 @@ function ForgotPasswordForm({ ...props }) {
 			</Formik>
 		</ContentCard>
 	);
-}
+};
 
 export default ForgotPasswordForm;
