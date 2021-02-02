@@ -30,6 +30,7 @@
 		"react-jss": "^10.4.0",
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "3.4.3",
+		"react-use": "^17.1.0",
 		"serve": "^11.3.2",
 		"stream-replace": "^1.0.0",
 		"styled-components": "^5.2.1",
