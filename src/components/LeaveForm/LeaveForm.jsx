@@ -33,7 +33,6 @@ import SectionTitle from "../utility/SectionTitle";
 import BodyText from "../utility/BodyText";
 import FormButton from "../utility/Forms/FormButton";
 import { Box, ListItem } from "@material-ui/core";
-import setDocTitle from "../../utils/setDocTitle";
 import {
 	LeaveFormLeaveLengthField,
 	LeaveFormExtraData,
@@ -44,6 +43,7 @@ import {
 	LeaveFormDateField,
 	LeaveFormBadDayText,
 } from "./LeaveForm.styles";
+import useDocTitle from "../../utils/useDocTitle";
 
 /**
  * Form for submitting leave request
@@ -51,7 +51,7 @@ import {
  * @returns {ReactNode} The form for submitting leave
  */
 const LeaveForm = () => {
-	setDocTitle("Submit");
+	useDocTitle("Submit");
 	const { user } = useContext(UserContext);
 
 	const minDate = startOfDay(addDays(new Date(), leaveStartMinOffset + 1));

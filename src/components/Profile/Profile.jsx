@@ -26,7 +26,6 @@ import { getDepots } from "../../services/depots";
 import { object as yupObject } from "yup";
 import StatusMessage from "../utility/StatusMessage";
 import findObjectInArray from "../../utils/findObjectInArray";
-import setDocTitle from "../../utils/setDocTitle";
 import ContentCard from "../utility/ContentCard";
 import {
 	ProfileEditButton,
@@ -36,6 +35,7 @@ import {
 	ProfileSectionTitle,
 	ProfileTopWrapper,
 } from "./Profile.styles";
+import useDocTitle from "../../utils/useDocTitle";
 
 /**
  * The profile screen
@@ -43,7 +43,7 @@ import {
  * @returns {ReactNode} The profile screen
  */
 const Profile = () => {
-	setDocTitle("Profile");
+	useDocTitle("Profile");
 	const { user, setUser } = useContext(UserContext);
 	const [editMode, setEditMode] = useState(false);
 	const [validation, setValidation] = useState(yupObject());

@@ -5,15 +5,15 @@ import FormField from "../utility/Forms/FormField";
 import SectionTitle from "../utility/SectionTitle";
 import { forgotPassword } from "../../services/user";
 import { forgotPasswordVal } from "pn-leave-tool-common";
-import setDocTitle from "../../utils/setDocTitle";
 import {
 	ForgotPasswordHelpText,
 	ForgotPasswordStatusMessage,
 } from "./ForgotPassword.styles";
 import ContentCard from "../utility/ContentCard";
+import useDocTitle from "../../utils/useDocTitle";
 
 function ForgotPasswordForm({ ...props }) {
-	setDocTitle("Forgot Password");
+	useDocTitle("Forgot Password");
 	const [response, setResponse] = useState({});
 
 	function onSubmit(data, { setSubmitting }) {

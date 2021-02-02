@@ -8,9 +8,9 @@ import FormButton from "../utility/Forms/FormButton";
 import FormField from "../utility/Forms/FormField";
 import SectionTitle from "../utility/SectionTitle";
 import StatusMessage from "../utility/StatusMessage";
-import setDocTitle from "../../utils/setDocTitle";
 import ContentCard from "../utility/ContentCard";
 import AboveFormContent from "../utility/Forms/AboveFormContent";
+import useDocTitle from "../../utils/useDocTitle";
 
 /**
  * The form for completing the final step of the password
@@ -24,7 +24,7 @@ import AboveFormContent from "../utility/Forms/AboveFormContent";
  * @returns {ReactNode} The password reset form
  */
 const ResetPasswordForm = ({ resetKey, ...props }) => {
-	setDocTitle("Reset Password");
+	useDocTitle("Reset Password");
 	const [response, setResponse] = useState({});
 
 	const history = useHistory();

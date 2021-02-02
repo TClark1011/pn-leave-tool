@@ -16,9 +16,9 @@ import { loginVal } from "pn-leave-tool-common";
 import { login } from "../../../services/auth";
 import { loggedInCookie, loginRedir } from "../../../constants/autoNavParams";
 
-import setDocTitle from "../../../utils/setDocTitle";
 import AuthHelperText from "../AuthHelperText";
 import { Box } from "@material-ui/core";
+import useDocTitle from "../../../utils/useDocTitle";
 
 const redirectedMsg = "An error occurred, please login to proceed";
 
@@ -42,7 +42,7 @@ const getStartingStatus = () => {
 };
 
 function LoginForm(props) {
-	setDocTitle("Login");
+	useDocTitle("Login");
 	const { setUser } = useContext(UserContext);
 
 	const [formError, setFormError] = useState(getStartingStatus());

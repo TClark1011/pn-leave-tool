@@ -15,13 +15,13 @@ import { register } from "../../../services/auth";
 import DepotSelect from "../../DepotSelect/DepotSelect";
 import { useHistory } from "react-router-dom";
 
-import setDocTitle from "../../../utils/setDocTitle";
 import AuthHelperText from "../AuthHelperText";
 import toBoolean from "to-boolean";
 import { Box } from "@material-ui/core";
+import useDocTitle from "../../../utils/useDocTitle";
 
 function RegForm(props) {
-	setDocTitle("Register");
+	useDocTitle("Register");
 	const [formError, setFormError] = useState(null);
 
 	const history = useHistory();

@@ -4,11 +4,18 @@ import BodyText from "../utility/BodyText";
 import SectionTitle from "../utility/SectionTitle";
 import ContentCard from "../utility/ContentCard";
 import SupportEmailLink from "../utility/SupportEmailLink";
-import setDocTitle from "../../utils/setDocTitle";
 import { HelpScreenSubheader } from "./HelpScreen.styles";
+import useDocTitle from "../../utils/useDocTitle";
 
-function HelpScreen({ ...props }) {
-	setDocTitle("Help");
+/**
+ * The Help/FAQ screen
+ *
+ * @param {object} props The component props
+ * @param {ReactNode} props.children The component children
+ * @returns {ReactNode} The help section
+ */
+const HelpScreen = ({ ...props }) => {
+	useDocTitle("Help");
 
 	return (
 		<ContentCard {...props}>
@@ -53,6 +60,6 @@ function HelpScreen({ ...props }) {
 			</BodyText>
 		</ContentCard>
 	);
-}
+};
 
 export default HelpScreen;
