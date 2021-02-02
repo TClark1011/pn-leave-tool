@@ -22,16 +22,20 @@ import useDocTitle from "../../utils/useDocTitle";
 
 const redirectedMsg = "An error occurred, please login to proceed";
 
+//# Display a status message depending on the url search parameters
 const getStartingStatus = () => {
 	switch (window.location.search) {
 		case "?redir":
+			//# If an error caused user to be sent back to login screen
 			return { message: redirectedMsg, tone: "negative" };
 		case "?verified":
+			//# If user has been directed to login after verifying their account
 			return {
 				message: "Your account has been verified and you can now sign in",
 				tone: "positive",
 			};
 		case "?passwordUpdated":
+			//# If user has been directed to login after resetting their password
 			return {
 				message: "Your password was updated successfully",
 				tone: "positive",
@@ -41,7 +45,14 @@ const getStartingStatus = () => {
 	}
 };
 
-function LoginForm(props) {
+/**
+ * The login form
+ *
+ * @param {object} props The component props
+ * @param {ReactNode} props.children The component children
+ * @returns {ReactNode} The component's rendered elements
+ */
+const LoginForm = ({ setTab }) => {
 	useDocTitle("Login");
 	const { setUser } = useContext(UserContext);
 
@@ -49,22 +60,32 @@ function LoginForm(props) {
 
 	const history = useHistory();
 
-	function onSubmit(data, { setSubmitting }) {
+	/**
+	 * Handle form submission.
+	 *
+	 * @param {Object} data Data from form fields
+	 * @param {Object} formProps Formik form props
+	 * @param {Function} formProps.setSubmitting Set
+	 * whether or not the form is currently submitting.
+	 */
+	const onSubmit = (data, { setSubmitting }) => {
 		setSubmitting(true);
 
 		login(data)
 			.then((result) => {
 				document.cookie = loggedInCookie;
+				//? Set cookie so user will be redirected to login page from landing page from now on
 				setUser(result.data);
 				history.push(loginRedir);
+				//? Redirect after login
 			})
-			.catch((error) => {
-				setFormError({ message: error.response.data.message });
+			.catch((err) => {
+				setFormError({ message: err.response.data.message });
 			})
 			.finally(() => {
 				setSubmitting(false);
 			});
-	}
+	};
 
 	return (
 		<Box>
@@ -105,15 +126,12 @@ function LoginForm(props) {
 						>
 							{isSubmitting ? "loading" : "submit"}
 						</FormButton>
-						<FormButton
-							variant="outlined"
-							onClick={() => props.setTab("register")}
-						>
+						<FormButton variant="outlined" onClick={() => setTab("register")}>
 							register
 						</FormButton>
 						<FormButton
 							variant="text"
-							onClick={() => props.setTab("register")}
+							onClick={() => setTab("register")}
 							component={Link}
 							to="/forgotPassword"
 						>
@@ -124,7 +142,6 @@ function LoginForm(props) {
 			</Formik>
 		</Box>
 	);
-	//TODO: Add redirected error message
-}
+};
 
 export default LoginForm;

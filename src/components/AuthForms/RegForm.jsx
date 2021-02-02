@@ -16,34 +16,45 @@ import DepotSelect from "../DepotSelect/DepotSelect";
 import { useHistory } from "react-router-dom";
 
 import AuthHelperText from "./AuthHelperText";
-import toBoolean from "to-boolean";
 import { Box } from "@material-ui/core";
 import useDocTitle from "../../utils/useDocTitle";
+import { validateEmail } from "../../constants/env";
 
-function RegForm(props) {
+/**
+ * Registration form
+ *
+ * @returns {ReactNode} Registration form
+ */
+const RegForm = () => {
 	useDocTitle("Register");
 	const [formError, setFormError] = useState(null);
 
 	const history = useHistory();
 
-	const validationSchema =
-		!process.env.REACT_APP_VALIDATE_EMAIL ||
-		toBoolean(process.env.REACT_APP_VALIDATE_EMAIL)
-			? registerVal
-			: testingRegisterVal;
+	const validationSchema = validateEmail ? registerVal : testingRegisterVal;
 
-	function onSubmit(data, { setSubmitting }) {
+	/**
+	 * Handle form submission.
+	 *
+	 * @param {Object} data Data from form fields
+	 * @param {Object} formProps Formik form props
+	 * @param {Function} formProps.setSubmitting Set
+	 * whether or not the form is currently submitting.
+	 */
+	const onSubmit = (data, { setSubmitting }) => {
 		setSubmitting(true);
 		register(data)
-			.then((result) => {
+			.then(() => {
 				history.push(`/register/confirm/${data.employee_number}`);
+				//? Redirect to registration confirmation screen
 			})
 			.catch((error) => {
 				setFormError(error.response.data.message);
 				setSubmitting(false);
 				window.scrollTo(0, 0);
+				//? Scroll to top on error so user can see the error message
 			});
-	}
+	};
 
 	return (
 		<Box>
@@ -93,7 +104,5 @@ function RegForm(props) {
 			</Formik>
 		</Box>
 	);
-	//TODO: add a question mark hover to explain the leave field
-	//TODO: Scroll to top on form error
-}
+};
 export default RegForm;
