@@ -44,21 +44,40 @@ import {
 	LeaveFormDateField,
 } from "./LeaveForm.styles";
 
-function LeaveForm(props) {
+/**
+ * Form for submitting leave request
+ *
+ * @returns {ReactNode} The form for submitting leave
+ */
+const LeaveForm = () => {
 	setDocTitle("Submit");
 	const { user } = useContext(UserContext);
 
 	const minDate = startOfDay(addDays(new Date(), leaveStartMinOffset + 1));
-	//?For whatever reason, if you don't add one to 'leaveStartMinOffset' then the date will be 1 behind
+	//? For whatever reason, if you don't add one to 'leaveStartMinOffset' then the date will be 1 behind
 	const [startDate, setStartDate] = useState(minDate);
 	const [endDate, setEndDate] = useState(addDays(startDate, 1));
 	const [response, setResponse] = useState(null);
 
-	function updateLengthField(date1, date2) {
-		lengthFieldRef.current.value = differenceInDays(date1, date2) || 1;
-	}
+	/**
+	 * Update leave length field
+	 *
+	 * @param {Date} currentStartDate Start date
+	 * @param {Date} currentEndDate End Date
+	 */
+	const updateLengthField = (currentStartDate, currentEndDate) => {
+		lengthFieldRef.current.value =
+			differenceInDays(currentStartDate, currentEndDate) || 1;
+	};
 
-	function updateStartDate(date, setFieldValue) {
+	/**
+	 * Updates the start date after checking if its valid
+	 *
+	 * @param {Date} date the new start date
+	 * @param {Function} setFieldValue The function
+	 * provided by Formik to set form field values
+	 */
+	const updateStartDate = (date, setFieldValue) => {
 		if (isValidDate(date)) {
 			const newStartDate = startOfDay(date);
 			const newEndDate = maxDate([endDate, addDays(date, 1)]);
@@ -71,8 +90,16 @@ function LeaveForm(props) {
 
 			updateLengthField(newEndDate, date);
 		}
-	}
-	function updateEndDate(date, setFieldValue) {
+	};
+
+	/**
+	 * Updates the end date after checking if its valid
+	 *
+	 * @param {Date} date The new end date
+	 * @param {Function} setFieldValue The function
+	 * provided by Formik to set form field values
+	 */
+	const updateEndDate = (date, setFieldValue) => {
 		if (isValidDate(date)) {
 			const newEndDate = startOfDay(date);
 			setEndDate(newEndDate);
@@ -83,7 +110,7 @@ function LeaveForm(props) {
 
 			updateLengthField(date, startDate);
 		}
-	}
+	};
 
 	/**
 	 * Handle form submission
@@ -259,6 +286,6 @@ function LeaveForm(props) {
 			</Modal>
 		</Box>
 	);
-}
+};
 
 export default LeaveForm;
