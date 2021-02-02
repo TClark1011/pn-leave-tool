@@ -65,6 +65,13 @@ const RegistrationConfirmation = ({ employee_number, ...props }) => {
 	);
 };
 
+/**
+ * Buttons for executing actions on the registration confirmation screen
+ *
+ * @param {object} props The component props
+ * @param {ReactNode} props.children The component children
+ * @returns {ReactNode} The component's rendered elements
+ */
 const ActionButton = ({ children, ...props }) => (
 	<Button variant="outlined" {...props}>
 		{children}
