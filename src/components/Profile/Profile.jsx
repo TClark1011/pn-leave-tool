@@ -61,6 +61,14 @@ const Profile = () => {
 		if (editMode) setFormMessage(null);
 	}, [editMode]);
 
+	/**
+	 * Handle form submission.
+	 *
+	 * @param {Object} data Data from form fields
+	 * @param {Object} formProps Formik form props
+	 * @param {Function} formProps.setSubmitting Set
+	 * whether or not the form is currently submitting.
+	 */
 	const onSubmit = (data, { setSubmitting }) => {
 		const fullData = { _id: user._id, ...data };
 		setSubmitting(true);
