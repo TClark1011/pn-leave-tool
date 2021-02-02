@@ -6,13 +6,18 @@ import {
 	FloatingButtonsContainer,
 } from "./FloatingButtons.styles";
 
-function FloatingButtons({ ...props }) {
+/**
+ * Floating buttons that are overlaid over all views.
+ *
+ * @returns {ReactNode} Floating Buttons
+ */
+const FloatingButtons = () => {
 	return (
 		<FloatingButtonsContainer>
 			<FloatingButton as={HelpButton} />
 			<FloatingButton as={ProfileButton} />
 		</FloatingButtonsContainer>
 	);
-}
+};
 
 export default FloatingButtons;
