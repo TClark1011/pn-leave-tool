@@ -19,6 +19,14 @@ This section details how to contribute/start working on this project:
 1. Create the required environment variables in a `.env` file in the root directory of each project. What environment variables are required are described in the readme of each project.
 1. You can now begin work on the project. To start the applications, run the command `npm run start:dev` in both projects. Other available scripts are described in the [scripts](#scripts) section of this readme file.
 
+## Packages
+
+This project is split into 3 seperate packages/repositories:
+
+- **[Frontend](https://github.com/TClark1011/pn-leave-tool):** Frontend web application
+- **[Backend](https://github.com/TClark1011/pn-leave-tool-backend):** Backend web server.
+- **[Common](https://github.com/TClark1011/pn-leave-tool-common):** Common code components that are used in both the frontend and backend codebases. Contains logic for form validation and parameters for estimating annual leave such as minimum required notice and minimum/maximum leave length.
+
 ## Scripts
 
 The following scripts can be executed within the project:
