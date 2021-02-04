@@ -70,6 +70,45 @@ The following components are design to be able to be re-used in different contex
 
 This application uses the [Material UI](https://material-ui.com/) component library for React as well as the [Styled Components](https://styled-components.com/) library for writing css styles.
 
+## Api Requests
+
+This section outlines the api requests that are made by this application during runtime. The [Axios](https://www.npmjs.com/package/axios) library is used to make http requests to the backend server. All request logic is contained in the files in the `src/services` folder.
+
+### Authentication
+
+Authentication related requests are found in the `src/services/auth.js` file.
+
+- `login` - Send user provided credentials to server in order to log the user in.
+- `register` - Send user provided details to server to register a new account.
+- `resendVerification` - Request to resend the email used to verify a user's account following registration form submission.
+
+### User
+
+User related requests are found in the `src/services/user.js` file.
+
+- `updateUser` - Update a user's account details. Currently the only details that can be edited are `name` and `depot`. Used when user edits their profile from the profile screen.
+- `forgotPassword` - Submit request to begin the password update/reset process.
+- `resetPassword` - Submit user's desired new password to complete the password reset process.
+
+### Depots
+
+Depot related requests are found in the `src/services/depot.js` file.
+
+- `getDepots` - Fetch list of depots. Used in the 'DepotSelect` component.
+
+### Leave
+
+Leave related requests are found in the `src/services/leave.js` file.
+
+- `submitLeave` - Submit a request for annual leave
+- `getLeave` - Fetch a user's leave. (Is not used in current version)
+
+### Admin
+
+Admin related requests are found in the `src/services/admin.js` file.
+
+- `submitLmsData` - Submit csv data from LMS data that has been converted to json format to update roster data that will be used to estimate leave approval likelihood.
+
 ## Environment Variables
 
 The following environment variables are used to allow for settings in the application to be tweaked during deployment:
