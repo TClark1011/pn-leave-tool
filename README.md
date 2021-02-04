@@ -26,6 +26,7 @@ This project is split into 3 seperate packages/repositories:
 - **[Frontend](https://github.com/TClark1011/pn-leave-tool):** Frontend web application
 - **[Backend](https://github.com/TClark1011/pn-leave-tool-backend):** Backend web server.
 - **[Common](https://github.com/TClark1011/pn-leave-tool-common):** Common code components that are used in both the frontend and backend codebases. Contains logic for form validation and parameters for estimating annual leave such as minimum required notice and minimum/maximum leave length.
+<!-- REPO URLS: Make sure to update this section if the name/ownership of the repos are ever changed. -->
 
 ## Scripts
 
