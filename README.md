@@ -15,7 +15,7 @@ This section details how to contribute/start working on this project:
 
    It's possible you will get an error when running this command that states that the repositories do not exist. The most likely cause of this error is that either the repositories have changed name or ownership, or you are not authenticated.
 
-1. Run the `npm install command in both projects`
+1. Run the `npm install` command in both projects
 1. Create the required environment variables in a `.env` file in the root directory of each project. What environment variables are required are described in the readme of each project.
 1. You can now begin work on the project. To start the applications, run the command `npm run start:dev` in both projects. Other available scripts are described in the [scripts](#scripts) section of this readme file.
 
@@ -119,3 +119,7 @@ The following environment variables are used to allow for settings in the applic
 - REACT_APP_VALIDATE_EMAIL - Whether or not to validate user emails during registration. Expects "true" or "false". Defaults to true if not supplied.
 - REACT_APP_BACKEND_DEV_PORT - The port to be used in localhost for the backend in development environment.
 - REACT_APP_BACKEND_URL - The url for the backend. In development environment, this is overridden by localhost + REACT_APP_BACKEND_DEV_PORT.
+
+## Misc
+
+- When installing/uninstalling 'npm packages' in this project, you may get a warning of a 'high severity vulnerability' originating from the `object-path` package which is used by `react-scripts`. As described [here](https://github.com/facebook/create-react-app/issues/9842#issuecomment-712776748) this reported vulnerability does not affect projects that were created via 'Create React App' which this project was, so this vulnerability is a false positive for us.
