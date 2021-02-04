@@ -17,7 +17,7 @@ export const tokenAdder = (user) => {
 };
 
 /**
- * If a response to a request has a 'redirect', redirect the user to the provided url
+ * If a response to a request has a 'redirect' field, redirect the user to the provided url
  */
 export const errorCatcher = () => {
 	axios.interceptors.response.use(
