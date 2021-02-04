@@ -2,7 +2,7 @@
 
 This is a tool designed to provide an estimation of the likelihood of a request for annual leave over a specified period of time being approved/denied.
 
-## Contributing
+## Quick Start
 
 This section details how to contribute/start working on this project:
 
@@ -57,6 +57,10 @@ The following components are design to be able to be re-used in different contex
 - FormButton - Button to be used in forms.
 - FormItem - General purpose form item.
 - FormField - A field to be used in forms.
+
+## Styling
+
+This application uses the [Material UI](https://material-ui.com/) component library for React as well as the [Styled Components](https://styled-components.com/) library for writing css styles.
 
 ## Environment Variables
 
