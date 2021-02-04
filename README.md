@@ -2,6 +2,23 @@
 
 This is a tool designed to provide an estimation of the likelihood of a request for annual leave over a specified period of time being approved/denied.
 
+## Contributing
+
+This section details how to contribute/start working on this project:
+
+1. Make sure you have a recent version Node.js installed ([link](https://nodejs.org/en/)).
+1. Clone this repository along with the repository for the backend server code with the following terminal commands:
+
+   **Frontend:** `git clone https://github.com/TClark1011/pn-leave-tool.git`<br>
+   **Backend:** `git clone https://github.com/TClark1011/pn-leave-tool-backend.git`<br>
+   <!-- REPO URLS: Make sure to update this section if the name/ownership of the repos are ever changed. -->
+
+   It's possible you will get an error when running this command that states that the repositories do not exist. The most likely cause of this error is that either the repositories have changed name or ownership, or you are not authenticated.
+
+1. Run the `npm install command in both projects`
+1. Create the required environment variables in a `.env` file in the root directory of each project. What environment variables are required are described in the readme of each project.
+1. You can now begin work on the project. To start the applications, run the command `npm run start:dev` in both projects. Other available scripts are described in the [scripts](#scripts) section of this readme file.
+
 ## Scripts
 
 The following scripts can be executed within the project:
