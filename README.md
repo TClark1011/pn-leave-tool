@@ -114,7 +114,7 @@ Admin related requests are found in the `src/services/admin.js` file.
 
 ## Environment Variables
 
-The following environment variables are used to allow for settings in the application to be tweaked during deployment:
+The following environment variables are stored in `.env` files which are not tracked by git. Unless specified as optional, each environment variable must be set for every environment this project is deployed in. Environment variables are usually set by either creating a `.env` file in the root directory of the environment, or in the case of certain hosting providers such as 'Vercel' or 'Heroku', through a provided user interface.
 
 - NODE_ENV - The stock 'NODE_ENV' environment variable provided by CRA. Is set to 'development' during development, 'test' while testing and 'production' when building.
 - REACT_APP_SUPPORT_EMAIL - The email address that users are told to contact for support
