@@ -1,6 +1,8 @@
-# PN Leave Tool
+# PN Leave Tool - Frontend
 
-This is a tool designed to provide an estimation of the likelihood of a request for annual leave over a specified period of time being approved/denied.
+The 'PN Leave Tool' is a tool designed to allow Pacific National Employees to estimate the likelihood of a request for annual leave being approved or denied.
+
+This is the codebase for the frontend web application component of the project.
 
 ## Quick Start
 
@@ -21,7 +23,7 @@ This section details how to contribute/start working on this project:
 
 ## Packages
 
-This project is split into 3 seperate packages/repositories:
+The PN Leave Tool is split into 3 seperate packages/repositories:
 
 - **[Frontend](https://github.com/TClark1011/pn-leave-tool):** Frontend web application
 - **[Backend](https://github.com/TClark1011/pn-leave-tool-backend):** Backend web server.
