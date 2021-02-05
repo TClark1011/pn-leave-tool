@@ -4,7 +4,7 @@ The 'PN Leave Tool' is a tool designed to allow Pacific National Employees to es
 
 This is the codebase for the frontend web application component of the project.
 
-## Quick Start
+## Get Started
 
 This section details how to contribute/start working on this project:
 
