@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import React from "react";
 import userFixture from "../../fixtures/userFixture";
 
@@ -19,7 +19,8 @@ const profileTest = (callback) => () => {
 	callback(container);
 };
 
-const getTestId = (label) => `Profile__${label}`;
+const searchForTestId = (label) => screen.queryByTestId(`Profile__${label}`);
+
 describe("All elements are rendered", () => {
 	test(
 		"Page title",
@@ -41,9 +42,16 @@ describe("All elements are rendered", () => {
 		"Edit buttons",
 		profileTest(() => {
 			for (const type of ["text", "icon"]) {
-				expect(
-					screen.getByTestId(getTestId(`edit-button-${type}`)),
-				).toBeInTheDocument();
+				expect(searchForTestId(`edit-button-${type}`)).toBeInTheDocument();
+			}
+		}),
+	);
+
+	test(
+		"save/cancel buttons hidden",
+		profileTest(() => {
+			for (const type of ["cancel", "save"]) {
+				expect(searchForTestId(`edit-${type}-button`)).not.toBeInTheDocument();
 			}
 		}),
 	);
@@ -51,7 +59,22 @@ describe("All elements are rendered", () => {
 	test(
 		"Return button",
 		profileTest(() => {
-			expect(screen.getByTestId(getTestId("return-button")));
+			expect(searchForTestId("return-button")).toBeInTheDocument();
+		}),
+	);
+});
+
+describe("Edit mode toggle", () => {
+	test(
+		"Mode-specific buttons toggle correctly",
+		profileTest(() => {
+			const editTextButton = searchForTestId("edit-button-text");
+			fireEvent.click(editTextButton, new MouseEvent("click"));
+
+			expect(editTextButton).not.toBeInTheDocument();
+			for (const type of ["cancel", "save"]) {
+				expect(searchForTestId(`edit-${type}-button`)).toBeInTheDocument();
+			}
 		}),
 	);
 });

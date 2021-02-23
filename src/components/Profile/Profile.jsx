@@ -117,6 +117,7 @@ const Profile = () => {
 											setEditMode(!editMode);
 											resetForm();
 										}}
+										data-testid="Profile__edit-button-icon"
 									>
 										{editMode ? <Close /> : <Edit />}
 									</ProfileEditButton>
@@ -165,7 +166,11 @@ const Profile = () => {
 								</ProfileContext.Provider>
 								{editMode && (
 									<>
-										<FormButton type="submit" disabled={isSubmitting}>
+										<FormButton
+											type="submit"
+											disabled={isSubmitting}
+											data-testid="Profile__edit-save-button"
+										>
 											{isSubmitting ? "loading" : "save"}
 										</FormButton>
 										<FormButton
@@ -174,6 +179,7 @@ const Profile = () => {
 												setEditMode(false);
 												resetForm();
 											}}
+											data-testid="Profile__edit-cancel-button"
 										>
 											Cancel
 										</FormButton>
@@ -185,6 +191,7 @@ const Profile = () => {
 											setEditMode(true);
 											resetForm();
 										}}
+										data-testid="Profile__edit-button-text"
 									>
 										edit
 									</FormButton>
@@ -194,7 +201,11 @@ const Profile = () => {
 					</Formik>
 				</ProfileRoot>
 			</ContentCard>
-			<ProfileExitButton component={Link} to="/request">
+			<ProfileExitButton
+				component={Link}
+				to="/request"
+				data-testid="Profile__return-button"
+			>
 				<ArrowBack />
 				return
 			</ProfileExitButton>
