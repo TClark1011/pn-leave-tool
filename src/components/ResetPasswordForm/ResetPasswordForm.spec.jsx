@@ -4,7 +4,7 @@ import { screen } from "@testing-library/react";
 
 const resetPasswordFormTest = getTestFn(ResetPasswordForm);
 
-const searchByTestId = getTestIdShortcut("ResetPasswordForm", screen);
+const searchByTestId = getTestIdShortcut("ResetPasswordForm");
 
 describe("All elements are rendered", () => {
 	test(

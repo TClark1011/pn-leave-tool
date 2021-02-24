@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import React from "react";
 import UserContext from "../components/utility/UserContext";
 import userFixture from "../fixtures/userFixture";
@@ -63,5 +63,13 @@ export const getTestFn = (Component) => (callback, props = {}) => () => {
 	callback(container);
 };
 
-export const getTestIdShortcut = (componentName, screen) => (label) =>
-	screen.queryByTestId(`${componentName}__${label}`);
+/**
+ * Generate a shortcut function for searching for elements by testId.
+ * TestId queries automatically prefix component namespace.
+ * @param {string} namespace The namespace to prefix testId queries with
+ * @returns {function} Function that takes a 'label' string and makes a query
+ * for elements with a testid equal to the passed label, prefixed with the
+ * passed namespace.
+ */
+export const getTestIdShortcut = (namespace) => (label) =>
+	screen.queryByTestId(`${namespace}__${label}`);
