@@ -63,12 +63,18 @@ const ResetPasswordForm = ({ resetKey, ...props }) => {
 				onSubmit={onSubmit}
 			>
 				{({ isSubmitting }) => (
-					<Form>
-						<Field type="password" name="password" component={FormField} />
+					<Form data-testid="ResetPasswordForm__form-root">
+						<Field
+							type="password"
+							name="password"
+							component={FormField}
+							data-testid="ResetPasswordForm__form-password-field"
+						/>
 						<Field
 							type="password"
 							name="confirm_password"
 							component={FormField}
+							data-testid="ResetPasswordForm__form-password-reset-field"
 						/>
 						<FormButton
 							variant="contained"
