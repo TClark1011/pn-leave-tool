@@ -28,3 +28,40 @@ export const customRender = (children, { authenticate = true } = {}) => {
 		</UserContext.Provider>,
 	);
 };
+
+/**
+ * @typedef {Function} RenderShortcut A function that can be passed as the second parameter
+ * of the 'test()' or 'it()' functions. It executes a call to 'customRender', then executes
+ * a provided callback
+ * @param {Function} callback The test logic that is executed after 'customRender' is called
+ */
+
+/**
+ * Generate a function that calls 'customRender', passing the
+ * provided Component automatically
+ * @param {React.Component} Component The component rendered inside
+ * 'customRender'
+ * @returns {Function} A call to 'customRender'
+ */
+export const getRenderShortcut = (Component) => {
+	/**
+	 * A call to customRender, passing 'Component' and provided 'props'
+	 * @param {object} props Props to be passed to 'component'
+	 */
+	return (props = {}) => customRender(<Component {...props} />);
+};
+/**
+ * Generate a function that can be used for easy testing.
+ * This function
+ *
+ * @param {React.Component} Component The component that the generated
+ * 'RenderShortcut' will render in its call to 'customRender'
+ * @returns {RenderShortcut} A generated render shortcut
+ */
+export const getTestFn = (Component) => (callback, props = {}) => () => {
+	const container = customRender(<Component {...props} />);
+	callback(container);
+};
+
+export const getTestIdShortcut = (componentName, screen) => (label) =>
+	screen.queryByTestId(`${componentName}__${label}`);
