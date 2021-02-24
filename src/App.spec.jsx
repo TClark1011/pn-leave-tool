@@ -1,12 +1,12 @@
 import React from "react";
 import { cleanup, render } from "@testing-library/react";
-import App from "../App";
+import App from "./App";
 import {
 	existingClientLandingRedir,
 	getLandingRedir,
 	loggedInCookie,
 	newClientLandingRedir,
-} from "../constants/autoNavParams";
+} from "./constants/autoNavParams";
 
 afterEach(() => {
 	cleanup();
