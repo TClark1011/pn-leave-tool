@@ -5,6 +5,11 @@ import BodyText from "../utility/BodyText";
 import SectionTitle from "../utility/SectionTitle";
 import StatusMessage from "../utility/StatusMessage";
 
+export const regConfirmSectionTitle = "Verify your email";
+
+export const regConfirmDescription =
+	"Thank you for registering. We have sent an email containing a verification link to your provided email address.";
+
 /**
  * The registration confirmation screen where user
  * can request validation email resend.
@@ -35,12 +40,9 @@ const RegistrationConfirmation = ({ employee_number, ...props }) => {
 	};
 	return (
 		<Box>
-			<SectionTitle>Verify your email</SectionTitle>
+			<SectionTitle>{regConfirmSectionTitle}</SectionTitle>
 			<StatusMessage tone={response.tone}>{response.message}</StatusMessage>
-			<BodyText>
-				Thank you for registering. We have sent an email containing a
-				verification link to your provided email address.
-			</BodyText>
+			<BodyText>{regConfirmDescription}</BodyText>
 			<Grid container justify="space-around">
 				<Grid item>
 					<ActionButton
