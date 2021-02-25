@@ -12,7 +12,6 @@ describe("Elements render correctly", () => {
 		"Section title",
 		regConfirmTest(() => {
 			expect(screen.getByText(regConfirmSectionTitle)).toBeInTheDocument();
-			expect(screen.getByText(regConfirmDescription)).toBeInTheDocument();
 		}),
 	);
 
