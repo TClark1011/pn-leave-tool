@@ -45,6 +45,9 @@ import {
 } from "./LeaveForm.styles";
 import useDocTitle from "../../utils/useDocTitle";
 
+export const leaveFormInstructions =
+	"To get an estimation of the availability of annual leave, enter the start and end dates for your desired annual leave and then press 'Submit'.";
+
 /**
  * Form for submitting leave request
  *
@@ -214,11 +217,7 @@ const LeaveForm = () => {
 			>
 				{({ isSubmitting, setFieldValue }) => (
 					<Form>
-						<BodyText>
-							To get an estimation of the availability of annual leave, enter
-							the start and end dates for your desired annual leave and then
-							press 'Submit'.
-						</BodyText>
+						<BodyText>{leaveFormInstructions}</BodyText>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 							<LeaveFormDateField
 								name="dates.start"
