@@ -8,7 +8,7 @@ import { forgotPasswordVal } from "pn-leave-tool-common";
 import {
 	ForgotPasswordHelpText,
 	ForgotPasswordStatusMessage,
-} from "./ForgotPassword.styles";
+} from "./ForgotPasswordForm.styles";
 import ContentCard from "../utility/ContentCard";
 import useDocTitle from "../../utils/useDocTitle";
 
@@ -40,10 +40,13 @@ const ForgotPasswordForm = () => {
 	return (
 		<ContentCard>
 			<SectionTitle>Forgot Password</SectionTitle>
-			<ForgotPasswordHelpText>
+			<ForgotPasswordHelpText data-testid="ForgotPasswordForm__help-text">
 				Enter your employee number below to reset your password.
 			</ForgotPasswordHelpText>
-			<ForgotPasswordStatusMessage tone={response.tone}>
+			<ForgotPasswordStatusMessage
+				tone={response.tone}
+				data-testid="ForgotPasswordForm__status-message"
+			>
 				{response.message}
 			</ForgotPasswordStatusMessage>
 			<Formik
@@ -59,11 +62,13 @@ const ForgotPasswordForm = () => {
 							name="employee_number"
 							inputProps={{ maxLength: 6 }}
 							component={FormField}
+							data-testid="ForgotPasswordForm__employee-number-field"
 						/>
 						<FormButton
 							variant="contained"
 							type="submit"
 							disabled={isSubmitting}
+							data-testid="ForgotPasswordForm__submit-button"
 						>
 							reset password
 						</FormButton>
