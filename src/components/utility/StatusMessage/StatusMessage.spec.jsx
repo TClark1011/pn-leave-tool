@@ -33,3 +33,11 @@ describe("Tones", () => {
 		});
 	}
 });
+
+describe("Props", () => {
+	it("Takes 'data-testid'", () => {
+		const testId = "testId";
+		renderTest({ "data-testid": testId });
+		expect(screen.getByTestId(testId)).toBeInTheDocument();
+	});
+});
