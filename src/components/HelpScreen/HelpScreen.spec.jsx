@@ -6,9 +6,10 @@ const helpScreenTest = getTestFn(HelpScreen);
 
 describe("Elements Render", () => {
 	test(
-		"Section Title",
+		"Headers",
 		helpScreenTest(() => {
 			expect(screen.getByText("Help")).toBeInTheDocument();
+			expect(screen.getByText("FAQ")).toBeInTheDocument();
 		}),
 	);
 });

@@ -7,8 +7,6 @@ import SupportEmailLink from "../utility/SupportEmailLink";
 import { HelpScreenSubheader } from "./HelpScreen.styles";
 import useDocTitle from "../../utils/useDocTitle";
 
-const 
-
 /**
  * The Help/FAQ screen
  *
