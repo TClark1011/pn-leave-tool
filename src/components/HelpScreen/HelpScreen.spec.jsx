@@ -4,12 +4,19 @@ import HelpScreen from "./HelpScreen";
 
 const helpScreenTest = getTestFn(HelpScreen);
 
-describe("Elements Render", () => {
+describe("Basic Behaviour", () => {
 	test(
-		"Headers",
+		"Headers render",
 		helpScreenTest(() => {
 			expect(screen.getByText("Help")).toBeInTheDocument();
 			expect(screen.getByText("FAQ")).toBeInTheDocument();
+		}),
+	);
+
+	test(
+		"Document title",
+		helpScreenTest(() => {
+			expect(document.title).toMatch(/^Help/);
 		}),
 	);
 });
