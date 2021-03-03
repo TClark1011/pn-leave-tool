@@ -26,9 +26,9 @@ const StatusMessage = ({
 	if (children) {
 		return (
 			<StatusMessageRoot
-				{...props}
 				tone={tone}
 				data-testid="StatusMessage__Root"
+				{...props}
 			>
 				<BodyText>
 					{children}
