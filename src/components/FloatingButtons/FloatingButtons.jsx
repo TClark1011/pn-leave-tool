@@ -14,8 +14,8 @@ import {
 const FloatingButtons = () => {
 	return (
 		<FloatingButtonsContainer>
-			<FloatingButton as={HelpButton} />
-			<FloatingButton as={ProfileButton} />
+			<FloatingButton aria-label="help" as={HelpButton} />
+			<FloatingButton aria-label="profile" as={ProfileButton} />
 		</FloatingButtonsContainer>
 	);
 };
