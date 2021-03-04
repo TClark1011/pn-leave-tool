@@ -40,4 +40,9 @@ describe("Props", () => {
 		renderTest({ "data-testid": testId });
 		expect(screen.getByTestId(testId)).toBeInTheDocument();
 	});
+	it("Takes 'className'", () => {
+		const className = "test-class-" + Math.round(Math.random() * 100000);
+		renderTest({ className });
+		expect(document.querySelector(`.${className}`)).toBeInTheDocument();
+	});
 });
